@@ -1,18 +1,11 @@
 import { useState } from 'react';
-import { Typography, Button, Form, Tabs, Divider } from 'antd';
+import { Button, Form, Tabs, Divider } from 'antd';
 import type { TabsProps } from 'antd';
 import Detail from './detail';
 import SelectMovement from './selectMovement';
 
-const { Title } = Typography;
-
-const CreateWorkout = () => {
-  const [form] = Form.useForm();
+const CreateWorkout = ({ movements, restField, name }: any) => {
   const [movementCount, setMovementCount] = useState<number>(0);
-
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
 
   const items: TabsProps['items'] = [
     {
@@ -24,19 +17,15 @@ const CreateWorkout = () => {
             <Detail
               workoutDetail={[
                 { label: 'Total time - minutes', name: 'time' },
-                { label: 'MovementCount', name: 'movementCount', onChange: setMovementCount, value: movementCount },
+                // { label: 'MovementCount', name: 'movementCount', onChange: setMovementCount, value: movementCount },
                 { label: 'SecondForEachTime', name: 'secondForEachTime' },
               ]}
+              restField={restField}
+              name={name}
             />
             <Divider type="vertical" style={{ height: 'auto' }} />
-            <SelectMovement movementCount={movementCount} />
+            <SelectMovement movementCount={movementCount} movements={movements} restField={restField} name={name} />
           </div>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Create Workout
-            </Button>
-          </Form.Item>
         </>
       ),
     },
@@ -51,16 +40,12 @@ const CreateWorkout = () => {
                 { label: 'Total time - minutes', name: 'time' },
                 { label: 'MovementCount', name: 'movementCount', onChange: setMovementCount, value: movementCount },
               ]}
+              restField={restField}
+              name={name}
             />
             <Divider type="vertical" style={{ height: 'auto' }} />
-            <SelectMovement movementCount={movementCount} />
+            <SelectMovement movementCount={movementCount} movements={movements} restField={restField} name={name} />
           </div>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Create Workout
-            </Button>
-          </Form.Item>
         </>
       ),
     },
@@ -75,32 +60,24 @@ const CreateWorkout = () => {
                 { label: 'Total time - minutes', name: 'time' },
                 { label: 'MovementCount', name: 'movementCount', onChange: setMovementCount, value: movementCount },
               ]}
+              restField={restField}
+              name={name}
             />
             <Divider type="vertical" style={{ height: 'auto' }} />
-            <SelectMovement movementCount={movementCount} />
+            <SelectMovement movementCount={movementCount} movements={movements} restField={restField} name={name} />
           </div>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Create Workout
-            </Button>
-          </Form.Item>
         </>
       ),
     },
   ];
 
-  const onChange = (key: string) => {
+  const onChange = () => {
     setMovementCount(0);
-    form.resetFields();
   };
 
   return (
     <>
-      <Title level={2}>Create Workout</Title>
-      <Form form={form} name="createWorkout" onFinish={onFinish} autoComplete="off" labelCol={{ span: 16 }}>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-      </Form>
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
     </>
   );
 };

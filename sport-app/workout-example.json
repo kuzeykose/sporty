@@ -1,0 +1,113 @@
+{
+  "date": "",
+  "dailyNote": "",
+  "level": "advenced",
+  "workouts": [
+    {
+      "workoutName": "calisthenics",
+      "parts": 1,
+      "workout": {
+        "A": {
+          "settings": {
+            "type": "NOTFORTIME",
+            "note": "Rest As Much As You Need Between Sets"
+          },
+          "movements": [
+            {
+              "movement": "One Arm Assisted Pbar Curl",
+              "type": "rep"
+            },
+            {
+              "movement": "DB Snach",
+              "type": "time",
+              "length": 300
+            }
+          ]
+        }
+      }
+    },
+    {
+      "workoutName": "one_dumbell_training",
+      "parts": "2",
+      "workout": {
+        "PART1": {
+          "settings": {
+            "type": "EMOM",
+            "totalTime": 10,
+            "each": 1,
+            "note": "one set right, one set left"
+          },
+          "movements": [
+            {
+              "movement": "Diamond Push Up",
+              "type": "time",
+              "length": 300
+            },
+            {
+              "movement": "DB Snach",
+              "type": "time",
+              "length": 300
+            }
+          ]
+        },
+        "PART2": {
+          "settings": {
+            "type": "FORTIME",
+            "totalTime": 8,
+            "remaningTime": {
+              "movement": "Diamond Push Up",
+              "type": "time"
+            }
+          },
+          "movements": [
+            {
+              "movement": "Diamond Push Up",
+              "type": "time",
+              "length": 300
+            },
+            {
+              "movement": "DB Snach",
+              "type": "time",
+              "length": 300
+            }
+          ]
+        }
+      }
+    },
+    {
+      "workoutName": "core",
+      "workout": {
+        "A": {
+          "settings": {
+            "type": "EMOM",
+            "totalTime": 8,
+            "each": "30sn",
+            "note": "Core workout"
+          },
+          "movements": [
+            {
+              "movement": "Max. V-Up Like A Gymnast",
+              "type": "time",
+              "length": "30sec"
+            },
+            {
+              "movement": "Rest",
+              "type": "time",
+              "length": "30sec"
+            },
+            {
+              "movement": "Max. Tuck-Up",
+              "type": "time",
+              "length": "30sec"
+            },
+            {
+              "movement": "Rest",
+              "type": "time",
+              "length": "30sec"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

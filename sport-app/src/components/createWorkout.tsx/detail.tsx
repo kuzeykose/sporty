@@ -2,6 +2,8 @@ import { Form, InputNumber, Divider } from 'antd';
 
 type DetailProps = {
   workoutDetail: workoutDetail[];
+  restField: any;
+  name: string;
 };
 
 type workoutDetail = {
@@ -11,12 +13,12 @@ type workoutDetail = {
   value?: number;
 };
 
-const Detail = ({ workoutDetail }: DetailProps) => {
+const Detail = ({ workoutDetail, restField, name }: DetailProps) => {
   return (
     <>
       <div>
         {workoutDetail.map((item: workoutDetail) => (
-          <Form.Item label={item.label} name={item.name}>
+          <Form.Item {...restField} label={item.label} name={[name, 'workout', item.name]}>
             <InputNumber min={0} value={item.value} onChange={(e) => item.onChange && item.onChange(e as number)} />
           </Form.Item>
         ))}
