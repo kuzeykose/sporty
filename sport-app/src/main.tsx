@@ -1,8 +1,8 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './routes/Root';
 import WorkoutCreator from './routes/WorkoutCreator';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -20,6 +20,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
-  <RouterProvider router={router} />
+  <ConfigProvider>
+    <RouterProvider router={router} />
+  </ConfigProvider>
   // </React.StrictMode>
 );

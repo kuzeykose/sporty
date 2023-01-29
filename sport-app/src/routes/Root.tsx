@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { LaptopOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { MenuProps, Layout, Menu } from 'antd';
+import { MenuProps, Layout, Menu, Avatar } from 'antd';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider } = Layout;
 
 const menu = [
   {
@@ -35,8 +35,30 @@ function Root() {
 
   return (
     <Layout>
-      <Header className="header">
-        <div className="logo" />
+      <Header
+        style={{
+          padding: '20px 30px',
+          background: 'rgba(240, 242, 245, 0.4)',
+          borderBlockEnd: '1px solid rgba(5, 5, 5, 0.06)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          className="logo"
+          style={{
+            height: 40,
+            width: 150,
+            background: '#ff7a45',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Logo
+        </div>
+        <Avatar shape="square" size="large" icon={<UserOutlined />} />
       </Header>
       <Layout>
         <Sider width={200}>
@@ -44,22 +66,13 @@ function Root() {
             mode="inline"
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
+            style={{ height: '100%', minHeight: '91vh', borderInlineEnd: '1px solid rgba(5, 5, 5, 0.06)' }}
             items={items2}
             onClick={onClick}
           />
         </Sider>
         <Layout style={{ padding: '24px', height: '100%' }}>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: '88vh',
-              background: 'white',
-            }}
-          >
-            <Outlet />
-          </Content>
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>

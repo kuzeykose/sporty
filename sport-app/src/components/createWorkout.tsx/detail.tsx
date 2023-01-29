@@ -1,28 +1,64 @@
-import { Form, InputNumber, Divider } from 'antd';
+import { Form, InputNumber, Divider, Input, Select } from 'antd';
+import { useEffect, useState } from 'react';
+const { Option } = Select;
 
 type DetailProps = {
-  workoutDetail: workoutDetail[];
   restField: any;
-  name: string;
+  formListname: number;
 };
 
-type workoutDetail = {
-  label: string;
-  name: string;
-  onChange?: (e: number) => void;
-  value?: number;
-};
+const Detail = ({ restField, formListname }: DetailProps) => {
+  const [workoutType, setWorkoutType] = useState<string>('');
 
-const Detail = ({ workoutDetail, restField, name }: DetailProps) => {
+  const renderFromType = (type: string) => {
+    switch (type) {
+      case 'emom':
+        return (
+          <div style={{ display: 'flex', gap: 12 }}>
+            <Form.Item {...restField} name={[formListname, 'settings', 'every']} label="Every">
+              <Input />
+            </Form.Item>
+            <Form.Item {...restField} name={[formListname, 'settings', 'totalTime']} label="Total Time">
+              <Input />
+            </Form.Item>
+          </div>
+        );
+      case 'amrap':
+        return (
+          <div style={{ display: 'flex', gap: 12 }}>
+            <Form.Item {...restField} name={[formListname, 'settings', 'totalTime']} label="In">
+              <Input />
+            </Form.Item>
+          </div>
+        );
+      case 'fortime':
+        return (
+          <div style={{ display: 'flex', gap: 12 }}>
+            <Form.Item {...restField} name={[formListname, 'settings', 'cap']} label="Cap">
+              <Input />
+            </Form.Item>
+          </div>
+        );
+
+      default:
+        break;
+    }
+  };
+
   return (
     <>
-      <div>
-        {workoutDetail.map((item: workoutDetail) => (
-          <Form.Item {...restField} label={item.label} name={[name, 'workout', item.name]}>
-            <InputNumber min={0} value={item.value} onChange={(e) => item.onChange && item.onChange(e as number)} />
-          </Form.Item>
-        ))}
-      </div>
+      <Form.Item {...restField} name={[formListname, 'settings', 'note']} label="Note">
+        <Input />
+      </Form.Item>
+      <Form.Item {...restField} label={'Type'} name={[formListname, 'settings', 'type']}>
+        <Select onChange={setWorkoutType}>
+          <Option value="emom">EMOM</Option>
+          <Option value="amrap">AMRAP</Option>
+          <Option value="fortime">FOR TIME</Option>
+          <Option value="notfortime">NOT FOR TIME</Option>
+        </Select>
+      </Form.Item>
+      {renderFromType(workoutType)}
     </>
   );
 };
