@@ -1,27 +1,11 @@
 import ReactDOM from 'react-dom/client';
-import Root from './routes/Root';
-import WorkoutCreator from './routes/WorkoutCreator';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
+import App from './App';
 import './index.css';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    children: [
-      {
-        path: '/createWorkout',
-        element: <WorkoutCreator />,
-      },
-    ],
-  },
-]);
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
   <ConfigProvider>
-    <RouterProvider router={router} />
+    <App />
   </ConfigProvider>
-  // </React.StrictMode>
 );
