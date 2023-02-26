@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { Card, Input, Form, Button } from 'antd';
-import { LocalStorageAuth } from '../lib/helpers/auth';
-import { useNavigate } from 'react-router-dom';
+import { authServices } from '../services/authServices';
 
 type InputFormValues = {
   email: string;
@@ -9,17 +7,8 @@ type InputFormValues = {
 };
 
 export default function Login() {
-  const navigate = useNavigate();
-
   const onFinish = async (values: InputFormValues) => {
-    const resp = await axios.post('http://localhost:8080/api/auth/signin', {
-      ...values,
-    });
-
-    if (resp.status === 200) {
-      LocalStorageAuth.setUserToken(resp.data);
-      navigate('/');
-    }
+    authServices.login(values.email, values.password);
   };
 
   return (

@@ -1,8 +1,22 @@
 import { useState, useEffect } from 'react';
 import { InfoCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Typography, Button, Form, DatePicker, Input, Select, Space, Divider, Layout, Card, Modal } from 'antd';
+import {
+  Typography,
+  Button,
+  Form,
+  DatePicker,
+  Input,
+  Select,
+  Space,
+  Divider,
+  Layout,
+  Card,
+  Modal,
+  Breadcrumb,
+} from 'antd';
 import axios from 'axios';
 import CreateWorkout from '../components/createWorkout.tsx';
+import { useMatch } from 'react-router-dom';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -13,6 +27,7 @@ export default function WorkoutCreator() {
   const [form] = Form.useForm();
   const [movements, setMovements] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const match = useMatch('/workoutCalendar/createWorkout/:date/:plan');
 
   useEffect(() => {
     getMovements('', []);
@@ -55,20 +70,24 @@ export default function WorkoutCreator() {
     setIsModalOpen(false);
   };
 
+  const titleBreadcrumb = () => {
+    const { date, plan }: any = match?.params;
+
+    return (
+      <Breadcrumb>
+        <Breadcrumb.Item>Workout</Breadcrumb.Item>
+        <Breadcrumb.Item>{date}</Breadcrumb.Item>
+        <Breadcrumb.Item>{plan}</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+  };
+
   return (
     <section>
       <Title level={2}>Create Workout</Title>
       <Content>
-        <Card title="Workout">
+        <Card title={titleBreadcrumb()}>
           <Form form={form} name="createWorkout" onFinish={onFinish} autoComplete="off">
-            <Form.Item
-              name="date-picker"
-              label="Date"
-              tooltip={{ title: 'Workout date', icon: <InfoCircleOutlined /> }}
-              required
-            >
-              <DatePicker style={{ width: 250 }} />
-            </Form.Item>
             <Form.Item
               name="dailyNote"
               label="Daily Note"
@@ -76,11 +95,7 @@ export default function WorkoutCreator() {
             >
               <TextArea style={{ width: 350 }} />
             </Form.Item>
-            {/* <Form.Item>
-              <Button onClick={showModal}>Generate Workout</Button>
-            </Form.Item> */}
 
-            {/* <Modal title="Create Workout" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}> */}
             <Form.List name="workouts">
               {(fields, { add, remove }) => (
                 <>
@@ -152,52 +167,7 @@ export default function WorkoutCreator() {
                 </>
               )}
             </Form.List>
-            {/* </Modal> */}
 
-            {/* <Form.Item label="Difficulty">
-              <Select style={{ width: 250 }}>
-                <Select.Option value="advenced">Advenced</Select.Option>
-                <Select.Option value="intermediate">Intermediate</Select.Option>
-                <Select.Option value="beginner">Beginner</Select.Option>
-              </Select>
-            </Form.Item>
-            <Divider /> */}
-
-            {/* <Form.List name="workouts">
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'workoutName']}
-                        label="Workout Name"
-                        rules={[{ required: true, message: 'Missing first name' }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Space key={key} style={{ marginBottom: 8 }}>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'workout']}
-                          rules={[{ required: true, message: 'Missing first name' }]}
-                        >
-                          <CreateWorkout movements={movements} restField={restField} name={name} />
-                        </Form.Item>
-
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                      </Space>
-                    </>
-                  ))}
-                  <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                      Add field
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List>
-*/}
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Create Workout

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { LaptopOutlined, UserOutlined } from '@ant-design/icons';
+import React from 'react';
+import { LaptopOutlined, LogoutOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { MenuProps, Layout, Menu, Avatar } from 'antd';
+import { MenuProps, Layout, Menu, Avatar, Dropdown, Space } from 'antd';
 
 const { Header, Sider } = Layout;
 
 const menu = [
   {
     icon: LaptopOutlined,
-    name: 'Create Workout',
-    key: 'createWorkout',
+    name: 'Workout Calendar',
+    key: 'workoutCalendar',
   },
   {
     icon: UserOutlined,
@@ -32,6 +32,19 @@ function Root() {
   const onClick: MenuProps['onClick'] = ({ key }) => {
     navigate(`/${key}`);
   };
+
+  const items: MenuProps['items'] = [
+    {
+      onClick: () => {
+        localStorage.removeItem('sporty-cred');
+        navigate('/login');
+      },
+      key: '1',
+      danger: true,
+      icon: <LogoutOutlined style={{ marginRight: 6 }} />,
+      label: 'Logout',
+    },
+  ];
 
   return (
     <Layout>
@@ -58,7 +71,11 @@ function Root() {
         >
           Logo
         </div>
-        <Avatar shape="square" size="large" icon={<UserOutlined />} />
+        <Space wrap>
+          <Dropdown menu={{ items }}>
+            <Avatar size="large" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
+          </Dropdown>
+        </Space>
       </Header>
       <Layout>
         <Sider width={200}>
