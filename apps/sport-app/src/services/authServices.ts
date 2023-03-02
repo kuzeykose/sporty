@@ -39,7 +39,6 @@ const responseHandler = async (response: Response) => {
     return Promise.reject();
   }
 
-  console.log('responseHandler data', data);
   return data;
 };
 
@@ -47,4 +46,7 @@ export const authServices = {
   login,
   logout,
   currentUser: currentUserSubject.asObservable(),
+  get currentUserValue() {
+    return currentUserSubject.value;
+  },
 };

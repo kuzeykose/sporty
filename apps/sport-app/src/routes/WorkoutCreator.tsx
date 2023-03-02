@@ -1,22 +1,10 @@
 import { useState, useEffect } from 'react';
 import { InfoCircleOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Typography,
-  Button,
-  Form,
-  DatePicker,
-  Input,
-  Select,
-  Space,
-  Divider,
-  Layout,
-  Card,
-  Modal,
-  Breadcrumb,
-} from 'antd';
+import { Typography, Button, Form, Input, Select, Space, Layout, Card, Breadcrumb } from 'antd';
 import axios from 'axios';
 import CreateWorkout from '../components/createWorkout.tsx';
-import { useMatch } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
+import { authServices } from '../services/authServices';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -24,6 +12,7 @@ const { Content } = Layout;
 const { Option } = Select;
 
 export default function WorkoutCreator() {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [movements, setMovements] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,8 +43,25 @@ export default function WorkoutCreator() {
     } catch (error) {}
   };
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = async (values: any) => {
+    console.log({ ...values, ...match?.params }, authServices.currentUserValue.accessToken);
+
+    let config = {
+      headers: {
+        'x-access-token': authServices.currentUserValue.accessToken,
+      },
+    };
+
+    let body = {
+      ...values,
+      ...match?.params,
+    };
+
+    const resp = await axios.post('http://localhost:8080/api/workout/create', body, config);
+
+    if (resp.status === 200) {
+      navigate('/workoutCalendar');
+    }
   };
 
   const showModal = () => {

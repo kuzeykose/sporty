@@ -1,5 +1,4 @@
 import {Express,Request,Response} from 'express';
-import AWS from 'aws-sdk';
 import verify from '../middlewares/jwt';
 
 import {ddb} from '../aws';
@@ -9,10 +8,7 @@ const Test = (app: Express) => {
     res.send('public access!')
   })
 
-  app.get(
-    '/api/test/user',
-    [verify.verifyToken, verify.isUser],
-    (req:Request, res:Response) => {
+  app.get('/api/test/user',[verify.verifyToken, verify.isUser],(req:Request, res:Response) => {
       res.send('user access!')
     }
   )
@@ -56,6 +52,32 @@ const Test = (app: Express) => {
 
     // res.send('admin access!')
   })
+
+  app.post('/api/workout/create', [verify.verifyToken, verify.isAdmin], (req:Request, res:Response) => {
+    const {plan, date} = req.body;    
+    
+    console.log(req.body);
+    
+    const workoutParams = {
+      TableName: 'Sporty',
+      Item: {
+        'PK': `PROGRAM#${plan}`,
+        'SK': `WORKOUT#${plan}#${date}`,
+        ...req.body
+      }
+    }
+
+    ddb.put(workoutParams, (err, data) => {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Workout created!", data);
+        res.status(200).send('Workout created!')
+      }
+    })
+
+  })
+
 }
 
 export default Test;

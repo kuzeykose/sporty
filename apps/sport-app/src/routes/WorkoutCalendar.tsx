@@ -58,7 +58,7 @@ const WorkoutCalendar = () => {
     let data: any = [];
     workoutList?.forEach((item: any) => {
       const splitSK = item.SK.split('#');
-      console.log(value.format('YYYY-MM-DD'), splitSK[2], value.format('YYYY-MM-DD') === splitSK[2]);
+      // console.log(value.format('YYYY-MM-DD'), splitSK[2], value.format('YYYY-MM-DD') === splitSK[2]);
       if (value.format('YYYY-MM-DD') === splitSK[2]) data.push({ type: 'warning', content: splitSK[1] });
     });
 
@@ -69,13 +69,11 @@ const WorkoutCalendar = () => {
     const listData = getListData(value);
 
     return (
-      <ul style={{ listStyle: 'none' }} className="events">
+      <>
         {listData?.map((item: any) => (
-          <li key={item.content}>
-            <Badge status={item.type as BadgeProps['status']} text={item.content} />
-          </li>
+          <Badge status={item.type as BadgeProps['status']} text={item.content} />
         ))}
-      </ul>
+      </>
     );
   };
 
