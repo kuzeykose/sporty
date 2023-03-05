@@ -5,6 +5,9 @@ import Root from './routes/Root';
 import UserManager from './routes/UserManager';
 import WorkoutCreator from './routes/WorkoutCreator';
 import WorkoutCalendar from './routes/WorkoutCalendar';
+import Plans from './routes/Plans';
+import PlanCreator from './routes/PlanCreator';
+import PlansList from './routes/PlansList';
 
 import { authServices } from './services/authServices';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
@@ -46,6 +49,20 @@ const App = () => {
         {
           path: '/workoutCalendar/createWorkout/:date/:plan',
           element: <WorkoutCreator />,
+        },
+        {
+          path: '/plans',
+          element: <Plans />,
+          children: [
+            {
+              path: '/plans/list',
+              element: <PlansList />,
+            },
+            {
+              path: '/plans/create',
+              element: <PlanCreator />,
+            },
+          ],
         },
       ],
     },

@@ -1,11 +1,16 @@
 import React from 'react';
-import { LaptopOutlined, LogoutOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { DiffOutlined, LaptopOutlined, LogoutOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { MenuProps, Layout, Menu, Avatar, Dropdown, Space } from 'antd';
 
 const { Header, Sider } = Layout;
 
 const menu = [
+  {
+    icon: DiffOutlined,
+    name: 'Plans',
+    key: 'plans/list',
+  },
   {
     icon: LaptopOutlined,
     name: 'Workout Calendar',
@@ -36,7 +41,7 @@ function Root() {
   const items: MenuProps['items'] = [
     {
       onClick: () => {
-        localStorage.removeItem('sporty-cred');
+        localStorage.removeItem('sporty_token');
         navigate('/login');
       },
       key: '1',
