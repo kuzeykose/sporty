@@ -16,7 +16,6 @@ const login = (email: string, password: string) => {
     .then((user) => {
       localStorage.setItem('sporty_token', JSON.stringify(user));
       currentUserSubject.next(user);
-
       return user;
     });
 };
@@ -24,7 +23,7 @@ const login = (email: string, password: string) => {
 // logout
 const logout = () => {
   localStorage.removeItem('sporty_token');
-  currentUserSubject.next(null);
+  currentUserSubject.next('');
 };
 
 // responseHandler
