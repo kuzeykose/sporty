@@ -5,9 +5,7 @@ import {config} from '../configs/auth.config'
 
 const ddb = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
 
-const verifyToken = (req:Request, res:Response, next:NextFunction) => {
-  console.log(req.headers);
-  
+const verifyToken = (req:Request, res:Response, next:NextFunction) => { 
   const token = req.headers["x-access-token"] as string;
   
   // token yoksa direkt -> hata: 403

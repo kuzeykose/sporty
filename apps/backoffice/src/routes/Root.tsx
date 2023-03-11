@@ -2,6 +2,8 @@ import React from 'react';
 import { DiffOutlined, LaptopOutlined, LogoutOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { MenuProps, Layout, Menu, Avatar, Dropdown, Space } from 'antd';
+import { authServices } from '../services/authServices';
+import { Button } from 'ui';
 
 const { Header, Sider } = Layout;
 
@@ -31,7 +33,7 @@ const items2: MenuProps['items'] = menu.map((item) => {
   };
 });
 
-function Root() {
+const Root = () => {
   const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
@@ -41,8 +43,7 @@ function Root() {
   const items: MenuProps['items'] = [
     {
       onClick: () => {
-        localStorage.removeItem('sporty_token');
-        navigate('/login');
+        authServices.logout();
       },
       key: '1',
       danger: true,
@@ -53,6 +54,7 @@ function Root() {
 
   return (
     <Layout>
+      <Button />
       <Header
         style={{
           padding: '20px 30px',
@@ -99,6 +101,6 @@ function Root() {
       </Layout>
     </Layout>
   );
-}
+};
 
 export default Root;
