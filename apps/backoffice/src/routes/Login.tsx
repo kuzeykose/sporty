@@ -11,6 +11,7 @@ export default function Login() {
   return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', marginTop: 200 }}>
       <Card style={{ width: 650, height: 250 }}>
+        <div className="bg-red-300">a</div>
         <Input label="Email" type="email" />
         <Input label="Password" type="password" />
 
