@@ -1,5 +1,6 @@
 // styles
-import "./styles.css";
+import './styles.css';
 
 // components
-export * from "./Button";
+export * from './Button';
+export * from './Input';

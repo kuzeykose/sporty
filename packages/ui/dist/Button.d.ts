@@ -1,3 +1,13 @@
-declare const Button: () => JSX.Element;
+import { ButtonHTMLAttributes } from 'react';
 
-export { Button };
+declare enum ButtonVariants {
+    Primary = "primary",
+    Secondary = "secondary",
+    Soft = "soft"
+}
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: ButtonVariants;
+}
+declare const Button: ({ children, variant, className, ...rest }: ButtonProps) => JSX.Element;
+
+export { Button, ButtonVariants };
