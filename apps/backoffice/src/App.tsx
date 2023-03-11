@@ -12,6 +12,8 @@ import PlansList from './routes/PlansList';
 import { authServices } from './services/authServices';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
+import './index.css';
+
 const App = () => {
   const [user, setUser] = useState<any>(null);
 
