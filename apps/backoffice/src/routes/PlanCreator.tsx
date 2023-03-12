@@ -1,8 +1,8 @@
-import { DatePicker, Form, Typography, Layout, Input, Button } from 'antd';
+import { DatePicker, Form, Typography, Layout } from 'antd';
 import { authServices } from '../services/authServices';
+import { Button, Input, Textarea } from 'ui';
 import axios from 'axios';
 
-const { TextArea } = Input;
 const { Content } = Layout;
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -61,11 +61,11 @@ const PlanCreator = () => {
             name="planNote"
             rules={[{ required: true, message: 'Please input your Plan Note!' }]}
           >
-            <TextArea />
+            <Textarea />
           </Form.Item>
 
           <Form.Item wrapperCol={{ span: 16 }}>
-            <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+            <Button type="submit" style={{ width: '100%' }}>
               Submit
             </Button>
           </Form.Item>

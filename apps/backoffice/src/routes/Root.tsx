@@ -3,7 +3,6 @@ import { DiffOutlined, LaptopOutlined, LogoutOutlined, SmileOutlined, UserOutlin
 import { Outlet, useNavigate } from 'react-router-dom';
 import { MenuProps, Layout, Menu, Avatar, Dropdown, Space } from 'antd';
 import { authServices } from '../services/authServices';
-import { Button } from 'ui';
 
 const { Header, Sider } = Layout;
 
@@ -54,7 +53,6 @@ const Root = () => {
 
   return (
     <Layout>
-      <Button />
       <Header
         style={{
           padding: '20px 30px',

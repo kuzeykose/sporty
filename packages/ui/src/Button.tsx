@@ -1,16 +1,33 @@
-import * as React from "react";
+import { ButtonHTMLAttributes } from 'react';
+import clsx from 'clsx';
 
-export const Button = () => {
+export enum ButtonVariants {
+  Primary = 'primary',
+  Secondary = 'secondary',
+  Soft = 'soft',
+}
+
+const variants = {
+  [ButtonVariants.Primary]:
+    'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+  [ButtonVariants.Secondary]: 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
+  [ButtonVariants.Soft]: 'bg-indigo-50 text-indigo-600 shadow-sm hover:bg-indigo-100',
+};
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariants;
+}
+
+export const Button = ({ children, variant = ButtonVariants.Primary, className, ...rest }: ButtonProps) => {
   return (
-    <div className="rounded-md">
-      <a href="https://turbo.build/repo/docs">
-        <div className="ui-flex ui-w-full ui-items-center ui-justify-center ui-rounded-md ui-border ui-border-transparent ui-px-8 ui-py-3 ui-text-base ui-font-medium ui-no-underline ui-bg-white ui-text-black hover:ui-bg-gray-300 md:ui-py-3 md:ui-px-10 md:ui-text-lg md:ui-leading-6">
-          Read the docs
-          <span className="ui-ml-2 ui-bg-gradient-to-r ui-from-brandred ui-to-brandblue ui-bg-clip-text ui-text-transparent">
-            →
-          </span>
-        </div>
-      </a>
-    </div>
+    <>
+      <button
+        type="button"
+        className={clsx('rounded-md py-1.5 px-2.5 text-sm font-semibold shadow-sm', variants[variant], className)}
+        {...rest}
+      >
+        {children}
+      </button>
+    </>
   );
 };
