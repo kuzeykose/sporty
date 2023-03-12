@@ -1,12 +1,12 @@
-import { InputHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Textarea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
 }
 
-export const Input = ({ label, className, ...rest }: InputProps) => {
+export const Textarea = ({ label, className, ...rest }: Textarea) => {
   const error = false;
   return (
     <>
@@ -14,7 +14,7 @@ export const Input = ({ label, className, ...rest }: InputProps) => {
         <label className="block text-sm font-medium leading-6 text-gray-900">{label}</label>
 
         <div className="relative mt-2 rounded-md shadow-sm">
-          <input
+          <textarea
             {...rest}
             className={clsx(
               'block w-full rounded-md border-0 py-1.5',

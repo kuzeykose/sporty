@@ -1,24 +1,41 @@
-import { Card, Form } from 'antd';
+import { Form, Checkbox, Card, Button, ButtonVariants, Input } from 'ui';
+import { useFormik } from 'formik';
 import { authServices } from '../services/authServices';
-import { Button, ButtonVariants, Input } from 'ui';
-
-type InputFormValues = {
-  email: string;
-  password: string;
-};
 
 export default function Login() {
-  return (
-    <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', marginTop: 200 }}>
-      <Card style={{ width: 650, height: 250 }}>
-        <div className="bg-red-300">a</div>
-        <Input label="Email" type="email" />
-        <Input label="Password" type="password" />
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: (values) => {
+      authServices.login(values.email, values.password);
+    },
+  });
 
-        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-          <Button variant={ButtonVariants.Primary}>Submit</Button>
-        </Form.Item>
-      </Card>
-    </div>
+  return (
+    <Card>
+      <Form onSubmit={formik.handleSubmit} className="space-y-6">
+        <Input label="Email" type="email" name="email" onChange={formik.handleChange} value={formik.values.email} />
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        <div className="flex items-center justify-between">
+          <Checkbox label="Remember me" />
+          <div className="text-sm">
+            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Forgot your password?
+            </a>
+          </div>
+        </div>
+        <Button type="submit" variant={ButtonVariants.Primary} className="w-full">
+          Submit
+        </Button>
+      </Form>
+    </Card>
   );
 }

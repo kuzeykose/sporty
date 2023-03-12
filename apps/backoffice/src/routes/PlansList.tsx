@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Layout, Typography } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Card, Layout, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button } from 'ui';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -46,9 +46,8 @@ const PlansList = () => {
           background: 'white',
         }}
       >
-        <Button onClick={redirectCreator} type="primary" style={{ marginBottom: 12 }}>
-          <PlusCircleOutlined />
-          <span>Create New Plan</span>
+        <Button onClick={redirectCreator} style={{ marginBottom: 12 }}>
+          Create New Plan
         </Button>
 
         {plans?.map((plan: Plan) => (
