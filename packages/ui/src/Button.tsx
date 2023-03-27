@@ -23,7 +23,7 @@ export const Button = ({ children, variant = ButtonVariants.Primary, className, 
     <>
       <button
         type="button"
-        className={clsx('rounded-md py-1.5 px-2.5 text-sm font-semibold shadow-sm', variants[variant], className)}
+        className={clsx('rounded-md py-1.5 px-2.5 text-sm shadow-sm', variants[variant], className)}
         {...rest}
       >
         {children}

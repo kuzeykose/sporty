@@ -11,11 +11,7 @@ type Title = {
 };
 
 export const Card = ({ children, className }: Children) => {
-  return (
-    <div className={clsx('mt-8 sm:mx-auto sm:w-full sm:max-w-md', className)}>
-      <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">{children}</div>
-    </div>
-  );
+  return <div className={clsx('bg-white p-4 shadow sm:rounded-lg', className)}>{children}</div>;
 };
 
 const Title = ({ text }: Title) => {
@@ -39,6 +35,6 @@ const Footer = ({ children }: Children) => {
   );
 };
 
-Card.Header = Title;
+Card.Title = Title;
 Card.Context = Context;
 Card.Footer = Footer;

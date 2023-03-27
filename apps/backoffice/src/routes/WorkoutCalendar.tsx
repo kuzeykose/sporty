@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Form, Calendar, Card, Modal, DatePicker, Select, Badge } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Button, ButtonVariants } from 'ui';
 
 import type { Dayjs } from 'dayjs';
 import type { CalendarMode } from 'antd/es/calendar/generateCalendar';
@@ -14,17 +15,25 @@ const WorkoutCalendar = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [workoutList, setWorkoutList] = useState<any>();
+  const [plans, setPlans] = useState<any>();
+  const [selectedDate, setSelectedDate] = useState<string>();
 
   useEffect(() => {
     getWorkoutList();
+    getPlans();
   }, []);
 
   const getWorkoutList = async () => {
     const response = await axios.get('http://localhost:8080/api/workout/list');
     if (response.status === 200) {
-      console.log(response.data.Items);
-
       setWorkoutList(response.data.Items);
+    }
+  };
+
+  const getPlans = async () => {
+    const resp = await axios.get('http://localhost:8080/api/plan/list');
+    if (resp.status === 200) {
+      setPlans(resp.data);
     }
   };
 
@@ -35,6 +44,7 @@ const WorkoutCalendar = () => {
   const calendarHandler = (date: Dayjs) => {
     showModal();
     form.setFieldValue('date', date);
+    setSelectedDate(date.format('YYYY-MM-DD'));
   };
 
   const showModal = () => {
@@ -52,6 +62,7 @@ const WorkoutCalendar = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    form.resetFields();
   };
 
   const getListData = (value: Dayjs) => {
@@ -80,7 +91,8 @@ const WorkoutCalendar = () => {
   return (
     <Card title="Workout Calendar">
       <Calendar dateCellRender={dateCellRender} onChange={calendarHandler} onPanelChange={onPanelChange} />
-      <Modal title="Select Date & Workout to Change" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+
+      <Modal title="Select Date & Workout to Change" open={isModalOpen} footer={null}>
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} form={form} style={{ marginTop: 22 }}>
           <Form.Item label="Date" name="date" rules={[{ required: true, message: 'Please input your username!' }]}>
             <DatePicker disabled />
@@ -88,12 +100,26 @@ const WorkoutCalendar = () => {
 
           <Form.Item label="Plan" name="plan" rules={[{ required: true, message: 'Please input your password!' }]}>
             <Select>
-              <Option value="A">A</Option>
-              <Option value="B">B</Option>
-              <Option value="C">C</Option>
+              {selectedDate &&
+                plans.map((item: any) => {
+                  const startDate = new Date(item.date[0]);
+                  const selected = new Date(selectedDate);
+                  const endDate = new Date(item.date[1]);
+
+                  if (startDate < selected && selected < endDate) {
+                    return <Option value={item.PK.split('#')[1]}>{item.PK.split('#')[1]}</Option>;
+                  }
+                })}
             </Select>
           </Form.Item>
         </Form>
+
+        <div className="flex gap-2 justify-end">
+          <Button variant={ButtonVariants.Secondary} onClick={handleCancel}>
+            Cancel
+          </Button>
+          <Button onClick={handleOk}>Ok</Button>
+        </div>
       </Modal>
     </Card>
   );

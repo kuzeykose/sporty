@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Card, Layout, Typography } from 'antd';
+import { Layout, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from 'ui';
+import { Card, Button } from 'ui';
 
 const { Content } = Layout;
 const { Title } = Typography;
-const { Meta } = Card;
+// const { Meta } = Card;
 
 type Plan = {
   SK: string;
   PK: string;
   date: string[];
   planNote: string;
+  image: string;
 };
 
 const PlansList = () => {
@@ -50,11 +51,15 @@ const PlansList = () => {
           Create New Plan
         </Button>
 
-        {plans?.map((plan: Plan) => (
-          <Card hoverable style={{ width: 300 }}>
-            <Meta title={plan.PK} description={plan.planNote} />
-          </Card>
-        ))}
+        <div className="grid grid-cols-4 gap-4">
+          {plans?.map((plan: Plan) => (
+            <Card className="cursor-pointer">
+              <img className="w-40" alt={plan.PK} src={plan.image} />
+              <Card.Title text={plan.PK.split('#')[1]} />
+              <p>{plan.planNote}</p>
+            </Card>
+          ))}
+        </div>
       </Content>
     </>
   );
