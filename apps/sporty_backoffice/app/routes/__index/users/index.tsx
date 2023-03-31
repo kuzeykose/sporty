@@ -1,15 +1,23 @@
 import { Button, Card, Box } from 'ui';
+import { useLoaderData } from '@remix-run/react';
+import { ActionArgs } from '@remix-run/server-runtime';
+import { getUsers } from '~/utils/user.server';
+import clsx from 'clsx';
 
-const people = [
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-  { fistName: 'Lindsay', lastName: 'Walton', email: 'lindsay.walton@example.com', role: 'Member' },
-];
+type User = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  roles: string[];
+};
+
+export const loader = async ({ request }: ActionArgs) => {
+  const users = await getUsers(request);
+  return users;
+};
 
 export default function Index() {
+  const data = useLoaderData<typeof loader>();
   return (
     <Box className="mx-auto">
       <Card>
@@ -45,7 +53,7 @@ export default function Index() {
                         Email
                       </th>
                       <th scope="col" className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
-                        Role
+                        Roles
                       </th>
                       <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
                         <span className="sr-only">Edit</span>
@@ -53,17 +61,30 @@ export default function Index() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {people.map((person) => (
+                    {data.map((person: User) => (
                       <tr key={person.email}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                          {person.fistName}
+                          {person.firstname}
                         </td>
-                        <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{person.lastName}</td>
+                        <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{person.lastname}</td>
                         <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{person.email}</td>
-                        <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{person.role}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {person.roles.map((role) => (
+                            <span
+                              key={role}
+                              className={clsx(
+                                role === 'ADMIN' && 'bg-yellow-100 text-yellow-800',
+                                role === 'USER' && 'bg-green-100 text-green-800',
+                                'inline-flex rounded-full  px-2 text-xs font-semibold leading-5'
+                              )}
+                            >
+                              {role}
+                            </span>
+                          ))}
+                        </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                           <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                            Edit<span className="sr-only">, {person.fistName}</span>
+                            Edit<span className="sr-only">, {person.firstname}</span>
                           </a>
                         </td>
                       </tr>

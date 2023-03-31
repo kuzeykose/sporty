@@ -1,1 +1,1 @@
-export const config = { secret: 'Kuzey' };
+export const config = { secret: 'test' };

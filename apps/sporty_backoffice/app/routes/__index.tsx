@@ -1,9 +1,18 @@
-import { DropdownMenu, Header, Box, Disclosure } from 'ui';
-import { Link, Outlet, useLocation } from '@remix-run/react';
+import { DropdownMenu, Header, Box, Disclosure, Form } from 'ui';
+import { useNavigate, Outlet, useLocation } from '@remix-run/react';
+import { requireUserId } from '~/utils/session.server';
 import clsx from 'clsx';
+
+export const loader = async ({ request }: any) => {
+  const userId = await requireUserId(request);
+  if (userId) {
+  }
+  return null;
+};
 
 export default function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const user = {
     name: 'Tom Cook',
@@ -20,7 +29,6 @@ export default function App() {
   const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
   ];
 
   return (
@@ -36,8 +44,12 @@ export default function App() {
                   </Header.Logo>
                   <Header.NavigationItemContainer>
                     {navigation.map((item) => (
-                      <Header.NavigationItem current={location.pathname === item.href}>
-                        <Link to={item.href}>{item.name}</Link>
+                      <Header.NavigationItem
+                        onClick={() => navigate(item.href)}
+                        key={item.name}
+                        current={location.pathname === item.href}
+                      >
+                        {item.name}
                       </Header.NavigationItem>
                     ))}
                   </Header.NavigationItemContainer>
@@ -47,17 +59,18 @@ export default function App() {
                   {/* Profile dropdown */}
                   <DropdownMenu>
                     <DropdownMenu.Button>
-                      {/* <span className="sr-only">Open user menu</span> */}
+                      <span className="sr-only">Open user menu</span>
                       <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
                     </DropdownMenu.Button>
                     <DropdownMenu.MenuItems>
                       {userNavigation.map((item) => (
-                        <DropdownMenu.MenuItems>
-                          {userNavigation.map((item) => (
-                            <DropdownMenu.MenuItem key={item.name}>{item.name}</DropdownMenu.MenuItem>
-                          ))}
-                        </DropdownMenu.MenuItems>
+                        <DropdownMenu.MenuItem key={item.name}>{item.name}</DropdownMenu.MenuItem>
                       ))}
+                      <DropdownMenu.MenuItem>
+                        <Form action="/logout" method="post">
+                          <button type="submit">Logout</button>
+                        </Form>
+                      </DropdownMenu.MenuItem>
                     </DropdownMenu.MenuItems>
                   </DropdownMenu>
                 </Box>
