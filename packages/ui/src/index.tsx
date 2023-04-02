@@ -4,6 +4,7 @@ import './styles.css';
 // components
 export * from './Button';
 export * from './Input';
+export * from './Select';
 export * from './Card';
 export * from './Checkbox';
 export * from './Form';

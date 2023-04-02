@@ -11,7 +11,7 @@ interface AnchorProps extends HTMLProps<HTMLAnchorElement> {
 }
 
 const Logo = ({ children }: Children) => {
-  return <div className="flex flex-shrink-0 items-center">{children}</div>;
+  return <div className="flex px-2 items-center">{children}</div>;
 };
 
 const NavigationItemContainer = ({ children }: Children) => {
@@ -35,14 +35,15 @@ const NavigationItem = ({ children, href, current, ...rest }: AnchorProps) => {
   );
 };
 
+const Container = ({ children }: Children) => {
+  return <div className="relative flex h-16 items-center justify-between">{children}</div>;
+};
+
 export const Header = ({ children }: Children) => {
-  return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex h-16 justify-between">{children}</div>
-    </div>
-  );
+  return <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:divide-y lg:divide-gray-200 lg:px-8">{children}</div>;
 };
 
 Header.Logo = Logo;
 Header.NavigationItemContainer = NavigationItemContainer;
 Header.NavigationItem = NavigationItem;
+Header.Container = Container;

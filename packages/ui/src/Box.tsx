@@ -1,4 +1,4 @@
-import React, { HTMLProps } from 'react';
+import { HTMLProps } from 'react';
 
 export const Box = ({ className, children, ...rest }: HTMLProps<HTMLDivElement>) => {
   return (

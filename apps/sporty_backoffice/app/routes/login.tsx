@@ -26,14 +26,14 @@ export default function Login() {
         <Form method="post" className="space-y-6">
           <Input label="Email" type="email" name="email" />
           <Input label="Password" type="password" name="password" />
-          <div className="flex items-center justify-between">
+          <Box className="flex items-center justify-between">
             <Checkbox label="Remember me" />
             <div className="text-sm">
               <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Forgot your password?
               </a>
             </div>
-          </div>
+          </Box>
           <Button type="submit" variant={ButtonVariants.Primary} className="w-full">
             Submit
           </Button>
