@@ -1,6 +1,6 @@
 import { ActionArgs, redirect } from '@remix-run/server-runtime';
 import { Box, Form, Checkbox, Card, Button, ButtonVariants, Input } from 'ui';
-import { createUserSession, getUserId, login, requireUserId } from '~/utils/session.server';
+import { createUserSession, getUserId, login } from '~/utils/session.server';
 
 export const loader = async ({ request }: ActionArgs) => {
   const email = await getUserId(request);

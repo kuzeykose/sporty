@@ -1,4 +1,4 @@
-import { Button, Card, Box } from 'ui';
+import { Button, Container, Box } from 'ui';
 import { useLoaderData } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { getUsers } from '~/utils/user.server';
@@ -20,7 +20,7 @@ export default function Index() {
   const data = useLoaderData<typeof loader>();
   return (
     <Box className="mx-auto">
-      <Card>
+      <Container>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
@@ -95,7 +95,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </Card>
+      </Container>
     </Box>
   );
 }

@@ -32,7 +32,7 @@ export default function App() {
   ];
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
+    <div className="font-sans">
       <Box className="min-h-full">
         <Disclosure as="nav" className="bg-white shadow-sm">
           {({ open }: any) => (
@@ -116,7 +116,7 @@ export default function App() {
           <header>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-                {location.pathname.split('/')[2]}
+                {location.pathname.split('/')[1]}
               </h1>
             </div>
           </header>

@@ -44,7 +44,7 @@ const Plan = (app: Express) => {
     }
   });
 
-  app.get('/api/plan/list', (req: Request, res: Response) => {
+  app.get('/api/plan/list', [verify.verifyToken, verify.isAdmin], (req: Request, res: Response) => {
     const getPlanListParams = {
       TableName: 'Sporty',
       FilterExpression: 'begins_with(SK, :sk) and begins_with(PK, :pk)',
@@ -59,8 +59,7 @@ const Plan = (app: Express) => {
         console.log('Error', err);
         return;
       }
-      // data.Items?.map(item => delete item.password)
-      console.log(data);
+
       res.status(200).send(data?.Items);
     });
   });

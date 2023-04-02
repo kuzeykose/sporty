@@ -12,3 +12,4 @@ export * from './DropdownMenu';
 export * from './Box';
 export * from './Disclosure';
 export * from './Header';
+export * from './Container';

@@ -16,16 +16,23 @@ const variants = {
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariants;
+  icon?: React.ReactNode;
 }
 
-export const Button = ({ children, variant = ButtonVariants.Primary, className, ...rest }: ButtonProps) => {
+export const Button = ({ icon, children, variant = ButtonVariants.Primary, className, ...rest }: ButtonProps) => {
   return (
     <>
       <button
         type="button"
-        className={clsx('rounded-md py-1.5 px-2.5 text-sm shadow-sm', variants[variant], className)}
+        className={clsx(
+          icon && 'flex items-center justify-center',
+          'rounded-md py-1.5 px-2.5 text-sm shadow-sm',
+          variants[variant],
+          className
+        )}
         {...rest}
       >
+        <div className="mr-1">{icon}</div>
         {children}
       </button>
     </>

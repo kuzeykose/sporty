@@ -7,7 +7,10 @@ export const meta: MetaFunction = () => ({
   title: 'New Remix App',
   viewport: 'width=device-width,initial-scale=1',
 });
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' },
+];
 
 export default function App() {
   return (

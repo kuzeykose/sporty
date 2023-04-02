@@ -1,7 +1,7 @@
 import { responseHandler } from './helpers';
 import { getJwtToken } from './session.server';
 
-export async function getUsers(request: Request) {
+export async function getPlans(request: Request) {
   const token = (await getJwtToken(request)) as string;
   const requestOptions = {
     method: 'GET',
@@ -10,9 +10,9 @@ export async function getUsers(request: Request) {
     },
   };
 
-  return fetch('http://localhost:8080/api/user/list', requestOptions)
+  return fetch('http://localhost:8080/api/plan/list', requestOptions)
     .then(responseHandler)
-    .then((users) => {
-      return users.Items;
+    .then((plans) => {
+      return plans;
     });
 }
