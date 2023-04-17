@@ -9,10 +9,14 @@ type Children = {
 
 interface AnchorProps extends AnchorHTMLAttributes<HTMLAnchorElement> {}
 
-const Button = ({ children }: Children) => {
+const Button = ({ children, className }: Children) => {
   return (
-    <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-      {/* <div className="text-indigo-500">aa</div> */}
+    <Menu.Button
+      className={clsx(
+        className,
+        'flex rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+      )}
+    >
       {children}
     </Menu.Button>
   );
@@ -22,7 +26,10 @@ const MenuItem = ({ children, ...rest }: AnchorProps) => {
   return (
     <Menu.Item>
       {({ active }) => (
-        <a {...rest} className={clsx(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+        <a
+          {...rest}
+          className={clsx(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 cursor-pointer')}
+        >
           {children}
         </a>
       )}

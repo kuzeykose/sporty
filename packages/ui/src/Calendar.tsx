@@ -15,7 +15,7 @@ interface Time extends HTMLProps<HTMLDivElement> {
   isToday: boolean;
 }
 
-const Header = ({ nextMonth, previousMonth, today, renderedDate }: any) => {
+const Header = ({ nextMonth, previousMonth, today, renderedDate, headerExtra }: any) => {
   return (
     <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
       <h1 className="text-base font-semibold leading-6 text-gray-900">
@@ -55,15 +55,7 @@ const Header = ({ nextMonth, previousMonth, today, renderedDate }: any) => {
           </button>
         </div>
 
-        <div className="hidden md:ml-4 md:flex md:items-center">
-          <div className="ml-6 h-6 w-px bg-gray-300" />
-          <button
-            type="button"
-            className="ml-6 rounded-md  bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add event
-          </button>
-        </div>
+        {headerExtra}
       </div>
     </header>
   );
@@ -166,7 +158,7 @@ const Wrapper = ({ children }: HTMLProps<HTMLDivElement>) => {
   return <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">{children}</div>;
 };
 
-export const Calendar = ({ dateCellRender, onSelect }: any) => {
+export const Calendar = ({ dateCellRender, onSelect, headerExtra }: any) => {
   const [calendar, setCalendar] = useState<any>();
   const [date, setDate] = useState<any>({ month: dayjs().month() + 1, year: dayjs().year() });
 
@@ -212,7 +204,13 @@ export const Calendar = ({ dateCellRender, onSelect }: any) => {
   return (
     <div className="overflow-hidden border border-gray-200 bg-white rounded-xl lg:flex lg:h-full lg:flex-col">
       <div className="lg:flex lg:flex-auto lg:flex-col">
-        <Header today={today} previousMonth={previousMonth} nextMonth={nextMonth} renderedDate={date} />
+        <Header
+          today={today}
+          previousMonth={previousMonth}
+          nextMonth={nextMonth}
+          renderedDate={date}
+          headerExtra={headerExtra}
+        />
         <Days />
         <Wrapper>
           <Content>

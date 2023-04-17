@@ -1,6 +1,17 @@
-import { Calendar } from 'ui';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { Link, useLoaderData } from '@remix-run/react';
+import { ActionArgs } from '@remix-run/server-runtime';
+import { Button, Calendar, DropdownMenu, Select } from 'ui';
+import { getPlans } from '~/utils/plan.server';
+
+export const loader = async ({ request }: ActionArgs) => {
+  const plans = await getPlans(request);
+  return plans;
+};
 
 export default function Index() {
+  const data = useLoaderData<typeof loader>();
+
   const events = [
     {
       date: '2023-04-03',
@@ -52,6 +63,26 @@ export default function Index() {
   return (
     <div>
       <Calendar
+        headerExtra={
+          <DropdownMenu>
+            <DropdownMenu.Button>
+              <Button className="rounded-full">
+                <div className="flex items-center gap-2">
+                  Add New...
+                  <ChevronDownIcon className="h-4 w-4 text-white" />
+                </div>
+              </Button>
+            </DropdownMenu.Button>
+            <DropdownMenu.MenuItems>
+              <Link to="/new/event">
+                <DropdownMenu.MenuItem>Event</DropdownMenu.MenuItem>
+              </Link>
+              <Link to="/workout/create">
+                <DropdownMenu.MenuItem>Workout</DropdownMenu.MenuItem>
+              </Link>
+            </DropdownMenu.MenuItems>
+          </DropdownMenu>
+        }
         dateCellRender={dateCellRender}
         onSelect={(day: any) => {
           console.log(day);

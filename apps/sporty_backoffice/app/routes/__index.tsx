@@ -1,6 +1,6 @@
 import { DropdownMenu, Header, Box, Form, Disclosure, Select, Button } from 'ui';
 import { useNavigate, Outlet, useLocation } from '@remix-run/react';
-import { CalendarDaysIcon } from '@heroicons/react/24/solid';
+import { CalendarDaysIcon, Squares2X2Icon } from '@heroicons/react/24/solid';
 import { requireUserId } from '~/utils/session.server';
 import clsx from 'clsx';
 
@@ -23,9 +23,9 @@ export default function App() {
   };
   const navigation = [
     { name: 'Dashboard', href: '/dashboard' },
+    // { name: 'Users', href: '/users' },
     { name: 'Plans', href: '/plans' },
-    { name: 'Users', href: '/users' },
-    // { name: 'Calendar', href: '/calendar' },
+    { name: 'Calendar', href: '/calendar' },
   ];
   const userNavigation = [
     { name: 'Your Profile', href: '#' },
@@ -44,10 +44,34 @@ export default function App() {
                     <span className="text-3xl">🔥</span>
                   </Header.Logo>
 
-                  <Select />
+                  <DropdownMenu>
+                    <DropdownMenu.Button>
+                      <span className="sr-only">Open user menu</span>
+                      <Button>Select Plan</Button>
+                      {/* <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" /> */}
+                    </DropdownMenu.Button>
+                    <DropdownMenu.MenuItems>
+                      {userNavigation.map((item) => (
+                        <DropdownMenu.MenuItem key={item.name}>{item.name}</DropdownMenu.MenuItem>
+                      ))}
+                      <DropdownMenu.MenuItem>
+                        <Form action="/logout" method="post">
+                          <button type="submit">Logout</button>
+                        </Form>
+                      </DropdownMenu.MenuItem>
+                    </DropdownMenu.MenuItems>
+                  </DropdownMenu>
                 </Box>
 
                 <Box className="relative z-10 ml-4 flex items-center gap-4">
+                  {/* <Button
+                    icon={<Squares2X2Icon className="h-5 w-5" />}
+                    onClick={() => {
+                      navigate('/plans');
+                    }}
+                  >
+                    Plans
+                  </Button>
                   <Button
                     icon={<CalendarDaysIcon className="h-5 w-5" />}
                     onClick={() => {
@@ -55,7 +79,7 @@ export default function App() {
                     }}
                   >
                     Calendar
-                  </Button>
+                  </Button> */}
                   <DropdownMenu>
                     <DropdownMenu.Button>
                       <span className="sr-only">Open user menu</span>
@@ -75,7 +99,7 @@ export default function App() {
                 </Box>
               </Header.Container>
 
-              <nav className="hidden lg:flex lg:space-x-8 lg:py-2" aria-label="Global">
+              <nav className="hidden lg:flex lg:space-x-2 lg:py-2" aria-label="Global">
                 {navigation.map((item: any) => (
                   <a
                     key={item.name}

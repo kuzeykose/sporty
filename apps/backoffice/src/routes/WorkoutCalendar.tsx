@@ -101,7 +101,7 @@ const WorkoutCalendar = () => {
           <Form.Item label="Plan" name="plan" rules={[{ required: true, message: 'Please input your password!' }]}>
             <Select>
               {selectedDate &&
-                plans.map((item: any) => {
+                plans?.map((item: any) => {
                   const startDate = new Date(item.date[0]);
                   const selected = new Date(selectedDate);
                   const endDate = new Date(item.date[1]);

@@ -15,3 +15,4 @@ export * from './Disclosure';
 export * from './Header';
 export * from './Container';
 export * from './Calendar';
+export * from './Combobox';
