@@ -5,6 +5,7 @@ export enum ButtonVariants {
   Primary = 'primary',
   Secondary = 'secondary',
   Soft = 'soft',
+  Text = 'text',
 }
 
 const variants = {
@@ -12,6 +13,7 @@ const variants = {
     'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
   [ButtonVariants.Secondary]: 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
   [ButtonVariants.Soft]: 'bg-indigo-50 text-indigo-600 shadow-sm hover:bg-indigo-100',
+  [ButtonVariants.Text]: 'text-indigo-600 hover:bg-indigo-100',
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -25,10 +27,10 @@ export const Button = ({ icon, children, variant = ButtonVariants.Primary, class
       <button
         type="button"
         className={clsx(
+          className,
           icon && 'flex items-center justify-center',
-          'rounded-md py-1.5 px-2.5 text-sm shadow-sm',
-          variants[variant],
-          className
+          'rounded-md py-1.5 px-2.5 text-sm',
+          variants[variant]
         )}
         {...rest}
       >
