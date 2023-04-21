@@ -16,3 +16,5 @@ export * from './Header';
 export * from './Container';
 export * from './Calendar';
 export * from './Combobox';
+export * from './SlideOver';
+export * from './Modal';
