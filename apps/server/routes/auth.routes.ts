@@ -19,6 +19,7 @@ const Auth = (app: Express) => {
         email: email,
         password: bcryptjs.hashSync(password, 8),
         roles: ['ADMIN'],
+        programs: [],
       },
     };
 

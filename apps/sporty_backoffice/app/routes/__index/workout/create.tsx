@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, Input, Box, ButtonVariants, Form, Modal, DropdownMenu } from 'ui';
-import { ActionArgs } from '@remix-run/server-runtime';
-import { useActionData, useSubmit } from '@remix-run/react';
+import { Button, Card, Input, Box, ButtonVariants, Form, Modal, DropdownMenu, Calendar, DatePicker } from 'ui';
+import { ActionArgs, LoaderArgs } from '@remix-run/server-runtime';
+import { useActionData, useSearchParams, useSubmit } from '@remix-run/react';
 import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { CreateWorkoutMovements, CreateWorkoutSections, WorkoutPreviewer } from 'components';
 import clsx from 'clsx';
@@ -30,6 +30,7 @@ type Workout = {
 };
 
 type Level = {
+  date: string;
   dailyNote: string;
   Beginner: Workout[];
   Intermediate: Workout[];
@@ -43,9 +44,13 @@ export const action = async ({ request }: ActionArgs) => {
   return 'success';
 };
 
-export default function CreateWorkout() {
+export default function CreateWorkout({ request }: LoaderArgs) {
+  const [searchParams] = useSearchParams();
+  const date = searchParams?.get('date') || '';
+
   // const data = useActionData<typeof action>();
   const [workouts, setWorkouts] = useState<Level>({
+    date: date,
     dailyNote: '',
     Beginner: [],
     Advanced: [],
@@ -201,6 +206,15 @@ export default function CreateWorkout() {
     >
       <div className="flex flex-col space-y-4">
         <div className="mx-3">
+          <DatePicker
+            value={workouts.date}
+            label="Date"
+            onSelect={(e: any) => {
+              setWorkouts({ ...workouts, date: e.date });
+            }}
+          />
+        </div>
+        <div className="mx-3">
           <Input
             onChange={(e) => {
               handleDailyNoteChange(e);
@@ -283,7 +297,7 @@ export default function CreateWorkout() {
                     <Input
                       onChange={(e) => handleWorkoutChange(e, index)}
                       value={childWorkout.workoutName}
-                      name={`workout[${0}][workoutName]`}
+                      name={`workoutName`}
                       label="Workout Name"
                       required
                     />
@@ -342,14 +356,7 @@ export default function CreateWorkout() {
             </Box>
           )}
 
-          <Modal
-            title="Create Workout"
-            open={modal}
-            setOpen={setModal}
-            onOk={() => {
-              pushSectionToMainState(selectedSection as number);
-            }}
-          >
+          <Modal panelClassName="sm:max-w-4xl sm:pt-12" open={modal} setOpen={setModal}>
             {sections && (
               <Card className="flex flex-col space-y-4 border">
                 <div className="flex flex-col gap-6">
@@ -397,6 +404,18 @@ export default function CreateWorkout() {
                 </Button>
               </Card>
             )}
+
+            <div className="flex justify-end gap-2 mt-4">
+              <Button
+                variant={ButtonVariants.Secondary}
+                onClick={() => {
+                  setModal(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={() => pushSectionToMainState(selectedSection as number)}>Save Sections</Button>
+            </div>
           </Modal>
 
           {/* <div className="col-span-1">

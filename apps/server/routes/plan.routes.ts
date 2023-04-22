@@ -44,25 +44,30 @@ const Plan = (app: Express) => {
     }
   });
 
-  app.get('/api/plan/list', [verify.verifyToken, verify.isAdmin], (req: Request, res: Response) => {
-    const getPlanListParams = {
-      TableName: 'Sporty',
-      FilterExpression: 'begins_with(SK, :sk) and begins_with(PK, :pk)',
-      ExpressionAttributeValues: {
-        ':sk': '#METADATA#',
-        ':pk': `PROGRAM#`,
-      },
-    };
+  app.get(
+    '/api/plan/list',
+    // , [verify.verifyToken, verify.isAdmin]
+    (req: Request, res: Response) => {
+      const getPlanListParams = {
+        TableName: 'Sporty',
+        KeyConditionExpression: 'PK = :pk and SK = :sk',
+        // FilterExpression: 'begins_with(SK, :sk) and begins_with(PK, :pk)',
+        ExpressionAttributeValues: {
+          ':sk': '#METADATA#PROGRAM#B',
+          ':pk': `PROGRAM#A`,
+        },
+      };
 
-    ddb.scan(getPlanListParams, (err, data) => {
-      if (err) {
-        console.log('Error', err);
-        return;
-      }
+      ddb.query(getPlanListParams, (err, data) => {
+        if (err) {
+          console.log('Error', err);
+          return;
+        }
 
-      res.status(200).send(data?.Items);
-    });
-  });
+        res.status(200).send(data?.Items);
+      });
+    }
+  );
 };
 
 export default Plan;

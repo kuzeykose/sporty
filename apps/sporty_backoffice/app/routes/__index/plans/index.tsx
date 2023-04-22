@@ -5,47 +5,15 @@ import { useLoaderData } from '@remix-run/react';
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 
-// export const loader = async ({ request }: ActionArgs) => {
-//   const plans = await getPlans(request);
-//   console.log(plans);
+export const loader = async ({ request }: ActionArgs) => {
+  const plans = await getPlans(request);
+  console.log(plans);
 
-//   return plans;
-// };
+  return plans;
+};
 
 export default function Index() {
-  // const data = useLoaderData<typeof loader>();
-  // console.log(data);
-
-  const data = [
-    {
-      SK: '#METADATA#PlanA',
-      date: ['2023-03-12', '2023-04-12'],
-      PK: 'PROGRAM#PlanA',
-      image: 'https://sporty-plan-images.s3.amazonaws.com/test.png',
-      planNote: 'PlanA-note',
-    },
-    {
-      SK: '#METADATA#PlanB',
-      date: ['2023-03-12', '2023-04-12'],
-      PK: 'PROGRAM#PlanB',
-      image: 'https://sporty-plan-images.s3.amazonaws.com/Screenshot%202023-03-12%20at%201.07.39%20PM.png',
-      planNote: 'PlanB-note',
-    },
-    {
-      SK: '#METADATA#TestC',
-      date: ['2023-03-12', '2023-04-12'],
-      PK: 'PROGRAM#TestC',
-      image: 'https://sporty-plan-images.s3.amazonaws.com/test.png',
-      planNote: 'TestC',
-    },
-    {
-      SK: '#METADATA#PlanD',
-      date: ['2023-03-19', '2023-04-19'],
-      PK: 'PROGRAM#PlanD',
-      image: 'https://sporty-plan-images.s3.amazonaws.com/Screenshot%202023-03-12%20at%201.07.39%20PM.png',
-      planNote: 'PlanD',
-    },
-  ];
+  const data = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -58,7 +26,7 @@ export default function Index() {
 
       <div className="mt-4">
         <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {data.map((person) => (
+          {data.map((person: any) => (
             <li key={person.PK} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
               <div className="flex w-full items-center justify-between space-x-6 p-6">
                 <div className="flex-1 truncate">
