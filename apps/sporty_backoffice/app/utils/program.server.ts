@@ -43,3 +43,22 @@ export async function getPrograms(request: Request) {
       return programs;
     });
 }
+
+export async function getProgram(request: Request, programId: string) {
+  const searchParams = new URLSearchParams();
+  searchParams.append('programId', programId);
+
+  const token = (await getJwtToken(request)) as string;
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  };
+
+  return fetch(`http://localhost:8080/api/program?${searchParams.toString()}`, requestOptions)
+    .then(responseHandler)
+    .then((programs) => {
+      return programs;
+    });
+}

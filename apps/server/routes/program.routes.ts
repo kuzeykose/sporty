@@ -12,8 +12,9 @@ const createProgram = async (req: Request, res: Response, next: NextFunction) =>
 
     const { projectName, projectDescription } = req.body;
     const id = uuidv4();
-    // @ts-ignore
-    req.data = { id: id, email: tokenValues.email };
+    const secretKey = uuidv4();
+
+    (req as any).data = { id: id, email: tokenValues.email };
     const programParams = {
       TableName: 'Sporty',
       Item: {
@@ -23,6 +24,9 @@ const createProgram = async (req: Request, res: Response, next: NextFunction) =>
         description: projectDescription,
         id: id,
         owner: tokenValues.email,
+        secretKey: secretKey,
+        status: 'active', //'passive' 'achived'
+        createdAt: new Date().toISOString(),
       },
     };
 
@@ -32,9 +36,9 @@ const createProgram = async (req: Request, res: Response, next: NextFunction) =>
         res.status(400).send(err);
       } else {
         res.status(200).send({ status: 'success', message: 'Program created!' });
+        next();
       }
     });
-    next();
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -43,8 +47,7 @@ const createProgram = async (req: Request, res: Response, next: NextFunction) =>
 
 const putProgramId = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // @ts-ignore
-    const { id, email } = req.data;
+    const { id, email } = (req as any).data;
     const params = {
       TableName: 'Sporty',
       Key: {
@@ -79,25 +82,80 @@ const Program = (app: Express) => {
   app.post('/api/program/create', [verify.verifyToken, verify.isAdmin], [createProgram, putProgramId]);
 
   app.get('/api/program/list', [verify.verifyToken, verify.isAdmin], async (req: Request, res: Response) => {
-    // try {
-    //   const getProgramListParams = {
-    //     TableName: 'Sporty',
-    //     KeyConditionExpression: 'begins_with(PK, :pk)',
-    //     ExpressionAttributeValues: {
-    //       ':pk': `PROGRAM`,
-    //     },
-    //   };
-    //   ddb.query(getProgramListParams, (err, data) => {
-    //     if (err) {
-    //       console.log('Error', err);
-    //       return;
-    //     }
-    //     res.status(200).send(data?.Items);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    //   res.status(500);
-    // }
+    try {
+      const token = req.headers['x-access-token'] as string;
+      const tokenValues: any = jwt.decode(token);
+      const getProgramListParams = {
+        TableName: 'Sporty',
+        KeyConditionExpression: 'PK = :pk',
+        ExpressionAttributeValues: {
+          ':pk': `USER#${tokenValues.email}`,
+        },
+      };
+
+      ddb.query(getProgramListParams, (err, data) => {
+        if (err) {
+          console.log('Error', err);
+          return;
+        }
+        const userData: any = data?.Items;
+        const programKeys = userData[0].programs.map((programId: string) => ({
+          PK: `PROGRAM#${programId}`,
+          SK: `#METADATA#${programId}`,
+        }));
+
+        const params = {
+          RequestItems: {
+            Sporty: {
+              Keys: programKeys,
+              ProjectionExpression: '#projectName, id, description, #projectStatus, createdAt',
+              ExpressionAttributeNames: {
+                '#projectName': 'name',
+                '#projectStatus': 'status',
+              },
+            },
+          },
+          ReturnConsumedCapacity: 'TOTAL',
+        };
+
+        ddb.batchGet(params, (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).send(data.Responses?.Sporty);
+            // console.log(JSON.stringify(data, null, 4));
+          }
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500);
+    }
+  });
+
+  app.get('/api/program', [verify.verifyToken, verify.isAdmin], async (req: Request, res: Response) => {
+    const id = req.query.programId;
+
+    const getProgramParams = {
+      TableName: 'Sporty',
+      Key: {
+        PK: `PROGRAM#${id}`,
+        SK: `#METADATA#${id}`,
+      },
+    };
+
+    ddb.get(getProgramParams, (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(data?.Item);
+      }
+    });
+
+    try {
+    } catch (error) {
+      console.log(error);
+    }
   });
 };
 
