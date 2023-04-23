@@ -18,7 +18,6 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function Index() {
   const data = useLoaderData<typeof action>();
-  console.log(data);
 
   return (
     <Box className="flex p-12">

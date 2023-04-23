@@ -1,12 +1,13 @@
-import { Container, Card, Box, Input, Button } from 'ui';
+import { Box, Input, Button } from 'ui';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid';
 import { getPrograms } from '~/utils/program.server';
 import dayjs from 'dayjs';
+import clsx from 'clsx';
 
 type Program = {
-  descriotion: string;
+  description: string;
   id: string;
   name: string;
   status: string;
@@ -37,29 +38,39 @@ export default function Index() {
       </Box>
 
       <div className="mt-4">
-        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
           {programs.map((program: Program) => (
-            <li key={program.id} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
-              <Link to={`/programs/${program.id}`}>
-                <div className="flex w-full items-center justify-between space-x-6 p-6">
-                  <div className="flex-1 truncate">
-                    <div className="flex flex-col items-center space-x-3">
-                      <h3 className="truncate text-sm font-medium text-gray-900">{program.name}</h3>
-                      <div className="flex">
-                        <span className="inline-block flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
-                          {program.status}
-                        </span>
-                        <div>
-                          <>{dayjs(program.createdAt).format('DD/MM/YYYY HH:mm')}</>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="mt-1 truncate text-sm text-gray-500">{program.descriotion}</p>
-                  </div>
-                  {/* <img className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300" src={person.image} alt="" /> */}
+            <Link key={program.id} to={`/program/${program.id}`}>
+              <li className="overflow-hidden rounded-xl border border-gray-200">
+                <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
+                  {/* <img
+                  src={client.imageUrl}
+                  alt={client.name}
+                  className="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
+                /> */}
+                  <div className="text-sm font-medium leading-6 text-gray-900">{program.name}</div>
                 </div>
-              </Link>
-            </li>
+                <dl className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+                  <div className="flex justify-between gap-x-4 py-3">
+                    <dt className="text-gray-500">Description</dt>
+                    <dd className="text-gray-700">{program.description}</dd>
+                  </div>
+                  <div className="flex justify-between gap-x-4 py-3">
+                    <dt className="text-gray-500">Status</dt>
+                    <dd className="flex items-start gap-x-2">
+                      <div
+                        className={clsx(
+                          'text-green-700 bg-green-50 ring-green-600/20',
+                          'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset'
+                        )}
+                      >
+                        {program.status}
+                      </div>
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            </Link>
           ))}
         </ul>
       </div>
