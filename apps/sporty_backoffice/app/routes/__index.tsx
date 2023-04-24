@@ -1,5 +1,5 @@
 import { DropdownMenu, Header, Box, Form, Disclosure, Select, Button, ButtonVariants } from 'ui';
-import { useNavigate, Outlet, useLocation } from '@remix-run/react';
+import { useNavigate, Outlet, useLocation, useParams } from '@remix-run/react';
 import { CalendarDaysIcon, ChevronUpDownIcon, Squares2X2Icon } from '@heroicons/react/24/solid';
 import { requireUserId } from '~/utils/session.server';
 import clsx from 'clsx';
@@ -15,6 +15,8 @@ export const loader = async ({ request }: any) => {
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+  const currentSecondTab = location.pathname.split('/');
 
   const user = {
     name: 'Tom Cook',
@@ -22,15 +24,18 @@ export default function App() {
     imageUrl:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   };
-  const navigation = [
-    { name: 'Dashboard', href: '/dashboard' },
-    // { name: 'Users', href: '/users' },
-    // { name: 'Plans', href: '/plans' },
-    // { name: 'Calendar', href: '/calendar' },
-  ];
+
   const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
+  ];
+
+  const tabs = [
+    { name: 'Dashboard', href: `/program/${params.programId}` },
+    { name: 'Workouts', href: `/program/${params.programId}/workouts` },
+    { name: 'Calendar', href: `/program/${params.programId}/calendar` },
+    { name: 'Users', href: `/program/${params.programId}/users` },
+    { name: 'Settings', href: `/program/${params.programId}/settings` },
   ];
 
   return (
@@ -85,21 +90,25 @@ export default function App() {
                 </Box>
               </Header.Container>
 
-              {/* <nav className="hidden lg:flex lg:space-x-2 lg:py-1" aria-label="Global">
-                {navigation.map((item: any) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={clsx(
-                      item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-900 hover:bg-gray-50 hover:text-gray-900',
-                      'inline-flex items-center rounded-md py-2 px-3 text-sm font-medium'
-                    )}
-                    aria-current={item.current ? 'page' : undefined}
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </nav> */}
+              {params.programId && (
+                <nav className="-mb-px flex space-x-6" aria-label="Tabs">
+                  {tabs.map((tab) => (
+                    <a
+                      key={tab.name}
+                      href={tab.href}
+                      className={clsx(
+                        currentSecondTab.slice(0, 4).join('/') === tab.href
+                          ? 'border-indigo-500 text-indigo-600'
+                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                        'whitespace-nowrap border-b-2 py-2 px-1 text-sm font-medium'
+                      )}
+                      aria-current={location.pathname === tab.href ? 'page' : undefined}
+                    >
+                      {tab.name}
+                    </a>
+                  ))}
+                </nav>
+              )}
             </Header>
           </>
         )}
