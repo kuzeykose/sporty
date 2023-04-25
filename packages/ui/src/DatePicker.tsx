@@ -75,7 +75,7 @@ const Calendar = ({ selectedDate, setSelectedDate, onSelect }: any) => {
   };
 
   return (
-    <div className="w-72 mt-4 text-center">
+    <div className={'w-72 mt-4 text-center'}>
       <Header nextMonth={nextMonth} previousMonth={previousMonth} month={0} />
       <Days />
       <div className="isolate mt-1 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
@@ -114,14 +114,15 @@ const Calendar = ({ selectedDate, setSelectedDate, onSelect }: any) => {
   );
 };
 
-export const DatePicker = ({ onSelect, value, label }: any) => {
+export const DatePicker = ({ onSelect, value, label, className, name }: any) => {
   const [selectedDate, setSelectedDate] = useState<any>({ date: value || dayjs().format('YYYY-MM-DD') });
   return (
-    <Menu as="div" className="relative z-10 inline-block text-left">
+    <Menu as="div" className={clsx('relative z-10 inline-block text-left', className)}>
       <div>
         {label && <label className="block text-sm font-medium leading-6 text-gray-900">{label}</label>}
         <div className={clsx(label && 'mt-2', 'relative rounded-md shadow-sm')}>
-          <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <Menu.Button className="inline-flex w-full justify-between gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <input type="text" name={name} value={selectedDate?.date} onChange={() => {}} className="hidden" />
             {selectedDate ? selectedDate?.date : 'Select Date'}
             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
           </Menu.Button>

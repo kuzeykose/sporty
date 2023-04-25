@@ -99,7 +99,7 @@ export default function Index() {
         }}
       />
 
-      <Modal panelClassName="" title="a" open={modal} setOpen={setModal}>
+      <Modal panelClassName="" open={modal} setOpen={setModal}>
         <>
           <div>
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100">

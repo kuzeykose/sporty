@@ -31,10 +31,10 @@ export default function App() {
   ];
 
   const tabs = [
-    { name: 'Dashboard', href: `/program/${params.programId}` },
-    { name: 'Workouts', href: `/program/${params.programId}/workouts` },
+    { name: 'Overview', href: `/program/${params.programId}` },
+    { name: 'Plans', href: `/program/${params.programId}/plans` },
     { name: 'Calendar', href: `/program/${params.programId}/calendar` },
-    { name: 'Users', href: `/program/${params.programId}/users` },
+    // { name: 'Users', href: `/program/${params.programId}/users` },
     { name: 'Settings', href: `/program/${params.programId}/settings` },
   ];
 

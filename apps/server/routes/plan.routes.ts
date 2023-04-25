@@ -1,73 +1,88 @@
 import { Express, Request, Response } from 'express';
 import verify from '../middlewares/jwt';
-
+import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken';
 import { ddb, s3 } from '../aws';
 
 const Plan = (app: Express) => {
   app.post('/api/plan/create', [verify.verifyToken, verify.isAdmin], async (req: Request, res: Response) => {
     try {
-      const { image, planId, date, planNote } = req.body;
-      const imageBuffer = Buffer.from(image.data, 'base64');
+      const {
+        // image,
+        endDate,
+        startDate,
+        programId,
+        planNote,
+        planName,
+        planDescription,
+      } = req.body;
+      const token = req.headers['x-access-token'] as string;
+      const tokenValues: any = jwt.decode(token);
+      // const imageBuffer = Buffer.from(image.data, 'base64');
+      const planId = uuidv4();
+      const secretKey = uuidv4();
 
-      let params = {
-        Bucket: 'sporty-plan-images',
-        Key: image.key,
-        Body: imageBuffer,
-        ContentEncoding: 'base64',
-        ContentType: image.type,
+      // let params = {
+      //   Bucket: 'sporty-plan-images',
+      //   Key: image.key,
+      //   Body: imageBuffer,
+      //   ContentEncoding: 'base64',
+      //   ContentType: image.type,
+      // };
+      // const imageUrl = await s3.upload(params).promise();
+
+      // if (imageUrl.Location) {
+      const workoutParams = {
+        TableName: 'Sporty',
+        Item: {
+          PK: `PROGRAM#${programId}`,
+          SK: `PLAN#${planId}`,
+          date: [startDate, endDate],
+          planNote,
+          owner: tokenValues.email,
+          secretKey: secretKey,
+          status: 'active', //'passive' 'achived'
+          createdAt: new Date().toISOString(),
+          planName,
+          planDescription,
+          programId,
+          // image: imageUrl.Location,
+        },
       };
-      const imageUrl = await s3.upload(params).promise();
-
-      if (imageUrl.Location) {
-        const workoutParams = {
-          TableName: 'Sporty',
-          Item: {
-            PK: `PROGRAM#${planId}`,
-            SK: `#METADATA#${planId}`,
-            date,
-            planNote,
-            image: imageUrl.Location,
-          },
-        };
-        ddb.put(workoutParams, (err, data) => {
-          if (err) {
-            console.log('Error', err);
-            res.status(400).send(err);
-          } else {
-            res.status(200).send({ message: 'Plan created!' });
-          }
-        });
-      }
+      ddb.put(workoutParams, (err, data) => {
+        if (err) {
+          console.log('Error', err);
+          res.status(400).send(err);
+        } else {
+          res.status(200).send({ message: 'Plan created!' });
+        }
+      });
+      // }
     } catch (error) {
       console.log(error);
       res.status(500);
     }
   });
 
-  app.get(
-    '/api/plan/list',
-    // , [verify.verifyToken, verify.isAdmin]
-    (req: Request, res: Response) => {
-      const getPlanListParams = {
-        TableName: 'Sporty',
-        KeyConditionExpression: 'PK = :pk and SK = :sk',
-        // FilterExpression: 'begins_with(SK, :sk) and begins_with(PK, :pk)',
-        ExpressionAttributeValues: {
-          ':sk': '#METADATA#PROGRAM#B',
-          ':pk': `PROGRAM#A`,
-        },
-      };
+  app.get('/api/plan/list', [verify.verifyToken, verify.isAdmin], (req: Request, res: Response) => {
+    const getPlanListParams = {
+      TableName: 'Sporty',
+      KeyConditionExpression: 'PK = :pk and begins_with(SK, :sk)',
+      ExpressionAttributeValues: {
+        ':pk': `PROGRAM#96204f9c-388a-40df-a2cb-300a21b618f9`,
+        ':sk': 'PLAN#',
+      },
+    };
 
-      ddb.query(getPlanListParams, (err, data) => {
-        if (err) {
-          console.log('Error', err);
-          return;
-        }
+    ddb.query(getPlanListParams, (err, data) => {
+      if (err) {
+        console.log('Error', err);
+        return;
+      }
 
-        res.status(200).send(data?.Items);
-      });
-    }
-  );
+      res.status(200).send(data?.Items);
+    });
+  });
 };
 
 export default Plan;

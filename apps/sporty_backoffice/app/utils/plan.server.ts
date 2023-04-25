@@ -16,3 +16,21 @@ export async function getPlans(request: Request) {
       return plans;
     });
 }
+
+export async function createPlan(request: Request, body: any) {
+  const token = (await getJwtToken(request)) as string;
+  const requestOptions = {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'content-type': 'application/json',
+      'x-access-token': token,
+    },
+  };
+
+  return fetch('http://localhost:8080/api/plan/create', requestOptions)
+    .then(responseHandler)
+    .then((res) => {
+      return res;
+    });
+}

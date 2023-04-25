@@ -2,9 +2,8 @@ import { Box, Input, Button } from 'ui';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { Link, useLoaderData, useNavigate } from '@remix-run/react';
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid';
-import { getPrograms } from '~/utils/program.server';
-import dayjs from 'dayjs';
 import clsx from 'clsx';
+import { getPlans } from '~/utils/plan.server';
 
 type Program = {
   description: string;
@@ -15,8 +14,8 @@ type Program = {
 };
 
 export const loader = async ({ request }: ActionArgs) => {
-  const programs = await getPrograms(request);
-  programs.sort((a: Program, b: Program) => (dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1));
+  const programs = await getPlans(request);
+  // programs.sort((a: Program, b: Program) => (dayjs(a.createdAt).isAfter(dayjs(b.createdAt)) ? -1 : 1));
   return programs;
 };
 
@@ -29,7 +28,7 @@ export default function Index() {
       <Box className="flex gap-6">
         <Input className="h-10" placeholder="Search" icon={<MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />} />
         <Button
-          onClick={() => navigate('/programs/create')}
+          onClick={() => navigate('create')}
           className="w-32"
           icon={<SquaresPlusIcon className="h-5 w-5 text-white" />}
         >
