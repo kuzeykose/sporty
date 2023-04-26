@@ -3,12 +3,9 @@ import { ActionArgs } from '@remix-run/server-runtime';
 import { getPlans } from '~/utils/plan.server';
 import { useLoaderData } from '@remix-run/react';
 import { MagnifyingGlassIcon, SquaresPlusIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
 
-export const loader = async ({ request }: ActionArgs) => {
-  const plans = await getPlans(request);
-  console.log(plans);
-
+export const loader = async ({ request, params }: ActionArgs) => {
+  const plans = params.programId && (await getPlans(request, params.programId));
   return plans;
 };
 

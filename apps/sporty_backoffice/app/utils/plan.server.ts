@@ -1,8 +1,11 @@
 import { responseHandler } from './helpers';
 import { getJwtToken } from './session.server';
 
-export async function getPlans(request: Request) {
+export async function getPlans(request: Request, programId: string) {
+  const searchParams = new URLSearchParams();
+  searchParams.append('programId', programId);
   const token = (await getJwtToken(request)) as string;
+
   const requestOptions = {
     method: 'GET',
     headers: {
@@ -10,7 +13,7 @@ export async function getPlans(request: Request) {
     },
   };
 
-  return fetch('http://localhost:8080/api/plan/list', requestOptions)
+  return fetch(`http://localhost:8080/api/plan/list?${searchParams.toString()}`, requestOptions)
     .then(responseHandler)
     .then((plans) => {
       return plans;

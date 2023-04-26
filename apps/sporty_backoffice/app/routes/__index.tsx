@@ -124,7 +124,7 @@ export default function App() {
         </header>
 
         <main>
-          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className={clsx(!location.pathname.split('/').includes('plan') && 'mx-auto max-w-7xl sm:px-6 lg:px-8')}>
             <Outlet />
           </div>
         </main>

@@ -46,6 +46,7 @@ const Plan = (app: Express) => {
           planName,
           planDescription,
           programId,
+          planId,
           // image: imageUrl.Location,
         },
       };
@@ -65,11 +66,12 @@ const Plan = (app: Express) => {
   });
 
   app.get('/api/plan/list', [verify.verifyToken, verify.isAdmin], (req: Request, res: Response) => {
+    const { programId } = req.query;
     const getPlanListParams = {
       TableName: 'Sporty',
       KeyConditionExpression: 'PK = :pk and begins_with(SK, :sk)',
       ExpressionAttributeValues: {
-        ':pk': `PROGRAM#96204f9c-388a-40df-a2cb-300a21b618f9`,
+        ':pk': `PROGRAM#${programId}`,
         ':sk': 'PLAN#',
       },
     };
