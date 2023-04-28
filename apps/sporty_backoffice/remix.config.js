@@ -9,8 +9,8 @@ module.exports = {
   future: {
     unstable_tailwind: true,
   },
-  watchPaths: ['../../packages/ui'],
-  // appDirectory: "app",
+  watchPaths: ['../../packages/ui', './components'],
+  appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
 };

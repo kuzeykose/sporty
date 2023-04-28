@@ -9,17 +9,22 @@ import { Link, useLoaderData } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { Button, ButtonVariants, Calendar, DropdownMenu, Modal, Select } from 'ui';
-import { getPlans } from '~/utils/plan.server';
+import { getWorkouts } from '~/utils/workout.server';
 
-// export const loader = async ({ request }: ActionArgs) => {
-//   const plans = await getPlans(request);
-//   return plans;
-// };
+export const loader = async ({ request, params }: ActionArgs) => {
+  const { programId, planId } = params;
+  if (programId && planId) {
+    const workouts = await getWorkouts(request, programId, planId);
+    return workouts;
+  } else {
+    throw 'test';
+  }
+};
 
 export default function CalendarPage() {
   const [modal, setModal] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<String>();
-  // const data = useLoaderData<typeof loader>();
+  const workouts = useLoaderData<typeof loader>();
   const events = [
     {},
     // {
@@ -45,9 +50,9 @@ export default function CalendarPage() {
     //   ],
     // },
   ];
-
+  console.log(workouts);
   const dateCellRender = (day: any) => {
-    const dayEvents: any = events?.find((item: any) => item.date === day.date);
+    const dayEvents: any = workouts?.find((item: any) => item.date === day.date);
     return (
       <Calendar.EventList>
         {dayEvents?.events.slice(0, 2).map((event: any) => (

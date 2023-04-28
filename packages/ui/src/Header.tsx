@@ -40,7 +40,7 @@ const Container = ({ children }: Children) => {
 };
 
 export const Header = ({ children }: Children) => {
-  return <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">{children}</div>;
+  return <div className=" px-2 sm:px-4 lg:px-8">{children}</div>;
 };
 
 Header.Logo = Logo;

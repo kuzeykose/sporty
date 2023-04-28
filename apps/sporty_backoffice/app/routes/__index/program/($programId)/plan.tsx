@@ -165,7 +165,7 @@ export default function Example() {
         </div>
 
         <main className="py-10 lg:pl-80">
-          <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className=" max-w-7xl px-4 sm:px-6 lg:px-8">
             <Outlet />
           </div>
         </main>

@@ -6,6 +6,8 @@ import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { CreateWorkoutMovements, CreateWorkoutSections, WorkoutPreviewer } from 'components';
 import clsx from 'clsx';
 import qs from 'qs';
+import { createWorkout } from '~/utils/workout.server';
+import dayjs from 'dayjs';
 
 type Movement = {
   movement: string;
@@ -35,18 +37,24 @@ type Level = {
   Beginner: Workout[];
   Intermediate: Workout[];
   Advanced: Workout[];
+  name: string;
 };
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request, params }: ActionArgs) => {
   const reqTest = await request.text();
   const parseReqTest = qs.parse(reqTest);
   const form = JSON.parse(parseReqTest.form as string);
+  if (params.programId && params.planId) {
+    console.log(form);
+
+    createWorkout(request, params.programId, params.planId, form);
+  }
   return 'success';
 };
 
 export default function CreateWorkout({ request }: LoaderArgs) {
   const [searchParams] = useSearchParams();
-  const date = searchParams?.get('date') || '';
+  const date = searchParams?.get('date') || dayjs().format('YYYY-MM-DD');
 
   // const data = useActionData<typeof action>();
   const [workouts, setWorkouts] = useState<Level>({
@@ -55,6 +63,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
     Beginner: [],
     Advanced: [],
     Intermediate: [],
+    name: '',
   });
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedSection, setSelectedSection] = useState<number>();
@@ -142,6 +151,15 @@ export default function CreateWorkout({ request }: LoaderArgs) {
     });
   };
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setWorkouts((prevState: Level) => {
+      const state = { ...prevState };
+      state.name = value;
+      return state;
+    });
+  };
+
   const handleSectionSettingsChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = e.target;
 
@@ -171,8 +189,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
     setModal(true);
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     const str = JSON.stringify(workouts);
     submit({ form: str }, { method: 'post' });
   };
@@ -202,13 +219,18 @@ export default function CreateWorkout({ request }: LoaderArgs) {
         </div>
       </div>
 
-      <Form
-        method="post"
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
+      <Form method="post">
         <div className="flex flex-col space-y-4">
+          <div>
+            <Input
+              onChange={(e) => {
+                handleNameChange(e);
+              }}
+              value={workouts.name}
+              label="Workout Name"
+              name="name"
+            />
+          </div>
           <div>
             <DatePicker
               value={workouts.date}
@@ -225,7 +247,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
               }}
               value={workouts.dailyNote}
               label="Daily Note"
-              name="daılyNote"
+              name="dailyNote"
             />
           </div>
 
@@ -428,18 +450,21 @@ export default function CreateWorkout({ request }: LoaderArgs) {
             </Modal>
 
             <Modal panelClassName="sm:max-w-4xl sm:pt-12" open={previewModal} setOpen={setPreviewModal}>
-              <Modal.Title>Preview</Modal.Title>
-              <div className="col-span-1">
-                <div className="sticky top-8 space-y-2">
-                  <WorkoutPreviewer workouts={workouts} dailyNote={workouts.dailyNote} />
-                </div>
+              <WorkoutPreviewer workouts={workouts} dailyNote={workouts.dailyNote} />
+
+              <div className="flex gap-2 mt-4">
+                <Button variant={ButtonVariants.Secondary} className="px-6 w-full">
+                  Cance
+                </Button>
+                <Button onClick={handleSubmit} className="px-6 w-full">
+                  Save
+                </Button>
               </div>
             </Modal>
           </div>
           <div>
             <Button
               className="px-6"
-              type="submit"
               onClick={() => {
                 setPreviewModal(true);
               }}

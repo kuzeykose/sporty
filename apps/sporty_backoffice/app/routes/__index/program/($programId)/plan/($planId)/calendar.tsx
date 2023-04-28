@@ -10,17 +10,23 @@ import { ActionArgs } from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { Button, ButtonVariants, Calendar, DropdownMenu, Modal, Select } from 'ui';
 import { getPlans } from '~/utils/plan.server';
+import { getWorkouts } from '~/utils/workout.server';
 
-// export const loader = async ({ request }: ActionArgs) => {
-//   const plans = await getPlans(request);
-//   return plans;
-// };
+export const loader = async ({ request, params }: ActionArgs) => {
+  const { programId, planId } = params;
+  if (programId && planId) {
+    const workouts = await getWorkouts(request, programId, planId);
+    return workouts;
+  } else {
+    throw 'test';
+  }
+};
 
 export default function CalendarPage() {
   const params = useParams();
   const [modal, setModal] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<String>();
-  // const data = useLoaderData<typeof loader>();
+  const workouts = useLoaderData<typeof loader>();
   const events = [
     {},
     // {
@@ -48,24 +54,35 @@ export default function CalendarPage() {
   ];
 
   const dateCellRender = (day: any) => {
-    const dayEvents: any = events?.find((item: any) => item.date === day.date);
+    const dayEvents: any = [];
+    workouts.forEach((workout: any) => {
+      if (workout.date === day.date) {
+        dayEvents.push(workout);
+      }
+    });
+
     return (
       <Calendar.EventList>
-        {dayEvents?.events.slice(0, 2).map((event: any) => (
+        {dayEvents.map((event: any) => (
+          // <Link to={`/program/${event.programId}/plan/${event.planId}/workouts/new`}>
           <Calendar.ListElement key={event.datetime}>
             <Calendar.EventContent
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
-              <Calendar.EventParagraph>{event.name}</Calendar.EventParagraph>
-              <Calendar.EventTime dateTime={event?.datetime}>{event.time}</Calendar.EventTime>
+              <Calendar.EventParagraph>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-lime-500" />
+                  <p> {event.name}</p>
+                </div>
+              </Calendar.EventParagraph>
+              {/* <Calendar.EventTime dateTime={event?.datetime}>{(event.date)}</Calendar.EventTime> */}
             </Calendar.EventContent>
           </Calendar.ListElement>
+          // </Link>
         ))}
-        {dayEvents && dayEvents?.events.length > 2 && (
-          <li className="text-gray-500">+ {dayEvents?.events.length - 2} more</li>
-        )}
+        {/* {dayEvents && dayEvents?.length > 2 && <li className="text-gray-500">+ {dayEvents?.length - 2} more</li>} */}
       </Calendar.EventList>
     );
   };
