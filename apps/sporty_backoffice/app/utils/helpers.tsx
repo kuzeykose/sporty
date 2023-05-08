@@ -6,6 +6,5 @@ export const responseHandler = async (response: Response) => {
     const error = data && data.message;
     return Promise.reject();
   }
-
   return data;
 };

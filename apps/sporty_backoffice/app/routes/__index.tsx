@@ -33,7 +33,7 @@ export default function App() {
   const tabs = [
     { name: 'Overview', href: `/program/${params.programId}` },
     { name: 'Plans', href: `/program/${params.programId}/plans` },
-    { name: 'Calendar', href: `/program/${params.programId}/calendar` },
+    // { name: 'Calendar', href: `/program/${params.programId}/calendar` },
     // { name: 'Users', href: `/program/${params.programId}/users` },
     { name: 'Settings', href: `/program/${params.programId}/settings` },
   ];

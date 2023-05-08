@@ -7,19 +7,18 @@ import { ddb } from '../aws';
 
 const Auth = (app: Express) => {
   app.post('/api/auth/signup', (req, res) => {
-    const { username, lastname, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     const signupParams = {
       TableName: 'Sporty',
       Item: {
         PK: `USER#${email}`,
         SK: `#METADATA#${email}`,
-        username: username,
-        lastname: lastname,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         password: bcryptjs.hashSync(password, 8),
         roles: ['ADMIN'],
-        programs: [],
       },
     };
 
@@ -35,8 +34,6 @@ const Auth = (app: Express) => {
 
   app.post('/api/auth/signin', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    console.log(req.body, 'test');
-
     const { email, password } = req.body;
 
     const signinParams = {
