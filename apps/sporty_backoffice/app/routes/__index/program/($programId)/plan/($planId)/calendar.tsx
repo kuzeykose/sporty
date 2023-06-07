@@ -1,16 +1,10 @@
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ClipboardDocumentCheckIcon,
-  ClipboardDocumentListIcon,
-  ExclamationTriangleIcon,
-} from '@heroicons/react/24/solid';
-import { Link, useLoaderData, useParams } from '@remix-run/react';
-import { ActionArgs } from '@remix-run/server-runtime';
 import { useState } from 'react';
-import { Button, ButtonVariants, Calendar, DropdownMenu, Modal, Select } from 'ui';
-import { getPlans } from '~/utils/plan.server';
+import { ActionArgs } from '@remix-run/server-runtime';
+import { Link, useLoaderData, useParams } from '@remix-run/react';
+import { Button, ButtonVariants, Calendar, DropdownMenu, Modal, CalenderDay } from 'ui';
+import { ChevronDownIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
 import { getWorkouts } from '~/utils/workout.server';
+import { Workout } from '~/types/workout';
 
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
@@ -27,35 +21,10 @@ export default function CalendarPage() {
   const [modal, setModal] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<String>();
   const workouts = useLoaderData<typeof loader>();
-  const events = [
-    {},
-    // {
-    //   date: '2023-04-03',
-    //   events: [
-    //     { id: 1, name: 'Design review', time: '10AM', datetime: '2022-01-03T10:00', href: '#' },
-    //     { id: 2, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 3, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 4, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 5, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 6, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //   ],
-    // },
-    // {
-    //   date: '2023-04-30',
-    //   events: [
-    //     { id: 1, name: 'Design review', time: '10AM', datetime: '2022-01-03T10:00', href: '#' },
-    //     { id: 2, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 3, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 4, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 5, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //     { id: 6, name: 'Sales meeting', time: '2PM', datetime: '2022-01-03T14:00', href: '#' },
-    //   ],
-    // },
-  ];
 
-  const dateCellRender = (day: any) => {
-    const dayEvents: any = [];
-    workouts.forEach((workout: any) => {
+  const dateCellRender = (day: CalenderDay) => {
+    const dayEvents: Workout[] = [];
+    workouts.forEach((workout: Workout) => {
       if (workout.date === day.date) {
         dayEvents.push(workout);
       }
@@ -63,9 +32,9 @@ export default function CalendarPage() {
 
     return (
       <Calendar.EventList>
-        {dayEvents.map((event: any) => (
+        {dayEvents.map((event: Workout) => (
           // <Link to={`/program/${event.programId}/plan/${event.planId}/workouts/new`}>
-          <Calendar.ListElement key={event.datetime}>
+          <Calendar.ListElement key={event.workoutId}>
             <Calendar.EventContent
               onClick={(e) => {
                 e.stopPropagation();

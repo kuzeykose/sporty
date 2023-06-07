@@ -2,6 +2,15 @@ import { Link, useLoaderData, useParams } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { getWorkouts } from '~/utils/workout.server';
 
+type WorkoutList = {
+  name: string;
+  date: string;
+  dailyNote: string;
+  createdBy: string;
+  programId: string;
+  planId: string;
+};
+
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
   if (programId && planId) {
@@ -61,26 +70,21 @@ export default function Example() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {workouts?.map(
-                  (workout: any) => (
-                    console.log(workout),
-                    (
-                      <tr key={workout.date}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                          {workout.name}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.date}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.dailyNote}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.createdBy}</td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          <a className="text-indigo-600 hover:text-indigo-900">
-                            <Link to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new`}>Edit</Link>
-                          </a>
-                        </td>
-                      </tr>
-                    )
-                  )
-                )}
+                {workouts?.map((workout: WorkoutList) => (
+                  <tr key={workout.date}>
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                      {workout.name}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.date}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.dailyNote}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.createdBy}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                      <a className="text-indigo-600 hover:text-indigo-900">
+                        <Link to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new`}>Edit</Link>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

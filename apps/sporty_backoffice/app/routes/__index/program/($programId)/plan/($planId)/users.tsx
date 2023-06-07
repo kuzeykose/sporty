@@ -1,10 +1,11 @@
-import { ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
-import { useLoaderData, useParams } from '@remix-run/react';
-import { ActionArgs } from '@remix-run/server-runtime';
-import clsx from 'clsx';
 import { useState } from 'react';
+import { useLoaderData } from '@remix-run/react';
+import { ActionArgs } from '@remix-run/server-runtime';
+import { ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
 import { Button, ButtonVariants, Form, Input, Modal } from 'ui';
-import { createUserInPlan, getPlanUsers, getUsers } from '~/utils/user.server';
+import { createUserInPlan, getPlanUsers } from '~/utils/user.server';
+import { User } from '~/types/user';
+import clsx from 'clsx';
 
 export const action = async ({ request, params }: ActionArgs) => {
   let formData = await request.formData();
@@ -27,7 +28,6 @@ export const loader = async ({ request, params }: ActionArgs) => {
 export default function Example() {
   const users = useLoaderData<typeof loader>();
   const [modal, setModal] = useState<boolean>(false);
-  const people: any = [];
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -74,7 +74,7 @@ export default function Example() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {users.map((user: any) => (
+                {users.map((user: User) => (
                   <tr key={user.email}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                       {user.firstName}
