@@ -1,11 +1,10 @@
-import { DropdownMenu, Header, Box, Form, Disclosure, Select, Button, ButtonVariants } from 'ui';
+import { ActionArgs } from '@remix-run/server-runtime';
+import { DropdownMenu, Header, Box, Form, Disclosure, Button, ButtonVariants } from 'ui';
 import { useNavigate, Outlet, useLocation, useParams } from '@remix-run/react';
-import { CalendarDaysIcon, ChevronUpDownIcon, Squares2X2Icon } from '@heroicons/react/24/solid';
 import { requireUserId } from '~/utils/session.server';
 import clsx from 'clsx';
-import { useState } from 'react';
 
-export const loader = async ({ request }: any) => {
+export const loader = async ({ request }: ActionArgs) => {
   const userId = await requireUserId(request);
   if (userId) {
   }

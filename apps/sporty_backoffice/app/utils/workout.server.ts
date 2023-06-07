@@ -1,3 +1,4 @@
+import { Workout } from '~/types/workout';
 import { responseHandler } from './helpers';
 import { getJwtToken } from './session.server';
 
@@ -42,7 +43,7 @@ export async function getWorkout(request: Request, programId: string, planId: st
     });
 }
 
-export async function createWorkout(request: Request, programId: string, planId: string, workout: any) {
+export async function createWorkout(request: Request, programId: string, planId: string, workout: Workout) {
   const token = (await getJwtToken(request)) as string;
 
   const requestOptions = {

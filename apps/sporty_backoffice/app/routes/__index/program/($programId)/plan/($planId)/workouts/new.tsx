@@ -8,37 +8,7 @@ import clsx from 'clsx';
 import qs from 'qs';
 import { createWorkout, getWorkout, updateWorkout } from '~/utils/workout.server';
 import dayjs from 'dayjs';
-
-type Movement = {
-  movement: string;
-  type: string;
-  value: string;
-  key: number;
-};
-
-type Section = {
-  settings: { sectionName: string; sectionNote: string; type: string; every?: string; totalTime?: string };
-  movements: Movement[];
-  key: number;
-};
-
-type ChildrenOfSettings = 'sectionName' | 'sectionNote' | 'type' | 'every' | 'totalTime';
-type ChildrenOfMovement = 'movement' | 'type' | 'value';
-
-type Workout = {
-  workoutName: string;
-  sections: Section[];
-  key: number;
-};
-
-type Level = {
-  date: string;
-  dailyNote: string;
-  Beginner: Workout[];
-  Intermediate: Workout[];
-  Advanced: Workout[];
-  name: string;
-};
+import { ChildrenOfMovement, ChildrenOfSettings, Movement, Section, Sections, Workout } from '~/types/workout';
 
 export const action = async ({ request, params }: ActionArgs) => {
   const url = new URL(request.url);
@@ -78,7 +48,8 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   const date = searchParams?.get('date') || dayjs().format('YYYY-MM-DD');
 
   // const data = useActionData<typeof action>();
-  const [workouts, setWorkouts] = useState<Level>(
+
+  const [workouts, setWorkouts] = useState<Workout>(
     workout
       ? workout
       : {
@@ -90,12 +61,17 @@ export default function CreateWorkout({ request }: LoaderArgs) {
           name: '',
         }
   );
+
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedSection, setSelectedSection] = useState<number>();
   const [currentLevelTab, setCurrentLevelTab] = useState<'Beginner' | 'Intermediate' | 'Advanced'>('Beginner');
   const [modal, setModal] = useState<boolean>(false);
   const [previewModal, setPreviewModal] = useState<boolean>(false);
-  const tabs = [{ name: 'Beginner' }, { name: 'Intermediate' }, { name: 'Advanced' }];
+  const tabs: { name: 'Beginner' | 'Intermediate' | 'Advanced' }[] = [
+    { name: 'Beginner' },
+    { name: 'Intermediate' },
+    { name: 'Advanced' },
+  ];
   const submit = useSubmit();
 
   const handleAddMovement = (index: number) => {
@@ -113,7 +89,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
 
   const handleAddSection = () => {
     const section = { settings: { sectionName: '', sectionNote: '', type: '' }, movements: [], key: 0 };
-    setSections((prevState: any) => {
+    setSections((prevState: Section[]) => {
       const state = [...prevState];
       if (state.length) {
         section.key = state[length - 1]?.key + 1;
@@ -125,7 +101,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
 
   const handleAddWorkout = () => {
     const workout = { workoutName: '', sections: [], key: 0 };
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       if (state[currentLevelTab][state[currentLevelTab].length - 1]) {
         workout.key = state[currentLevelTab][state[currentLevelTab].length - 1]?.key + 1;
@@ -136,7 +112,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   };
 
   const handleRemoveWorkout = (index: number) => {
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       state[currentLevelTab].splice(index, 1);
       return state;
@@ -144,7 +120,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   };
 
   const handleRemoveSection = (index: number) => {
-    setSections((prevState: any) => {
+    setSections((prevState: Section[]) => {
       const state = [...prevState];
       state.splice(index, 1);
       return state;
@@ -160,7 +136,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   };
 
   const handleWorkoutChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       state[currentLevelTab][index].workoutName = e.target.value;
       return state;
@@ -169,7 +145,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
 
   const handleDailyNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       state.dailyNote = value;
       return state;
@@ -178,7 +154,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       state.name = value;
       return state;
@@ -220,7 +196,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   };
 
   const pushSectionToMainState = (index: number) => {
-    setWorkouts((prevState: Level) => {
+    setWorkouts((prevState: Workout) => {
       const state = { ...prevState };
       state[currentLevelTab][index].sections = sections;
       return state;
@@ -239,7 +215,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center mb-6">
         <div className="sm:flex-auto">
-          <h1 className="text-base font-semibold leading-6 text-gray-900">Create Workout</h1>
+          <h1 className="text-base font-semibold leading-6 text-gray-900">Create Sections</h1>
           <p className="mt-2 text-sm text-gray-700">Create your workout!</p>
         </div>
       </div>
@@ -252,7 +228,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
                 handleNameChange(e);
               }}
               value={workouts.name}
-              label="Workout Name"
+              label="Sections Name"
               name="name"
             />
           </div>
@@ -279,7 +255,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
           <header className="flex justify-between">
             <div className="block">
               <nav className="flex space-x-4" aria-label="Tabs">
-                {tabs?.map((tab: any) => (
+                {tabs?.map((tab) => (
                   <a
                     onClick={() => setCurrentLevelTab(tab.name)}
                     key={tab.name}
@@ -289,7 +265,6 @@ export default function CreateWorkout({ request }: LoaderArgs) {
                         : 'text-gray-500 hover:text-gray-700',
                       'rounded-md px-3 py-2 text-sm font-medium cursor-pointer'
                     )}
-                    aria-current={tab.current ? 'page' : undefined}
                   >
                     {tab?.name}
                   </a>
@@ -342,14 +317,14 @@ export default function CreateWorkout({ request }: LoaderArgs) {
           <div className="space-y-4">
             {workouts[currentLevelTab] && (
               <Box className="col-span-3 flex flex-col space-y-2">
-                {workouts[currentLevelTab]?.map((childWorkout: Workout, index: number) => (
+                {workouts[currentLevelTab]?.map((childWorkout: Sections, index: number) => (
                   <Card className="space-y-2" key={childWorkout.key}>
                     <div>
                       <Input
                         onChange={(e) => handleWorkoutChange(e, index)}
                         value={childWorkout.workoutName}
                         name={`workoutName`}
-                        label="Workout Name"
+                        label="Sections Name"
                         required
                       />
                     </div>
@@ -397,7 +372,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
                         editWorkout(childWorkout.sections, index);
                       }}
                     >
-                      {childWorkout.sections.length > 0 ? 'Edit Workout' : 'Create Workout'}
+                      {childWorkout.sections.length > 0 ? 'Edit Sections' : 'Create Sections'}
                     </Button>
                   </Card>
                 ))}
@@ -407,7 +382,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
                   icon={<PlusIcon className="w-4 h-4" />}
                   onClick={handleAddWorkout}
                 >
-                  Generate Workout
+                  Generate Sections
                 </Button>
               </Box>
             )}
@@ -443,7 +418,7 @@ export default function CreateWorkout({ request }: LoaderArgs) {
                             onClick={() => handleAddMovement(index)}
                             variant={ButtonVariants.Soft}
                           >
-                            Add Movement
+                            Add Movement2
                           </Button>
                         </div>
                         <hr />

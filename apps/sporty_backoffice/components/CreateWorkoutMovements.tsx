@@ -1,6 +1,16 @@
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { movements } from 'movements';
+import { ChangeEvent } from 'react';
 import { Combobox, Input, Select } from 'ui';
+import { Movement } from '~/types/workout';
+
+type CreateWorkoutMovements = {
+  movement: Movement;
+  handleSectionMovementChange: (e: React.ChangeEvent<HTMLInputElement>, index: number, movementIndex: number) => void;
+  handleRemoveMovement: (index: number, movementIndex: number) => void;
+  index: number;
+  movementIndex: number;
+};
 
 const CreateWorkoutMovements = ({
   movement,
@@ -8,7 +18,7 @@ const CreateWorkoutMovements = ({
   handleRemoveMovement,
   index,
   movementIndex,
-}: any) => {
+}: CreateWorkoutMovements) => {
   return (
     <div key={movement.key} className="flex items-center gap-2">
       <div className="w-[50%]">
@@ -17,8 +27,8 @@ const CreateWorkoutMovements = ({
           label="Movement"
           value={{ name: movement.movement }}
           onChange={(e) => {
-            const t = { target: { name: 'movement', value: e.value.name } };
-            handleSectionMovementChange(t as any, index, movementIndex);
+            const t = { target: { name: 'movement', value: e.value.name } } as ChangeEvent<HTMLInputElement>;
+            handleSectionMovementChange(t, index, movementIndex);
           }}
           list={movements?.map((movement: any) => ({
             id: movement.id,

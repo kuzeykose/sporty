@@ -1,20 +1,9 @@
 import { Box, Button, ButtonVariants, Combobox, Input } from 'ui';
-type Movement = {
-  movement: string;
-  type: string;
-  value: string;
-  key: number;
-};
-
-type Section = {
-  settings: { sectionName: string; sectionNote: string; type: string; every?: string; totalTime?: string };
-  movements: Movement[];
-  key: number;
-};
+import { Section } from '~/types/workout';
 
 type CreateWorkoutSections = {
   section: Section;
-  handleRemoveSection: any;
+  handleRemoveSection: (index: number) => void;
   handleSectionSettingsChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   index: number;
 };

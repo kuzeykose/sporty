@@ -15,6 +15,13 @@ interface Time extends HTMLProps<HTMLDivElement> {
   isToday: boolean;
 }
 
+export type CalenderDay = {
+  date: string;
+  day: number;
+  isCurrentMonth: boolean;
+  isToday: boolean;
+};
+
 const Header = ({ nextMonth, previousMonth, today, renderedDate, headerExtra }: any) => {
   return (
     <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">

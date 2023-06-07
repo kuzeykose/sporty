@@ -1,3 +1,4 @@
+import { CreatePlan } from '~/types/plan';
 import { responseHandler } from './helpers';
 import { getJwtToken } from './session.server';
 
@@ -20,7 +21,7 @@ export async function getPlans(request: Request, programId: string) {
     });
 }
 
-export async function createPlan(request: Request, body: any) {
+export async function createPlan(request: Request, body: CreatePlan) {
   const token = (await getJwtToken(request)) as string;
   const requestOptions = {
     method: 'POST',

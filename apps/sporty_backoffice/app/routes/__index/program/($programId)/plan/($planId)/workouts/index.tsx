@@ -2,6 +2,16 @@ import { Link, useLoaderData, useParams } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { getWorkouts } from '~/utils/workout.server';
 
+type WorkoutList = {
+  name: string;
+  date: string;
+  dailyNote: string;
+  createdBy: string;
+  programId: string;
+  planId: string;
+  workoutId: string;
+};
+
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
   if (programId && planId) {
@@ -61,7 +71,7 @@ export default function Example() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {workouts?.map((workout: any) => (
+                {workouts?.map((workout: WorkoutList) => (
                   <tr key={workout.date}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                       {workout.name}
