@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Input, Box, ButtonVariants, Form, Modal, DropdownMenu, Calendar, DatePicker } from 'ui';
 import { ActionArgs, LoaderArgs } from '@remix-run/server-runtime';
-import { useActionData, useSearchParams, useSubmit } from '@remix-run/react';
+import { useActionData, useLoaderData, useSearchParams, useSubmit } from '@remix-run/react';
 import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { CreateWorkoutMovements, CreateWorkoutSections, WorkoutPreviewer } from 'components';
 import clsx from 'clsx';
 import qs from 'qs';
-import { createWorkout } from '~/utils/workout.server';
+import { createWorkout, getWorkout, updateWorkout } from '~/utils/workout.server';
 import dayjs from 'dayjs';
 
 type Movement = {
@@ -41,30 +41,55 @@ type Level = {
 };
 
 export const action = async ({ request, params }: ActionArgs) => {
+  const url = new URL(request.url);
+  const workoutId = url.searchParams.get('workout');
+  const date = url.searchParams.get('date');
+
   const reqTest = await request.text();
   const parseReqTest = qs.parse(reqTest);
   const form = JSON.parse(parseReqTest.form as string);
-  if (params.programId && params.planId) {
-    console.log(form);
 
+  if (workoutId && date && params.programId && params.planId) {
+    updateWorkout(request, params.programId, params.planId, workoutId, date, form);
+  } else if (params.programId && params.planId) {
     createWorkout(request, params.programId, params.planId, form);
   }
+
   return 'success';
 };
 
+export const loader = async ({ request, params }: ActionArgs) => {
+  const url = new URL(request.url);
+  const workoutId = url.searchParams.get('workout');
+  const date = url.searchParams.get('date');
+  const { programId, planId } = params;
+
+  if (programId && planId && workoutId && date) {
+    const workout = await getWorkout(request, programId, planId, workoutId, date);
+    return workout;
+  } else {
+    return null;
+  }
+};
+
 export default function CreateWorkout({ request }: LoaderArgs) {
+  const workout = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
   const date = searchParams?.get('date') || dayjs().format('YYYY-MM-DD');
 
   // const data = useActionData<typeof action>();
-  const [workouts, setWorkouts] = useState<Level>({
-    date: date,
-    dailyNote: '',
-    Beginner: [],
-    Advanced: [],
-    Intermediate: [],
-    name: '',
-  });
+  const [workouts, setWorkouts] = useState<Level>(
+    workout
+      ? workout
+      : {
+          date: date,
+          dailyNote: '',
+          Beginner: [],
+          Advanced: [],
+          Intermediate: [],
+          name: '',
+        }
+  );
   const [sections, setSections] = useState<Section[]>([]);
   const [selectedSection, setSelectedSection] = useState<number>();
   const [currentLevelTab, setCurrentLevelTab] = useState<'Beginner' | 'Intermediate' | 'Advanced'>('Beginner');

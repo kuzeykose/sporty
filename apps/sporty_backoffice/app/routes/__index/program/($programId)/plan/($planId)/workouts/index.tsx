@@ -8,7 +8,7 @@ export const loader = async ({ request, params }: ActionArgs) => {
     const workouts = await getWorkouts(request, programId, planId);
     return workouts;
   } else {
-    throw 'test';
+    throw '';
   }
 };
 
@@ -61,26 +61,25 @@ export default function Example() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {workouts?.map(
-                  (workout: any) => (
-                    console.log(workout),
-                    (
-                      <tr key={workout.date}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                          {workout.name}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.date}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.dailyNote}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.createdBy}</td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          <a className="text-indigo-600 hover:text-indigo-900">
-                            <Link to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new`}>Edit</Link>
-                          </a>
-                        </td>
-                      </tr>
-                    )
-                  )
-                )}
+                {workouts?.map((workout: any) => (
+                  <tr key={workout.date}>
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                      {workout.name}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.date}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.dailyNote}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.createdBy}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                      <a className="text-indigo-600 hover:text-indigo-900">
+                        <Link
+                          to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new?workout=${workout.workoutId}&date=${workout.date}`}
+                        >
+                          Edit
+                        </Link>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
