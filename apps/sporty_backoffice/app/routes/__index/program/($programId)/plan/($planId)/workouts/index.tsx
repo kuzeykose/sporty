@@ -9,6 +9,7 @@ type WorkoutList = {
   createdBy: string;
   programId: string;
   planId: string;
+  workoutId: string;
 };
 
 export const loader = async ({ request, params }: ActionArgs) => {
@@ -17,7 +18,7 @@ export const loader = async ({ request, params }: ActionArgs) => {
     const workouts = await getWorkouts(request, programId, planId);
     return workouts;
   } else {
-    throw 'test';
+    throw '';
   }
 };
 
@@ -80,7 +81,11 @@ export default function Example() {
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.createdBy}</td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <a className="text-indigo-600 hover:text-indigo-900">
-                        <Link to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new`}>Edit</Link>
+                        <Link
+                          to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new?workout=${workout.workoutId}&date=${workout.date}`}
+                        >
+                          Edit
+                        </Link>
                       </a>
                     </td>
                   </tr>
