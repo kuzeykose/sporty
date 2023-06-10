@@ -10,22 +10,22 @@ export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigation = [
-    { name: 'Dashboard', href: `/program/${params.programId}/plan/${params.planId}`, icon: HomeIcon, current: true },
+    { name: 'Dashboard', href: `/programs/${params.programId}/plans/${params.planId}`, icon: HomeIcon, current: true },
     {
       name: 'Users',
-      href: `/program/${params.programId}/plan/${params.planId}/users`,
+      href: `/programs/${params.programId}/plans/${params.planId}/users`,
       icon: UsersIcon,
       current: false,
     },
     {
       name: 'Workouts',
-      href: `/program/${params.programId}/plan/${params.planId}/workouts`,
+      href: `/programs/${params.programId}/plans/${params.planId}/workouts`,
       icon: FolderIcon,
       current: false,
     },
     {
       name: 'Calendar',
-      href: `/program/${params.programId}/plan/${params.planId}/calendar`,
+      href: `/programs/${params.programId}/plans/${params.planId}/calendar`,
       icon: CalendarIcon,
       current: false,
     },

@@ -14,7 +14,7 @@ const Button = ({ children, className }: Children) => {
     <Menu.Button
       className={clsx(
         className,
-        'flex rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+        'flex rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
       )}
     >
       {children}

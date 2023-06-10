@@ -27,10 +27,10 @@ export const Button = ({ icon, children, variant = ButtonVariants.Primary, class
       <button
         type="button"
         className={clsx(
-          className,
           icon && 'flex items-center justify-center',
           'rounded-md py-1.5 px-2.5 text-sm',
-          variants[variant]
+          variants[variant],
+          className
         )}
         {...rest}
       >

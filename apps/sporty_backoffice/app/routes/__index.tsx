@@ -30,11 +30,9 @@ export default function App() {
   ];
 
   const tabs = [
-    { name: 'Overview', href: `/program/${params.programId}` },
-    { name: 'Plans', href: `/program/${params.programId}/plans` },
-    // { name: 'Calendar', href: `/program/${params.programId}/calendar` },
-    // { name: 'Users', href: `/program/${params.programId}/users` },
-    { name: 'Settings', href: `/program/${params.programId}/settings` },
+    { name: 'Overview', href: `/programs/${params.programId}` },
+    { name: 'Plans', href: `/programs/${params.programId}/plans` },
+    { name: 'Settings', href: `/programs/${params.programId}/settings` },
   ];
 
   return (
@@ -48,16 +46,6 @@ export default function App() {
                   <Header.Logo>
                     <span className="text-3xl">🔥</span>
                   </Header.Logo>
-
-                  {/* <DropdownMenu>
-                    <DropdownMenu.Button>
-                      <h2 className="mr-2">Fahreniet New Page</h2>
-                      <ChevronUpDownIcon className="h-5 w-5" />
-                    </DropdownMenu.Button>
-                    <DropdownMenu.MenuItems>
-                      <DropdownMenu.MenuItem> Fahreniet New Page</DropdownMenu.MenuItem>
-                    </DropdownMenu.MenuItems>
-                  </DropdownMenu> */}
                 </Box>
 
                 <Box className="relative z-10 flex items-center gap-2">
@@ -123,7 +111,7 @@ export default function App() {
         </header>
 
         <main>
-          <div className={clsx(!location.pathname.split('/').includes('plan') && 'mx-auto max-w-7xl sm:px-6 lg:px-8')}>
+          <div className={clsx(!location.pathname.split('/').includes('plan') && 'mx-auto  sm:px-6 lg:px-8')}>
             <Outlet />
           </div>
         </main>
