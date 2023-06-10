@@ -24,14 +24,16 @@ const Auth = (app: Express) => {
 
     ddb.put(signupParams, (err, data) => {
       if (err) {
-        res.status(400).send({message:'Can not created'});
+        console.log('Error', err);
       } else {
-        res.status(200).send({message:'User created!', email: email, firstName:firstName});
+        console.log('User created', data);
+        res.send('User created!');
       }
     });
   });
 
   app.post('/api/auth/signin', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const { email, password } = req.body;
 
     const signinParams = {

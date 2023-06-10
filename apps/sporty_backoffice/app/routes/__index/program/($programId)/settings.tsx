@@ -14,8 +14,8 @@ const Detail = () => {
   const params = useParams();
 
   const secondaryNavigation = [
-    { name: 'Program', href: `/programs/${params.programId}/settings`, icon: UserCircleIcon },
-    { name: 'Users', href: `/programs/${params.programId}/settings/users`, icon: FingerPrintIcon },
+    { name: 'Program', href: `/program/${params.programId}/settings`, icon: UserCircleIcon },
+    { name: 'Users', href: `/program/${params.programId}/settings/users`, icon: FingerPrintIcon },
   ];
 
   return (

@@ -40,7 +40,7 @@ export default function Index() {
       <div className="mt-4">
         <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
           {programs?.map((program: Program) => (
-            <Link key={program.id} to={`/programs/${program.id}/plans`}>
+            <Link key={program.id} to={`/program/${program.id}`}>
               <li className="overflow-hidden rounded-xl border border-gray-200">
                 <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                   {/* <img
