@@ -102,16 +102,8 @@ export default function App() {
       </Disclosure>
 
       <div className="py-4">
-        <header>
-          {/* <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-              {location.pathname.split('/')[1]}
-            </h1>
-          </div> */}
-        </header>
-
         <main>
-          <div className={clsx(!location.pathname.split('/').includes('plan') && 'mx-auto  sm:px-6 lg:px-8')}>
+          <div className={clsx(!location.pathname.split('/').includes('plan') && 'mx-auto sm:px-6 lg:px-8')}>
             <Outlet />
           </div>
         </main>

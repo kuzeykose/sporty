@@ -21,7 +21,7 @@ export async function createProgram(request: Request, projectName: string, proje
     },
   };
 
-  return fetch('http://localhost:8080/api/program/create', requestOptions)
+  return fetch('http://localhost:8080/api/backoffice/program/create', requestOptions)
     .then(responseHandler)
     .then((res) => {
       return res;
@@ -37,7 +37,7 @@ export async function getPrograms(request: Request) {
     },
   };
 
-  return fetch('http://localhost:8080/api/program/list', requestOptions)
+  return fetch('http://localhost:8080/api/backoffice/program/list', requestOptions)
     .then(responseHandler)
     .then((programs) => {
       return programs;
@@ -56,7 +56,7 @@ export async function getProgram(request: Request, programId: string) {
     },
   };
 
-  return fetch(`http://localhost:8080/api/program?${searchParams.toString()}`, requestOptions)
+  return fetch(`http://localhost:8080/api/backoffice/program?${searchParams.toString()}`, requestOptions)
     .then(responseHandler)
     .then((programs) => {
       return programs;
