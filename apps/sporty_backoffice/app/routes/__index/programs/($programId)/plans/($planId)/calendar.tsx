@@ -5,6 +5,7 @@ import { Button, ButtonVariants, Calendar, DropdownMenu, Modal, CalenderDay } fr
 import { ChevronDownIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
 import { getWorkouts } from '~/utils/workout.server';
 import { Workout } from '~/types/workout';
+import { WorkoutPreviewer } from 'components';
 
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
@@ -20,6 +21,8 @@ export default function CalendarPage() {
   const params = useParams();
   const [modal, setModal] = useState<boolean>(false);
   const [selectedDay, setSelectedDay] = useState<String>();
+  const [previewModal, setPreviewModal] = useState<boolean>(false);
+  const [workoutPreview, setWorkoutPreview] = useState<Workout>({} as Workout);
   const workouts = useLoaderData<typeof loader>();
 
   const dateCellRender = (day: CalenderDay) => {
@@ -41,7 +44,13 @@ export default function CalendarPage() {
               }}
             >
               <Calendar.EventParagraph>
-                <div className="flex items-center gap-2">
+                <div
+                  className="flex items-center gap-2"
+                  onClick={() => {
+                    setPreviewModal(true);
+                    setWorkoutPreview(event);
+                  }}
+                >
                   <div className="w-1 h-1 rounded-full bg-lime-500" />
                   <p> {event.name}</p>
                 </div>
@@ -93,6 +102,19 @@ export default function CalendarPage() {
           }}
         />
       </div>
+
+      <Modal panelClassName="sm:max-w-4xl sm:pt-6" open={previewModal} setOpen={setPreviewModal}>
+        <Modal.Title>{workoutPreview.date}</Modal.Title>
+        <p className="font-medium mt-4">
+          <span className="text-gray-600">Workout Name: </span> {workoutPreview.name}
+        </p>
+        <p className="font-medium">
+          <span className="text-gray-600">Daily Note: </span> {workoutPreview.dailyNote}
+        </p>
+        <div className="mt-6">
+          <WorkoutPreviewer workouts={workoutPreview as Workout} />
+        </div>
+      </Modal>
 
       <Modal panelClassName="" open={modal} setOpen={setModal}>
         <>

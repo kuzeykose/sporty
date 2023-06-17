@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
+import { Modal } from 'ui';
+import { Workout } from '~/types/workout';
 import { getWorkouts } from '~/utils/workout.server';
+import { WorkoutPreviewer } from 'components';
 
-type WorkoutList = {
+interface WorkoutList extends Workout {
   name: string;
   date: string;
   dailyNote: string;
@@ -10,7 +14,7 @@ type WorkoutList = {
   programId: string;
   planId: string;
   workoutId: string;
-};
+}
 
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
@@ -25,6 +29,8 @@ export const loader = async ({ request, params }: ActionArgs) => {
 export default function Example() {
   const params = useParams();
   const workouts = useLoaderData<typeof loader>();
+  const [previewModal, setPreviewModal] = useState<boolean>(false);
+  const [workoutPreview, setWorkoutPreview] = useState<Workout>({} as Workout);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -73,7 +79,13 @@ export default function Example() {
               <tbody className="divide-y divide-gray-200">
                 {workouts?.map((workout: WorkoutList) => (
                   <tr key={workout.date}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <td
+                      className="cursor-pointer whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 hover:text-indigo-600"
+                      onClick={() => {
+                        setWorkoutPreview(workout);
+                        setPreviewModal(true);
+                      }}
+                    >
                       {workout.name}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{workout.date}</td>
@@ -82,7 +94,7 @@ export default function Example() {
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <a className="text-indigo-600 hover:text-indigo-900">
                         <Link
-                          to={`/program/${workout.programId}/plan/${workout.planId}/workouts/new?workout=${workout.workoutId}&date=${workout.date}`}
+                          to={`/programs/${workout.programId}/plans/${workout.planId}/workouts/new?workout=${workout.workoutId}&date=${workout.date}`}
                         >
                           Edit
                         </Link>
@@ -91,6 +103,18 @@ export default function Example() {
                   </tr>
                 ))}
               </tbody>
+              <Modal panelClassName="sm:max-w-4xl sm:pt-6" open={previewModal} setOpen={setPreviewModal}>
+                <Modal.Title>{workoutPreview.date}</Modal.Title>
+                <p className="font-medium mt-4">
+                  <span className="text-gray-600">Workout Name: </span> {workoutPreview.name}
+                </p>
+                <p className="font-medium">
+                  <span className="text-gray-600">Daily Note: </span> {workoutPreview.dailyNote}
+                </p>
+                <div className="mt-6">
+                  <WorkoutPreviewer workouts={workoutPreview as Workout} />
+                </div>
+              </Modal>
             </table>
           </div>
         </div>

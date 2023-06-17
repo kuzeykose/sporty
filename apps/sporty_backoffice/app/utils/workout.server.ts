@@ -36,6 +36,7 @@ export async function getWorkout(request: Request, programId: string, planId: st
     },
   };
 
+  console.log(searchParams.toString());
   return fetch(`http://localhost:8080/api/workout/get?${searchParams.toString()}`, requestOptions)
     .then(responseHandler)
     .then((workout) => {

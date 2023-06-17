@@ -87,3 +87,24 @@ export async function update(req: Request, res: Response) {
     }
   });
 }
+
+export async function get(req: Request, res: Response) {
+  const { programId, planId, workoutId, date } = req.query;
+
+  const getUserListParams = {
+    TableName: 'Sporty',
+    Key: {
+      PK: `PROGRAM#${programId}`,
+      SK: `WORKOUT#${planId}#${workoutId}#${date}`,
+    },
+  };
+
+  ddb.get(getUserListParams, (err, data) => {
+    if (err) {
+      console.log('Error', err);
+      return;
+    }
+
+    res.status(200).send(data?.Item);
+  });
+}
