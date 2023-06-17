@@ -6,12 +6,12 @@ import clsx from 'clsx';
 interface Modal {
   open: boolean;
   setOpen: (val: boolean) => void;
-  panelClassName: string;
+  panelClassName?: string;
   children: React.ReactNode;
 }
 
 type Title = {
-  children: string;
+  children: string[] | string | React.ReactNode;
 };
 
 const Title = ({ children }: Title) => {

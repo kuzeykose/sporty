@@ -1,38 +1,8 @@
-import { useEffect } from 'react';
-import { Box, Card } from 'ui';
-
-type Movement = {
-  movement: string;
-  type: string;
-  value: string;
-  key: number;
-};
-
-type Section = {
-  settings: { sectionName: string; sectionNote: string; type: string; every?: string; totalTime?: string };
-  movements: Movement[];
-  key: number;
-};
-
-type ChildrenOfSettings = 'sectionName' | 'sectionNote' | 'type' | 'every' | 'totalTime';
-type ChildrenOfMovement = 'movement' | 'type' | 'value';
-
-type Workout = {
-  workoutName: string;
-  sections: Section[];
-  key: number;
-};
-
-type Level = {
-  date: string;
-  dailyNote: string;
-  Beginner: Workout[];
-  Intermediate: Workout[];
-  Advanced: Workout[];
-};
+import { Box } from 'ui';
+import { Workout } from '~/types/workout';
 
 type WorkoutPreviewer = {
-  workouts: Level;
+  workouts: Workout;
   dailyNote?: string;
 };
 

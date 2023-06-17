@@ -47,8 +47,6 @@ export default function CreateWorkout({ request }: LoaderArgs) {
   const [searchParams] = useSearchParams();
   const date = searchParams?.get('date') || dayjs().format('YYYY-MM-DD');
 
-  // const data = useActionData<typeof action>();
-
   const [workouts, setWorkouts] = useState<Workout>(
     workout
       ? workout
