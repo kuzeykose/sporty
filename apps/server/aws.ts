@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 
+AWS.config.loadFromPath('./aws-credentals.ts');
 AWS.config.getCredentials((err) => {
   if (err) console.log(err);
 });
