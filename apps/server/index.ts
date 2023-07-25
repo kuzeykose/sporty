@@ -3,7 +3,6 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import auth from './routes/auth.routes';
-// import test from './routes/test.routes';
 import user from './routes/user.routes';
 import workout from './routes/workout.routes';
 import plan from './routes/plan.routes';
