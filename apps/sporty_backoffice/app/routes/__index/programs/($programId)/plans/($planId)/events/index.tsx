@@ -2,25 +2,24 @@ import { useState } from 'react';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
 import { ActionArgs } from '@remix-run/server-runtime';
 import { Modal } from 'ui';
-import { Workout } from '~/types/workout';
-import { getWorkouts } from '~/utils/workout.server';
-import { WorkoutPreviewer } from 'components';
+import { Event } from '~/types/event';
+import { getEvents } from '~/utils/event.server';
 
-interface WorkoutList extends Workout {
+interface EventList extends Event {
   name: string;
   date: string;
-  dailyNote: string;
+  description: string;
   createdBy: string;
   programId: string;
   planId: string;
-  workoutId: string;
+  eventId: string;
 }
 
 export const loader = async ({ request, params }: ActionArgs) => {
   const { programId, planId } = params;
   if (programId && planId) {
-    const workouts = await getWorkouts(request, programId, planId);
-    return workouts;
+    const events = await getEvents(request, programId, planId);
+    return events;
   } else {
     throw '';
   }
@@ -28,9 +27,9 @@ export const loader = async ({ request, params }: ActionArgs) => {
 
 export default function Example() {
   const params = useParams();
-  const workouts = useLoaderData<typeof loader>();
+  const events = useLoaderData<typeof loader>();
   const [previewModal, setPreviewModal] = useState<boolean>(false);
-  const [workoutPreview, setWorkoutPreview] = useState<Workout>({} as Workout);
+  const [eventPreview, setEventPreview] = useState<Event>({} as Event);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
