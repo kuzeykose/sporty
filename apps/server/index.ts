@@ -6,6 +6,7 @@ import auth from './routes/auth.routes';
 import user from './routes/user.routes';
 import workout from './routes/workout.routes';
 import plan from './routes/plan.routes';
+import event from './routes/event.routes';
 import program from './routes/program.routes';
 
 const app = express();
@@ -22,10 +23,10 @@ app.get('/', (req, res) => {
 });
 
 auth(app);
-// test(app);
 user(app);
 workout(app);
 plan(app);
+event(app);
 program(app);
 
 app.listen(port, () => {
