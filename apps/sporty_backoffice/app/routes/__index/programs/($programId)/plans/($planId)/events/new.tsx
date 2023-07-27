@@ -1,5 +1,5 @@
 import { ActionArgs } from '@remix-run/server-runtime';
-import { Button, DatePicker, Form, Input, Textarea } from 'ui';
+import { Button, ButtonVariants, DatePicker, Form, Input, Modal, Textarea } from 'ui';
 import { createEvent, getEvent, updateEvent } from '~/utils/event.server';
 import { useState } from 'react';
 import { useLoaderData, useSearchParams, useSubmit } from '@remix-run/react';
@@ -7,6 +7,7 @@ import { Event } from '~/types/event';
 
 import qs from 'qs';
 import dayjs from 'dayjs';
+import EventPreviewer from 'components/EventPreviewer';
 
 export const action = async ({ request, params }: ActionArgs) => {
   const url = new URL(request.url);
@@ -17,10 +18,13 @@ export const action = async ({ request, params }: ActionArgs) => {
   const parseReqTest = qs.parse(reqTest);
   const form = JSON.parse(parseReqTest.form as string);
 
+  console.log(params);
+
   if (eventId && date && params.programId && params.planId) {
     updateEvent(request, params.programId, params.planId, eventId, date, form);
   } else if (params.programId && params.planId) {
-    createEvent(request, params.programId, params.planId, form);
+    const { date, name, description } = form;
+    createEvent(request, params.programId, params.planId, date, name, description);
   }
 
   return 'success';
@@ -77,6 +81,11 @@ export default function CreateEvent() {
     });
   };
 
+  const handleSubmit = () => {
+    const str = JSON.stringify(events);
+    submit({ form: str }, { method: 'post' });
+  };
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center mb-6">
@@ -117,6 +126,31 @@ export default function CreateEvent() {
               name="description"
               className="h-24"
             />
+          </div>
+
+          <div>
+            <Modal panelClassName="sm:max-w-4xl sm:pt-12" open={previewModal} setOpen={setPreviewModal}>
+              <EventPreviewer events={events} description={events.description} />
+
+              <div className="flex gap-2 mt-4">
+                <Button
+                  onClick={() => setPreviewModal(false)}
+                  variant={ButtonVariants.Secondary}
+                  className="px-6 w-full"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleSubmit();
+                    setPreviewModal(false);
+                  }}
+                  className="px-6 w-full"
+                >
+                  Save
+                </Button>
+              </div>
+            </Modal>
           </div>
 
           <div>

@@ -44,7 +44,14 @@ export async function getEvent(request: Request, programId: string, planId: stri
     });
 }
 
-export async function createEvent(request: Request, programId: string, planId: string, event: Event) {
+export async function createEvent(
+  request: Request,
+  programId: string,
+  planId: string,
+  date: string,
+  name: string,
+  description: string
+) {
   const token = (await getJwtToken(request)) as string;
 
   const requestOptions = {
@@ -52,7 +59,9 @@ export async function createEvent(request: Request, programId: string, planId: s
     body: JSON.stringify({
       programId,
       planId,
-      event,
+      date,
+      description,
+      name,
     }),
     headers: {
       'content-type': 'application/json',
