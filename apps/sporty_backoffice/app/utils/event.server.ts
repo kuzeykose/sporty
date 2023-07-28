@@ -82,11 +82,10 @@ export async function updateEvent(
   planId: string,
   eventId: string,
   date: string,
-  event: any
+  name: any,
+  description: string
 ) {
   const token = (await getJwtToken(request)) as string;
-
-  console.log(programId, planId, eventId, event);
 
   const requestOptions = {
     method: 'POST',
@@ -94,7 +93,9 @@ export async function updateEvent(
       programId,
       planId,
       eventId,
-      event,
+      date,
+      name,
+      description,
     }),
     headers: {
       'content-type': 'application/json',

@@ -21,7 +21,8 @@ export const action = async ({ request, params }: ActionArgs) => {
   console.log(params);
 
   if (eventId && date && params.programId && params.planId) {
-    updateEvent(request, params.programId, params.planId, eventId, date, form);
+    const { date, name, description } = form;
+    updateEvent(request, params.programId, params.planId, eventId, date, name, description);
   } else if (params.programId && params.planId) {
     const { date, name, description } = form;
     createEvent(request, params.programId, params.planId, date, name, description);

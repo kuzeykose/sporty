@@ -451,10 +451,20 @@ export default function CreateWorkout({ request }: LoaderArgs) {
               <WorkoutPreviewer workouts={workouts} dailyNote={workouts.dailyNote} />
 
               <div className="flex gap-2 mt-4">
-                <Button variant={ButtonVariants.Secondary} className="px-6 w-full">
+                <Button
+                  onClick={() => setPreviewModal(false)}
+                  variant={ButtonVariants.Secondary}
+                  className="px-6 w-full"
+                >
                   Cancel
                 </Button>
-                <Button onClick={handleSubmit} className="px-6 w-full">
+                <Button
+                  onClick={() => {
+                    handleSubmit();
+                    setPreviewModal(false);
+                  }}
+                  className="px-6 w-full"
+                >
                   Save
                 </Button>
               </div>
