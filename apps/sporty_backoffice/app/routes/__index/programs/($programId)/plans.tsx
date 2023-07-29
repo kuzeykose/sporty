@@ -24,6 +24,12 @@ export default function Example() {
       current: false,
     },
     {
+      name: 'Events',
+      href: `/programs/${params.programId}/plans/${params.planId}/events`,
+      icon: FolderIcon,
+      current: false,
+    },
+    {
       name: 'Calendar',
       href: `/programs/${params.programId}/plans/${params.planId}/calendar`,
       icon: CalendarIcon,
