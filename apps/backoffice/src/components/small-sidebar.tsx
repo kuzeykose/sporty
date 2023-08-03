@@ -12,39 +12,34 @@ export function SmallSidebar({ className }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="space-y-4">
-        <div className="border-b h-12 flex items-center">
-          <h2 className="px-7 text-lg font-semibold tracking-tight">Dashboard</h2>
+        <div className="border-b h-12 flex items-center justify-center">
+          <h2 className="px-2 text-lg font-semibold tracking-tight text-center">S</h2>
         </div>
         <div className="space-y-1 px-2 rounded-md">
-          <Button variant="secondary" className="w-full justify-start gap-2">
+          <Button title="Home" size="icon" variant="secondary" className="w-full justify-center">
             <DashboardIcon className="h-4 w-4" />
-            Home
           </Button>
         </div>
         <div className="space-y-1 px-2 rounded-md">
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button title="Plans" size="icon" variant="ghost" className="w-full justify-center">
             <PersonIcon className="h-4 w-4" />
-            Plans
           </Button>
         </div>
         <div className="space-y-1 px-2 rounded-md">
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button title="Users" size="icon" variant="ghost" className="w-full justify-center">
             <Link2Icon className="h-4 w-4" />
-            Users
           </Button>
         </div>
         <div className="space-y-1 px-2 rounded-md">
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button title="Settings" size="icon" variant="ghost" className="w-full justify-center">
             <GearIcon className="h-4 w-4" />
-            Settings
           </Button>
         </div>
       </div>
       <div className="px-3 py-2 border-t">
         <div className="space-y-1">
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button size="icon" variant="ghost" className="w-full justify-center">
             <ExitIcon className="h-4 w-4" />
-            Logout
           </Button>
         </div>
       </div>

@@ -13,20 +13,20 @@ export default function DashboardLayout({ children }: any) {
   const params = useParams();
 
   return (
-    <div className="flex h-full">
+    <div className="flex max-h-screen min-h-screen">
       {params.programId ? (
-        <SmallSidebar playlists={playlists} className="h-screen flex flex-col justify-between min-w-fit" />
+        <SmallSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
       ) : (
-        <LargeSidebar playlists={playlists} className="h-screen flex flex-col justify-between min-w-fit" />
+        <LargeSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
       )}
       <div className="flex flex-col w-full">
-        <div className="h-12 w-full border-b text-sm flex items-center justify-between px-7">
+        <div className="h-12 w-full border-b text-sm flex flex-none items-center justify-between px-7">
           <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2>
           <Button size="sm" variant="ghost">
             <BellIcon className="h-4 w-4" />
           </Button>
         </div>
-        <div className="bg-gray-500 w-full h-full">{children}</div>
+        <div className="bg-gray-500 w-full h-full overflow-y-auto">{children}</div>
       </div>
     </div>
   );
