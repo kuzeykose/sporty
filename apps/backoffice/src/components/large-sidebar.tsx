@@ -8,7 +8,7 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
 }
 
-export function Sidebar({ className, playlists }: SidebarProps) {
+export function LargeSidebar({ className, playlists }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="space-y-4">
