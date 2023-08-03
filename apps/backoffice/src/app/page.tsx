@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/sidebar';
 import { playlists } from '@/data/playlist';
