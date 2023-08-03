@@ -12,10 +12,6 @@ export default function DashboardLayout({ children }: any) {
   const pathname = usePathname();
   const params = useParams();
 
-  console.log('params:', params);
-
-  console.log('pathname:', pathname.split('/'));
-
   return (
     <div className="flex h-full">
       {params.programId ? (

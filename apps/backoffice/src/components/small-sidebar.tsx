@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 import { Playlist } from '@/data/playlist';
 import { Button } from './ui/button';
-import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon } from '@radix-ui/react-icons';
+import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon, GearIcon } from '@radix-ui/react-icons';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
@@ -18,19 +18,25 @@ export function SmallSidebar({ className }: SidebarProps) {
         <div className="space-y-1 px-2 rounded-md">
           <Button variant="secondary" className="w-full justify-start gap-2">
             <DashboardIcon className="h-4 w-4" />
-            All Projects
+            Home
           </Button>
         </div>
         <div className="space-y-1 px-2 rounded-md">
           <Button variant="ghost" className="w-full justify-start gap-2">
             <PersonIcon className="h-4 w-4" />
-            Preferences
+            Plans
           </Button>
         </div>
         <div className="space-y-1 px-2 rounded-md">
           <Button variant="ghost" className="w-full justify-start gap-2">
             <Link2Icon className="h-4 w-4" />
-            How to use Sporty
+            Users
+          </Button>
+        </div>
+        <div className="space-y-1 px-2 rounded-md">
+          <Button variant="ghost" className="w-full justify-start gap-2">
+            <GearIcon className="h-4 w-4" />
+            Settings
           </Button>
         </div>
       </div>
