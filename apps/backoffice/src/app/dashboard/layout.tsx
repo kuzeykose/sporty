@@ -9,7 +9,6 @@ import { options } from '../api/auth/[...nextauth]/options';
 
 export default async function DashboardLayout({ children, request }: any) {
   const session = await getServerSession(options);
-
   if (!session?.user) {
     redirect('/signin');
   }

@@ -1,12 +1,10 @@
 'use client';
 
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { login } from '@/services/authentication';
-import { signIn, getCsrfToken } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -29,14 +27,12 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-
-    await signIn('credentials', {
-      redirect: false,
+    signIn('credentials', {
+      redirect: true,
       email: values.email,
       password: values.password,
-    }).then((res) => {
-      console.log(res);
-    });
+      callbackUrl: '/dashboard',
+    }).then((res) => {});
   }
 
   return (
