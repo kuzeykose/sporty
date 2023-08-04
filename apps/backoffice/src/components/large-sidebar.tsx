@@ -4,11 +4,9 @@ import { Playlist } from '@/data/playlist';
 import { Button } from './ui/button';
 import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon } from '@radix-ui/react-icons';
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-  playlists: Playlist[];
-}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function LargeSidebar({ className, playlists }: SidebarProps) {
+export function LargeSidebar({ className }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="space-y-4">

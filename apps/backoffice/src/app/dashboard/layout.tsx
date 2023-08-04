@@ -1,32 +1,35 @@
-'use client';
-
+import React from 'react';
 import { LargeSidebar } from '@/components/large-sidebar';
 import { SmallSidebar } from '@/components/small-sidebar';
 import { Button } from '@/components/ui/button';
-import { playlists } from '@/data/playlist';
 import { BellIcon } from '@radix-ui/react-icons';
-import { useParams, usePathname } from 'next/navigation';
-import React from 'react';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { options } from '../api/auth/[...nextauth]/options';
 
-export default function DashboardLayout({ children }: any) {
-  const pathname = usePathname();
-  const params = useParams();
+export default async function DashboardLayout({ children, request }: any) {
+  const session = await getServerSession(options);
+
+  if (!session?.user) {
+    redirect('/signin');
+  }
 
   return (
     <div className="flex max-h-screen min-h-screen">
-      {params.programId ? (
+      {/* {params.programId ? (
         <SmallSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
       ) : (
-        <LargeSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
-      )}
+        
+      )} */}
+      <LargeSidebar className="flex flex-col justify-between min-w-fit" />
       <div className="flex flex-col w-full">
         <div className="h-12 w-full border-b text-sm flex flex-none items-center justify-between px-7">
-          <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2>
+          {/* <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2> */}
           <Button size="sm" variant="ghost">
             <BellIcon className="h-4 w-4" />
           </Button>
         </div>
-        <div className="bg-gray-500 w-full h-full overflow-y-auto">{children}</div>
+        <div className="w-full h-full overflow-y-auto p-8">{children}</div>
       </div>
     </div>
   );

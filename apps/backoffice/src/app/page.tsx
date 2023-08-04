@@ -1,9 +1,14 @@
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { options } from './api/auth/[...nextauth]/options';
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(options);
+  console.log('aaaa', session);
+
   return (
     <main className="flex justify-center items-center h-screen w-full">
-      <Link href="/dashboard" className="border-2 hover:bg-gray-600 hover:text-white rounded-xl p-3">
+      <Link href="/dashboard" className="border-2 rounded-xl p-3">
         Go to Dashboard
       </Link>
     </main>
