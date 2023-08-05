@@ -24,15 +24,19 @@ export function SmallSidebar({ className }: SidebarProps) {
           <div className="border-b h-12 flex items-center justify-center">
             <h2 className="px-2 text-lg font-semibold tracking-tight text-center">S</h2>
           </div>
+          <Link href="programId/users">
+            <div className="space-y-1 px-2 rounded-md">
+              <Button title="Home" size="icon" variant="secondary" className="w-full justify-center">
+                <DashboardIcon className="h-4 w-4" />
+              </Button>
+            </div>
+          </Link>
           <div className="space-y-1 px-2 rounded-md">
-            <Button title="Home" size="icon" variant="secondary" className="w-full justify-center">
-              <DashboardIcon className="h-4 w-4" />
-            </Button>
-          </div>
-          <div className="space-y-1 px-2 rounded-md">
-            <Button title="Plans" size="icon" variant="ghost" className="w-full justify-center">
-              <PersonIcon className="h-4 w-4" />
-            </Button>
+            <Link href="programId/plans">
+              <Button title="Plans" size="icon" variant="ghost" className="w-full justify-center">
+                <PersonIcon className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
           <div className="space-y-1 px-2 rounded-md">
             <Button title="Users" size="icon" variant="ghost" className="w-full justify-center">
