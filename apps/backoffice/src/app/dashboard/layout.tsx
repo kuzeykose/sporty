@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: any) {
   return (
     <div className="flex max-h-screen min-h-screen">
       {params.programId ? (
-        <SmallSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
+        <SmallSidebar playlists={playlists} />
       ) : (
         <LargeSidebar playlists={playlists} className="flex flex-col justify-between min-w-fit" />
       )}
