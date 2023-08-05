@@ -1,7 +1,9 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import React from 'react';
+import { redirect } from 'next/navigation';
 
-export default function Dashboard() {
-  return <div>Dashboard</div>;
+async function redirectToPrograms() {
+  redirect('/dashboard/programs');
+}
+
+export default async function Dashboard() {
+  await redirectToPrograms();
 }

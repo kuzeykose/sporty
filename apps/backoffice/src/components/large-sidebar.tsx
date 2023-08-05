@@ -1,14 +1,13 @@
+'use client';
 import { cn } from '@/lib/utils';
 
-import { Playlist } from '@/data/playlist';
+import { signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon } from '@radix-ui/react-icons';
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-  playlists: Playlist[];
-}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function LargeSidebar({ className, playlists }: SidebarProps) {
+export function LargeSidebar({ className }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="space-y-4">
@@ -45,7 +44,7 @@ export function LargeSidebar({ className, playlists }: SidebarProps) {
       </div>
       <div className="px-3 py-2 border-t">
         <div className="space-y-1">
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button onClick={() => signOut()} variant="ghost" className="w-full justify-start gap-2">
             <ExitIcon className="h-4 w-4" />
             Logout
           </Button>

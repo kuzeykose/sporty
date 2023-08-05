@@ -1,18 +1,15 @@
 'use client';
 
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { login } from '@/services/authentication';
+import { signIn } from 'next-auth/react';
 
-import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -30,12 +27,12 @@ export function SignInForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-
-    // TODO: NextAuth.js or something similar need to add for authentication
-    login(values).then((res) => {
-      setIsLoading(false);
-      window.localStorage.setItem('user', JSON.stringify(res));
-    });
+    signIn('credentials', {
+      redirect: true,
+      email: values.email,
+      password: values.password,
+      callbackUrl: '/dashboard',
+    }).then((res) => {});
   }
 
   return (
