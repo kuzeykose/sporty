@@ -15,6 +15,8 @@ export default function DashboardLayout({ children, request }: any) {
   const params = useParams();
 
   useEffect(() => {
+    console.log(session);
+
     if (status !== 'loading' && !session?.user) {
       redirect('/signin');
     }
