@@ -1,10 +1,12 @@
-import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import { options } from './api/auth/[...nextauth]/options';
+'use client';
 
-export default async function Home() {
-  const session = await getServerSession(options);
-  console.log('aaaa', session);
+import Link from 'next/link';
+// import { getServerSession } from 'next-auth';
+// import { options } from './api/auth/[...nextauth]/options';
+
+export default function Home() {
+  // const session = await getServerSession(options);
+  // console.log('aaaa', session);
 
   return (
     <main className="flex justify-center items-center h-screen w-full">

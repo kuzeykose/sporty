@@ -1,31 +1,41 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import { LargeSidebar } from '@/components/large-sidebar';
 import { SmallSidebar } from '@/components/small-sidebar';
 import { Button } from '@/components/ui/button';
 import { BellIcon } from '@radix-ui/react-icons';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import { options } from '../api/auth/[...nextauth]/options';
+import { redirect, useParams, usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import clsx from 'clsx';
 
-export default async function DashboardLayout({ children, request }: any) {
-  const session = await getServerSession(options);
-  if (!session?.user) {
-    redirect('/signin');
-  }
+export default function DashboardLayout({ children, request }: any) {
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const params = useParams();
+
+  useEffect(() => {
+    if (status !== 'loading' && !session?.user) {
+      redirect('/signin');
+    }
+  }, [session]);
 
   return (
     <div className="flex max-h-screen min-h-screen">
-      <SmallSidebar className="flex flex-col justify-between min-w-fit" />
-
-      {/* <LargeSidebar className="flex flex-col justify-between min-w-fit" /> */}
+      {params.programId ? <SmallSidebar className="flex flex-col justify-between min-w-fit" /> : <LargeSidebar />}
       <div className="flex flex-col w-full">
-        <div className="h-12 w-full border-b text-sm flex flex-none items-center justify-between px-7">
-          {/* <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2> */}
+        <div
+          className={clsx(
+            params.programId && 'hidden', // is programId is exist then the header is working on programId's layout
+            'h-12 w-full border-b text-sm flex flex-none items-center justify-between px-7'
+          )}
+        >
+          <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2>
           <Button size="sm" variant="ghost">
             <BellIcon className="h-4 w-4" />
           </Button>
         </div>
-        <div className="w-full h-full overflow-y-auto p-8">{children}</div>
+        <div className="w-full h-full overflow-y-auto">{children}</div>
       </div>
     </div>
   );

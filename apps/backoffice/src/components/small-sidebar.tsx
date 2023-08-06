@@ -1,8 +1,7 @@
+import clsx from 'clsx';
 import { cn } from '@/lib/utils';
-import { Playlist } from '@/data/playlist';
 import { Button } from './ui/button';
 import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon, GearIcon } from '@radix-ui/react-icons';
-import clsx from 'clsx';
 import { Anton } from 'next/font/google';
 const anton = Anton({ weight: '400', subsets: ['latin'] });
 

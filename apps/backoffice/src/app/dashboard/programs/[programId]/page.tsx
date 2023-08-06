@@ -1,5 +1,11 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
-export default function page() {
-  return <div>page</div>;
+async function redirectToPrograms(req: any) {
+  console.log(req);
+
+  redirect(`/dashboard/programs/${req.params.programId}/plans`);
+}
+
+export default async function Programs(req: any) {
+  await redirectToPrograms(req);
 }

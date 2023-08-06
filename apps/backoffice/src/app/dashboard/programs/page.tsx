@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function Programs() {
   return (
-    <div className="overflow-auto space-y-4">
+    <div className="p-8 overflow-auto space-y-4">
       <Button>New Program</Button>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Link href={`/dashboard/programs/adsad`}>
