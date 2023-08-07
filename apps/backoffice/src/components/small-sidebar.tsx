@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon, GearIcon } from '@radix-ui/react-icons';
 import { Anton } from 'next/font/google';
+import { UserNav } from './user-nav';
 const anton = Anton({ weight: '400', subsets: ['latin'] });
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -33,9 +34,7 @@ export function SmallSidebar({ className }: SidebarProps) {
       </div>
       <div className="px-3 py-2 border-t">
         <div className="space-y-1">
-          <Button size="icon" variant="ghost">
-            <ExitIcon className="h-4 w-4" />
-          </Button>
+          <UserNav />
         </div>
       </div>
     </div>

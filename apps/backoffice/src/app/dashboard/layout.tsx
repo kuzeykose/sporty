@@ -8,6 +8,8 @@ import { BellIcon } from '@radix-ui/react-icons';
 import { redirect, useParams, usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import clsx from 'clsx';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { UserNav } from '@/components/user-nav';
 
 export default function DashboardLayout({ children, request }: any) {
   const { data: session, status } = useSession();
@@ -33,9 +35,6 @@ export default function DashboardLayout({ children, request }: any) {
           )}
         >
           <h2 className="text-sm tracking-tight capitalize">sporty {pathname.split('/').join(' / ')}</h2>
-          <Button size="sm" variant="ghost">
-            <BellIcon className="h-4 w-4" />
-          </Button>
         </div>
         <div className="w-full h-full overflow-y-auto">{children}</div>
       </div>
