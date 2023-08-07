@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { LargeSidebar } from '@/components/large-sidebar';
-import { SmallSidebar } from '@/components/small-sidebar';
+import { LargeSidebar } from '@/components/sidebar-large';
+import { SmallSidebar } from '@/components/sidebar-small';
 import { Button } from '@/components/ui/button';
 import { BellIcon } from '@radix-ui/react-icons';
 import { redirect, useParams, usePathname } from 'next/navigation';
