@@ -20,7 +20,7 @@ export function LargeSidebar({ className }: SidebarProps) {
           </Link>
         </Sidebar.MenuSection>
         <Sidebar.MenuSection title="Account">
-          <Link href="/dashboard/account/preferences">
+          <Link href="/account/preferences">
             <Sidebar.MenuItem>
               <PersonIcon className="h-4 w-4" />
               Preferences
@@ -28,7 +28,7 @@ export function LargeSidebar({ className }: SidebarProps) {
           </Link>
         </Sidebar.MenuSection>
         <Sidebar.MenuSection title="Documentation">
-          <Link href="/dashboard/documentation/how-to-use">
+          <Link href="/documentation/how-to-use">
             <Sidebar.MenuItem>
               <Link2Icon className="h-4 w-4" />
               How to use Sporty

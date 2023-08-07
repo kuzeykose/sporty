@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ProgramCard } from '@/components/program-card';
 import { Button } from '@/components/ui/button';
-import { getPrograms } from '@/services/programs';
+import { getProgram, getPrograms } from '@/services/programs';
 import { Program } from '@/constants/Programs.type';
 
 export default function Programs() {

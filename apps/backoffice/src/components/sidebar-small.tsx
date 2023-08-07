@@ -13,9 +13,11 @@ export function SmallSidebar({ className }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="flex flex-col items-center justify-center space-y-6">
-        <div className="border-b h-12 flex items-center justify-center w-full">
-          <h2 className={clsx(anton.className, 'px-2 text-2xl')}>S</h2>
-        </div>
+        <Link href="/">
+          <div className="border-b h-12 flex items-center justify-center w-full cursor-pointer">
+            <h2 className={clsx(anton.className, 'px-2 text-2xl')}>S</h2>
+          </div>
+        </Link>
 
         <Link href="dashboard">
           <Button title="Dashboard" size="icon" variant="ghost">
@@ -41,7 +43,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link> */}
 
-        <Link href="/dashboard/settings">
+        <Link href="settings">
           <Button title="Settings" size="icon" variant="ghost">
             <GearIcon className="h-4 w-4" />
           </Button>
