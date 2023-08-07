@@ -51,6 +51,8 @@ export async function create(req: Request, res: Response) {
 
 export async function list(req: Request, res: Response) {
   const { programId } = req.query;
+  console.log('programIdServer:', programId);
+
   const getPlanListParams = {
     TableName: 'Sporty',
     KeyConditionExpression: 'PK = :pk and begins_with(SK, :sk)',
