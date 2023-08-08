@@ -21,7 +21,7 @@ export default function Programs() {
   return (
     <div className="p-8 overflow-auto space-y-4">
       <Button>New Program</Button>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4">
         {programs?.map((program) => (
           <Link href={`/dashboard/programs/${program.id}`}>
             <ProgramCard

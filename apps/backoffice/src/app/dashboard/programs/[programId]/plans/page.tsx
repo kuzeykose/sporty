@@ -1,5 +1,7 @@
 'use client';
 
+import { PlanCard } from '@/components/plan-card';
+import { Button } from '@/components/ui/button';
 import { Plan } from '@/constants/Programs.type';
 import { getPlans } from '@/services/plans';
 import { useParams } from 'next/navigation';
@@ -20,14 +22,13 @@ export default function Plans() {
   }, []);
 
   return (
-    <div>
-      {plans?.map((plan) => (
-        <div>
-          <h1>{plan.planName}</h1>
-          <h1>{plan.planDescription}</h1>
-          <h1>{plan.owner}</h1>
-        </div>
-      ))}
+    <div className="overflow-auto space-y-4">
+      <Button>New Plan</Button>
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4">
+        {plans?.map((plan) => (
+          <PlanCard title={plan.planName} description={plan.planDescription} status={plan.status} />
+        ))}
+      </div>
     </div>
   );
 }
