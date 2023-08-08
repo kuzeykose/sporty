@@ -7,8 +7,6 @@ import React from 'react';
 export default function PlanLayout({ children }: any) {
   const params = useParams();
 
-  console.log(params);
-
   return (
     <div className="h-full space-y-2">
       <div className="flex border text-sm gap-3">
