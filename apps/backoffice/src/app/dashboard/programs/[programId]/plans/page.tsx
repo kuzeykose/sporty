@@ -14,10 +14,7 @@ export default function Plans() {
   useEffect(() => {
     (async () => {
       getPlans(programId as string).then((res) => {
-        console.log('res:', res);
-
         setPlans(res);
-        console.log('plans:', plans);
       });
     })();
   }, []);

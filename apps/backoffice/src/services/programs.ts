@@ -20,23 +20,3 @@ export async function getPrograms() {
     redirect('/signin');
   }
 }
-
-// export async function getProgram(programId: string) {
-//   const session: any = await getSession();
-
-//   const searchParams = new URLSearchParams();
-//   searchParams.append('programId', programId);
-
-//   if (session?.user?.accessToken) {
-//     return axios
-//       .get(`${backendConfig.url}/api/backoffice/program?${searchParams.toString()}`, {
-//         headers: { 'x-access-token': session?.user?.accessToken },
-//       })
-//       .then((res) => {
-//         return res.data;
-//       })
-//       .catch((err) => console.log(err));
-//   } else {
-//     redirect('/signin');
-//   }
-// }

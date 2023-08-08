@@ -7,9 +7,6 @@ import { Plan } from '@/constants/Programs.type';
 export async function getPlans(programId: string) {
   const session: any = await getSession();
 
-  const searchParams = new URLSearchParams();
-  searchParams.append('programId', programId);
-
   if (session?.user?.accessToken) {
     return axios
       .get(`${backendConfig.url}/api/plan/list`, {
