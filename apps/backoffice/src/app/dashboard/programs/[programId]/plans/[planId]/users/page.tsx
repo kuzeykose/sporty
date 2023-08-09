@@ -15,13 +15,7 @@ import { useParams } from 'next/navigation';
 import { getUsers } from '@/services/users';
 import { User } from '@/constants/Programs.type';
 import { Button } from '@/components/ui/button';
-
-type TableUserProps = {
-  name: string;
-  title: string;
-  email: string;
-  role: string;
-};
+import { Separator } from '@/components/ui/separator';
 
 export default function PlanUserPage() {
   const [users, setUsers] = useState<User[]>();
@@ -38,7 +32,19 @@ export default function PlanUserPage() {
   }, []);
 
   return (
-    <div>
+    <>
+      <div className="w-full px-4 py-2 flex justify-between items-center">
+        <div>
+          <p className="text-lg">Users</p>
+          <p className="text-sm">
+            A list of all the users in your account including their name, title, email and role.
+          </p>
+        </div>
+        <div className="flex items-center justify-center ml-4">
+          <Button>Add User</Button>
+        </div>
+      </div>
+      <Separator className="my-2" />
       <Table>
         <TableHeader>
           <TableRow>
@@ -72,6 +78,6 @@ export default function PlanUserPage() {
           )}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 }
