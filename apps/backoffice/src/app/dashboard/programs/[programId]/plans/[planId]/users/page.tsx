@@ -1,10 +1,20 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { useParams } from 'next/navigation';
 import { getUsers } from '@/services/users';
 import { User } from '@/constants/Programs.type';
+import { Button } from '@/components/ui/button';
 
 type TableUserProps = {
   name: string;
@@ -22,7 +32,6 @@ export default function PlanUserPage() {
   useEffect(() => {
     (async () => {
       getUsers(programId as string).then((res) => {
-        console.log('user:', res);
         setUsers(res);
       });
     })();
@@ -37,6 +46,7 @@ export default function PlanUserPage() {
             <TableHead>Lastname</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -47,9 +57,15 @@ export default function PlanUserPage() {
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.roles}</TableCell>
+                <TableCell>
+                  <Button size="sm" variant="destructive">
+                    Edit
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
+            // Buraya "colspan" eklenecek.
             <TableRow>
               <TableCell>There is no user.</TableCell>
             </TableRow>
