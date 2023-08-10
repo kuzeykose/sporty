@@ -1,29 +1,21 @@
-'use client';
-
 import { ProgramSettings } from '@/constants/Programs.type';
 import { getProgram } from '@/services/programs';
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
-export default function ProgramSettings() {
-  const [program, setProgram] = useState<ProgramSettings>();
+import React from 'react';
 
-  const params = useParams();
-  const programId = params.programId;
+type ProgramSettingsParams = {
+  params: {
+    programId: string;
+  };
+};
 
-  useEffect(() => {
-    (async () => {
-      getProgram(programId as string).then((res) => {
-        console.log(res);
-
-        setProgram(res);
-      });
-    })();
-  }, []);
+export default async function ProgramSettings({ params }: ProgramSettingsParams) {
+  const program = await getProgram(params.programId);
 
   return (
     <div>
       <ul>
+        <h1>SETTINGS PAGE</h1>
         <li>{program?.name}</li>
         <li>{program?.description}</li>
         <li>{program?.owner}</li>

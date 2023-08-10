@@ -6,14 +6,13 @@ import Link from 'next/link';
 import React from 'react';
 
 type PlansParams = {
-  programId: any;
+  params: {
+    programId: string;
+  };
 };
 
-// Type will be checked
-export default async function Plans({ params }: any) {
+export default async function Plans({ params }: PlansParams) {
   const plans = await getPlans(params.programId);
-
-  console.log('Params:', params);
 
   return (
     <div className="overflow-auto space-y-4">
