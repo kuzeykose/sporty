@@ -2,7 +2,7 @@
 
 import { PlanCard } from '@/components/plan-card';
 import { Button } from '@/components/ui/button';
-import { Plan } from '@/constants/Programs.type';
+import { Plan } from '@/constants/Plans.type';
 import { getPlans } from '@/services/plans';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';

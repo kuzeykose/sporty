@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/table';
 import { useParams } from 'next/navigation';
 import { getUsers } from '@/services/users';
-import { User } from '@/constants/Programs.type';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { User } from '@/constants/Users.type';
 
 export default function PlanUserPage() {
   const [users, setUsers] = useState<User[]>();
