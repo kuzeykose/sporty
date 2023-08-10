@@ -3,9 +3,11 @@ import backendConfig from './backendConfig';
 import { getSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { Program } from '@/constants/Programs.type';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
 export async function getPrograms() {
-  const session: any = await getSession();
+  const session: any = await getServerSession(options);
 
   if (session?.user?.accessToken) {
     return axios

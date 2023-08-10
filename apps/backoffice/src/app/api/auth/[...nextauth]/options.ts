@@ -31,6 +31,9 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: '/signin',
+  },
   callbacks: {
     async jwt({ token, user, account }: any) {
       if (user) {
