@@ -13,7 +13,7 @@ export function SmallSidebar({ className }: SidebarProps) {
   return (
     <div className={cn('border-r', className)}>
       <div className="flex flex-col items-center justify-center space-y-6">
-        <Link href="/">
+        <Link className="w-full" href="/">
           <div className="border-b h-12 flex items-center justify-center w-full cursor-pointer">
             <h2 className={clsx(anton.className, 'px-2 text-2xl')}>S</h2>
           </div>
