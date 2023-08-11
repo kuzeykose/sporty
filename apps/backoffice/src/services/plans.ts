@@ -22,3 +22,21 @@ export async function getPlans(programId: string) {
     redirect('/signin');
   }
 }
+
+export async function getPlan(programId: string, planId: string) {
+  const session: any = await getServerSession(options);
+
+  if (session?.user?.accessToken) {
+    return axios
+      .get(`${backendConfig.url}/api/plan/list`, {
+        headers: { 'x-access-token': session?.user?.accessToken },
+        params: { programId, planId },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => console.log(err));
+  } else {
+    redirect('/signin');
+  }
+}
