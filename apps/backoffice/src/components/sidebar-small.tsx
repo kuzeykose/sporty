@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
@@ -5,11 +7,17 @@ import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon, GearIcon, HomeIcon } fr
 import { Anton } from 'next/font/google';
 import { UserNav } from './user-nav';
 import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
 const anton = Anton({ weight: '400', subsets: ['latin'] });
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function SmallSidebar({ className }: SidebarProps) {
+  const pathname = usePathname();
+  const params = useParams();
+
+  console.log('PARAMS:', params);
+
   return (
     <div className={cn('border-r', className)}>
       <div className="flex flex-col items-center justify-center space-y-6">
@@ -19,19 +27,31 @@ export function SmallSidebar({ className }: SidebarProps) {
           </div>
         </Link>
 
-        <Link href="dashboard">
+        <Link
+          href={
+            params.planId
+              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/dashboard`
+              : `/dashboard/programs/${params.programId}/dashboard`
+          }
+        >
           <Button title="Dashboard" size="icon" variant="ghost">
             <DashboardIcon className="h-4 w-4" />
           </Button>
         </Link>
 
-        <Link href="plans">
+        <Link href={`/dashboard/programs/${params.programId}/plans`}>
           <Button title="Home" size="icon" variant="ghost">
             <HomeIcon className="h-4 w-4" />
           </Button>
         </Link>
 
-        <Link href="users">
+        <Link
+          href={
+            params.planId
+              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/users`
+              : `/dashboard/programs/${params.programId}/users`
+          }
+        >
           <Button title="Users" size="icon" variant="ghost">
             <PersonIcon className="h-4 w-4" />
           </Button>
@@ -43,7 +63,13 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link> */}
 
-        <Link href="settings">
+        <Link
+          href={
+            params.planId
+              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/settings`
+              : `/dashboard/programs/${params.programId}/settings`
+          }
+        >
           <Button title="Settings" size="icon" variant="ghost">
             <GearIcon className="h-4 w-4" />
           </Button>
