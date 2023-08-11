@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -11,25 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useParams } from 'next/navigation';
 import { getUsers } from '@/services/users';
-import { User } from '@/constants/Programs.type';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { User } from '@/constants/Users.type';
 
-export default function PlanUserPage() {
-  const [users, setUsers] = useState<User[]>();
+type PlanUserPageParams = {
+  params: {
+    programId: string;
+  };
+};
 
-  const params = useParams();
-  const programId = params.programId;
-
-  useEffect(() => {
-    (async () => {
-      getUsers(programId as string).then((res) => {
-        setUsers(res);
-      });
-    })();
-  }, []);
+export default async function PlanUserPage({ params }: PlanUserPageParams) {
+  const users = await getUsers(params.programId);
 
   return (
     <>
@@ -57,7 +49,7 @@ export default function PlanUserPage() {
         </TableHeader>
         <TableBody>
           {users?.length ? (
-            users.map((user) => (
+            users.map((user: User) => (
               <TableRow key={user.id}>
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
