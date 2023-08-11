@@ -16,8 +16,6 @@ export function SmallSidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const params = useParams();
 
-  console.log('PARAMS:', params);
-
   return (
     <div className={cn('border-r', className)}>
       <div className="flex flex-col items-center justify-center space-y-6">
@@ -27,13 +25,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </div>
         </Link>
 
-        <Link
-          href={
-            params.planId
-              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/dashboard`
-              : `/dashboard/programs/${params.programId}/dashboard`
-          }
-        >
+        <Link href={`/dashboard/programs/${params.programId}/dashboard`}>
           <Button title="Dashboard" size="icon" variant="ghost">
             <DashboardIcon className="h-4 w-4" />
           </Button>
@@ -45,13 +37,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link>
 
-        <Link
-          href={
-            params.planId
-              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/users`
-              : `/dashboard/programs/${params.programId}/users`
-          }
-        >
+        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/users`}>
           <Button title="Users" size="icon" variant="ghost">
             <PersonIcon className="h-4 w-4" />
           </Button>
@@ -63,13 +49,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link> */}
 
-        <Link
-          href={
-            params.planId
-              ? `/dashboard/programs/${params.programId}/plans/${params.planId}/settings`
-              : `/dashboard/programs/${params.programId}/settings`
-          }
-        >
+        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/settings`}>
           <Button title="Settings" size="icon" variant="ghost">
             <GearIcon className="h-4 w-4" />
           </Button>
