@@ -12,6 +12,57 @@ const anton = Anton({ weight: '400', subsets: ['latin'] });
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+type NavbarSectionChildren = {
+  key: string;
+  title: string;
+  icon: React.ReactNode;
+  href1: string;
+  href2: string;
+};
+
+type NavbarSection = {
+  key: string;
+  sectionName: string;
+  children: NavbarSectionChildren[];
+};
+
+const smallSidebarItems: NavbarSection[] = [
+  {
+    key: 'section_',
+    sectionName: 'Projects',
+    children: [
+      {
+        key: 'link_dashboard',
+        title: 'Dashboard',
+        icon: <DashboardIcon className="h-4 w-4" />,
+        href1: '/dashboard/programs/',
+        href2: '/dashboard',
+      },
+      {
+        key: 'link_dashboard',
+        title: 'Dashboard',
+        icon: <HomeIcon className="h-4 w-4" />,
+        href1: '/dashboard/programs/',
+        href2: '/plans',
+      },
+      {
+        key: 'link_dashboard',
+        title: 'Dashboard',
+        icon: <PersonIcon className="h-4 w-4" />,
+        href1: '/dashboard/programs/',
+        href2: '/users',
+      },
+      {
+        key: 'link_dashboard',
+        title: 'Dashboard',
+        icon: <GearIcon className="h-4 w-4" />,
+        href1: '/dashboard/programs/',
+        href2: '/settings',
+      },
+    ],
+  },
+];
+
 export function SmallSidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const params = useParams();
@@ -25,35 +76,19 @@ export function SmallSidebar({ className }: SidebarProps) {
           </div>
         </Link>
 
-        <Link href={`/dashboard/programs/${params.programId}/dashboard`}>
-          <Button title="Dashboard" size="icon" variant="ghost">
-            <DashboardIcon className="h-4 w-4" />
-          </Button>
-        </Link>
-
-        <Link href={`/dashboard/programs/${params.programId}/plans`}>
-          <Button title="Home" size="icon" variant="ghost">
-            <HomeIcon className="h-4 w-4" />
-          </Button>
-        </Link>
-
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/users`}>
-          <Button title="Users" size="icon" variant="ghost">
-            <PersonIcon className="h-4 w-4" />
-          </Button>
-        </Link>
-
-        {/* <Link href="">
-          <Button title="" size="icon" variant="ghost">
-            <Link2Icon className="h-4 w-4" />
-          </Button>
-        </Link> */}
-
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/settings`}>
-          <Button title="Settings" size="icon" variant="ghost">
-            <GearIcon className="h-4 w-4" />
-          </Button>
-        </Link>
+        {smallSidebarItems.map((section: NavbarSection) =>
+          section.children.map((child: NavbarSectionChildren) => (
+            <Link href={child.href1 + params.programId + child.href2}>
+              <Button
+                title={child.title}
+                size="icon"
+                variant={pathname === child.href1 + params.programId + child.href2 ? 'secondary' : 'ghost'}
+              >
+                {child.icon}
+              </Button>
+            </Link>
+          ))
+        )}
       </div>
       <div className="px-3 py-2 border-t">
         <div className="space-y-1">

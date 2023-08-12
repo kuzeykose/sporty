@@ -1,9 +1,10 @@
 'use client';
 
 import { DashboardIcon, ExitIcon, Link2Icon, PersonIcon } from '@radix-ui/react-icons';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 import Sidebar from './ui/sidebar';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,7 +21,7 @@ type NavbarSection = {
   children: NavbarSectionChildren[];
 };
 
-const sidebarItems: NavbarSection[] = [
+const largeSidebarItems: NavbarSection[] = [
   {
     key: 'section_projects',
     sectionName: 'Projects',
@@ -63,10 +64,10 @@ export function LargeSidebar({ className }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="flex flex-col justify-between">
+    <Sidebar className={cn('flex flex-col justify-between', className)}>
       <div className="space-y-1">
         <Sidebar.SidebarTitle title="Dashboard" />
-        {sidebarItems.map((section: NavbarSection) => (
+        {largeSidebarItems.map((section: NavbarSection) => (
           <Sidebar.MenuSection key={section.key} title={section.sectionName}>
             {section.children.map((child: NavbarSectionChildren) => (
               <Link key={child.key} href={child.href}>
