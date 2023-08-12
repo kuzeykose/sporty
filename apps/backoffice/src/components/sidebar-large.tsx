@@ -49,17 +49,14 @@ export function LargeSidebar({ className }: SidebarProps) {
         <Sidebar.SidebarTitle title="Dashboard" />
         {sidebarItems.map((section) => (
           <Sidebar.MenuSection title={section.sectionName}>
-            {section.links.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link href={link.href}>
-                  <Sidebar.MenuItem variant={isActive ? 'secondary' : 'ghost'}>
-                    {link.icon}
-                    {link.title}
-                  </Sidebar.MenuItem>
-                </Link>
-              );
-            })}
+            {section.links.map((link) => (
+              <Link href={link.href}>
+                <Sidebar.MenuItem variant={pathname === link.href ? 'secondary' : 'ghost'}>
+                  {link.icon}
+                  {link.title}
+                </Sidebar.MenuItem>
+              </Link>
+            ))}
           </Sidebar.MenuSection>
         ))}
       </div>
@@ -67,4 +64,3 @@ export function LargeSidebar({ className }: SidebarProps) {
     </Sidebar>
   );
 }
-
