@@ -24,10 +24,10 @@ function MenuSection({ title, children }: any) {
   );
 }
 
-function MenuItem({ children }: any) {
+function MenuItem({ children, variant }: any) {
   return (
     <div className="space-y-1">
-      <Button variant="secondary" className="w-full justify-start gap-2">
+      <Button variant={variant} className="w-full justify-start gap-2">
         {children}
       </Button>
     </div>
