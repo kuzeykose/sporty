@@ -7,11 +7,15 @@ import { usePathname } from 'next/navigation';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+// keyleri ekle
+
 const sidebarItems = [
   {
+    key: 'section_projects',
     sectionName: 'Projects',
-    links: [
+    children: [
       {
+        key: 'link_all_projects',
         title: 'All Projects',
         icon: <DashboardIcon className="h-4 w-4" />,
         href: '/dashboard/programs',
@@ -19,9 +23,11 @@ const sidebarItems = [
     ],
   },
   {
+    key: 'account',
     sectionName: 'Account',
-    links: [
+    children: [
       {
+        key: 'link_preferences',
         title: 'Preferences',
         icon: <PersonIcon className="h-4 w-4" />,
         href: '/account/preferences',
@@ -29,9 +35,11 @@ const sidebarItems = [
     ],
   },
   {
+    key: 'documentation',
     sectionName: 'Documentation',
-    links: [
+    children: [
       {
+        key: 'link_documentation',
         title: 'How to use Sporty',
         icon: <Link2Icon className="h-4 w-4" />,
         href: '/documentation/how-to-use',
@@ -48,12 +56,12 @@ export function LargeSidebar({ className }: SidebarProps) {
       <div className="space-y-1">
         <Sidebar.SidebarTitle title="Dashboard" />
         {sidebarItems.map((section) => (
-          <Sidebar.MenuSection title={section.sectionName}>
-            {section.links.map((link) => (
-              <Link href={link.href}>
-                <Sidebar.MenuItem variant={pathname === link.href ? 'secondary' : 'ghost'}>
-                  {link.icon}
-                  {link.title}
+          <Sidebar.MenuSection key={section.key} title={section.sectionName}>
+            {section.children.map((child) => (
+              <Link key={child.key} href={child.href}>
+                <Sidebar.MenuItem variant={pathname === child.href ? 'secondary' : 'ghost'}>
+                  {child.icon}
+                  {child.title}
                 </Sidebar.MenuItem>
               </Link>
             ))}
