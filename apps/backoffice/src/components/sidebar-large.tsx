@@ -7,9 +7,20 @@ import { usePathname } from 'next/navigation';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// keyleri ekle
+type NavbarSectionChildren = {
+  key: string;
+  title: string;
+  icon: React.ReactNode;
+  href: string;
+};
 
-const sidebarItems = [
+type NavbarSection = {
+  key: string;
+  sectionName: string;
+  children: NavbarSectionChildren[];
+};
+
+const sidebarItems: NavbarSection[] = [
   {
     key: 'section_projects',
     sectionName: 'Projects',
@@ -55,9 +66,9 @@ export function LargeSidebar({ className }: SidebarProps) {
     <Sidebar className="flex flex-col justify-between">
       <div className="space-y-1">
         <Sidebar.SidebarTitle title="Dashboard" />
-        {sidebarItems.map((section) => (
+        {sidebarItems.map((section: NavbarSection) => (
           <Sidebar.MenuSection key={section.key} title={section.sectionName}>
-            {section.children.map((child) => (
+            {section.children.map((child: NavbarSectionChildren) => (
               <Link key={child.key} href={child.href}>
                 <Sidebar.MenuItem variant={pathname === child.href ? 'secondary' : 'ghost'}>
                   {child.icon}
