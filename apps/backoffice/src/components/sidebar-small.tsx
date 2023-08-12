@@ -37,7 +37,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link>
 
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/users`}>
+        <Link href={`/dashboard/programs/${params.programId}/users`}>
           <Button title="Users" size="icon" variant="ghost">
             <PersonIcon className="h-4 w-4" />
           </Button>
@@ -49,7 +49,7 @@ export function SmallSidebar({ className }: SidebarProps) {
           </Button>
         </Link> */}
 
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/settings`}>
+        <Link href={`/dashboard/programs/${params.programId}/settings`}>
           <Button title="Settings" size="icon" variant="ghost">
             <GearIcon className="h-4 w-4" />
           </Button>
