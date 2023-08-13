@@ -22,7 +22,7 @@ export default async function ProgramSettings({ params }: ProgramSettingsParams)
         </div>
         <div className="space-y-4">
           <div className="border-b border-b-gray-300 pb-4">
-            <h4 className=" text-lg font-bold">Program Information</h4>
+            <h4 className=" text-lg font-bold">Information</h4>
           </div>
           <div className=" border-b border-b-gray-100 pb-4 grid grid-cols-4">
             <p className=" col-span-1 text-sm font-bold leading-6">Name</p>
