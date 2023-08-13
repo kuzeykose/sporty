@@ -17,7 +17,6 @@ type NavbarSectionChildren = {
   title: string;
   icon: React.ReactNode;
   href1: string;
-  href2: string;
 };
 
 type NavbarSection = {
@@ -35,29 +34,25 @@ const smallSidebarItems: NavbarSection[] = [
         key: 'link_dashboard',
         title: 'Dashboard',
         icon: <DashboardIcon className="h-4 w-4" />,
-        href1: '/dashboard/programs/',
-        href2: '/dashboard',
+        href1: '/dashboard/programs/programId/dashboard',
       },
       {
-        key: 'link_dashboard',
+        key: 'link_plans',
         title: 'Dashboard',
         icon: <HomeIcon className="h-4 w-4" />,
-        href1: '/dashboard/programs/',
-        href2: '/plans',
+        href1: '/dashboard/programs/programId/plans',
       },
       {
-        key: 'link_dashboard',
+        key: 'link_users',
         title: 'Dashboard',
         icon: <PersonIcon className="h-4 w-4" />,
-        href1: '/dashboard/programs/',
-        href2: '/users',
+        href1: '/dashboard/programs/programId/users',
       },
       {
-        key: 'link_dashboard',
+        key: 'link_settings',
         title: 'Dashboard',
         icon: <GearIcon className="h-4 w-4" />,
-        href1: '/dashboard/programs/',
-        href2: '/settings',
+        href1: '/dashboard/programs/programId/settings',
       },
     ],
   },
@@ -66,6 +61,12 @@ const smallSidebarItems: NavbarSection[] = [
 export function SmallSidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const params = useParams();
+
+  console.log(typeof params.programId);
+
+  console.log(typeof regex);
+
+  console.log(regex);
 
   return (
     <div className={cn('border-r', className)}>
@@ -78,11 +79,13 @@ export function SmallSidebar({ className }: SidebarProps) {
 
         {smallSidebarItems.map((section: NavbarSection) =>
           section.children.map((child: NavbarSectionChildren) => (
-            <Link href={child.href1 + params.programId + child.href2}>
+            <Link key={child.key} href={child.href1.replace(/programId/i, params.programId as string)}>
               <Button
                 title={child.title}
                 size="icon"
-                variant={pathname === child.href1 + params.programId + child.href2 ? 'secondary' : 'ghost'}
+                variant={
+                  pathname === child.href1.replace(/programId/i, params.programId as string) ? 'secondary' : 'ghost'
+                }
               >
                 {child.icon}
               </Button>
