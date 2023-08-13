@@ -7,7 +7,21 @@ import { ExitIcon } from '@radix-ui/react-icons';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function SidebarTitle({ title }: any) {
+type MenuItem = {
+  children: React.ReactNode;
+  variant: 'secondary' | 'ghost' | 'link' | 'default' | 'destructive' | 'outline' | null | undefined;
+};
+
+type MenuSection = {
+  title: string;
+  children: React.ReactNode;
+};
+
+type SidebarTitle = {
+  title: string;
+};
+
+function SidebarTitle({ title }: SidebarTitle) {
   return (
     <div className="border-b h-12 flex items-center">
       <h2 className="px-7 text-lg font-semibold tracking-tight min-w-[255px]">{title}</h2>
@@ -15,7 +29,7 @@ function SidebarTitle({ title }: any) {
   );
 }
 
-function MenuSection({ title, children }: any) {
+function MenuSection({ title, children }: MenuSection) {
   return (
     <div className="px-3 py-2">
       <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">{title}</h2>
@@ -24,10 +38,10 @@ function MenuSection({ title, children }: any) {
   );
 }
 
-function MenuItem({ children }: any) {
+function MenuItem({ children, variant }: MenuItem) {
   return (
     <div className="space-y-1">
-      <Button variant="secondary" className="w-full justify-start gap-2">
+      <Button variant={variant} className="w-full justify-start gap-2">
         {children}
       </Button>
     </div>
