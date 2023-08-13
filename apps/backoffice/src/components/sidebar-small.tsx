@@ -60,19 +60,16 @@ export function SmallSidebar({ className }: SidebarProps) {
         </Link>
 
         {smallSidebarItems.map((section: NavbarSection) =>
-          section.children.map((child: NavbarSectionChildren) => (
-            <Link key={child.key} href={child.href.replace(/programId/i, params.programId as string)}>
-              <Button
-                title={child.title}
-                size="icon"
-                variant={
-                  pathname === child.href.replace(/programId/i, params.programId as string) ? 'secondary' : 'ghost'
-                }
-              >
-                {child.icon}
-              </Button>
-            </Link>
-          ))
+          section.children.map((child: NavbarSectionChildren) => {
+            const href: string = child.href.replace(/programId/i, params.programId as string);
+            return (
+              <Link key={child.key} href={href}>
+                <Button title={child.title} size="icon" variant={pathname === href ? 'secondary' : 'ghost'}>
+                  {child.icon}
+                </Button>
+              </Link>
+            );
+          })
         )}
       </div>
       <div className="px-3 py-2 border-t">
