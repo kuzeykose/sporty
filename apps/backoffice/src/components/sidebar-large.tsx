@@ -5,21 +5,9 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Sidebar from './ui/sidebar';
 import Link from 'next/link';
+import { NavbarSection, NavbarSectionChildren } from '@/constants/Sidebar.type';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-type NavbarSectionChildren = {
-  key: string;
-  title: string;
-  icon: React.ReactNode;
-  href: string;
-};
-
-type NavbarSection = {
-  key: string;
-  sectionName: string;
-  children: NavbarSectionChildren[];
-};
 
 const largeSidebarItems: NavbarSection[] = [
   {

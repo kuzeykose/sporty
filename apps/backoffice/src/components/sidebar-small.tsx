@@ -8,22 +8,10 @@ import { Anton } from 'next/font/google';
 import { UserNav } from './user-nav';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
+import { NavbarSection, NavbarSectionChildren } from '@/constants/Sidebar.type';
 const anton = Anton({ weight: '400', subsets: ['latin'] });
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-type NavbarSectionChildren = {
-  key: string;
-  title: string;
-  icon: React.ReactNode;
-  href: string;
-};
-
-type NavbarSection = {
-  key: string;
-  sectionName: string;
-  children: NavbarSectionChildren[];
-};
 
 const smallSidebarItems: NavbarSection[] = [
   {
