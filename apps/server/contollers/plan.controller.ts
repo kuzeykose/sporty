@@ -70,3 +70,24 @@ export async function list(req: Request, res: Response) {
     res.status(200).send(data?.Items);
   });
 }
+
+export async function get(req: Request, res: Response) {
+  const { programId, planId } = req.query;
+
+  const getPlanParams = {
+    TableName: 'Sporty',
+    Key: {
+      PK: `PROGRAM#${programId}`,
+      SK: `PLAN#${planId}`,
+    },
+  };
+
+  ddb.get(getPlanParams, (err, data) => {
+    if (err) {
+      console.log('Error', err);
+      return;
+    } else {
+      res.status(200).send(data?.Item);
+    }
+  });
+}
