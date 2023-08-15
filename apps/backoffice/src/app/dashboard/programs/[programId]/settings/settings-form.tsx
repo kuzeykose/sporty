@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -16,6 +16,7 @@ const profileFormSchema = z.object({
     .min(2, {
       message: 'Username must be at least 2 characters.',
     })
+
     .max(30, {
       message: 'Username must not be longer than 30 characters.',
     }),
@@ -30,14 +31,21 @@ const profileFormSchema = z.object({
   owner: z.string({}).email(),
   createdAt: z.string({}),
   id: z.string({}),
+  status: z.boolean({}),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {};
-
 export function SettingsForm({ program }: any) {
+  const defaultValues: Partial<ProfileFormValues> = {
+    name: program.name,
+    description: program.description,
+    owner: program.owner,
+    status: program.status,
+    id: program.id,
+    createdAt: program.createdAt,
+  };
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -54,8 +62,6 @@ export function SettingsForm({ program }: any) {
       ),
     });
   }
-
-  console.log(program);
 
   return (
     <div className=" space-y-4">
@@ -77,7 +83,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder={program.name} {...field} />
+                  <Input {...field} value={defaultValues.name} />
                 </FormControl>
 
                 <FormMessage />
@@ -92,7 +98,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input placeholder={program.description} {...field} />
+                  <Input {...field} value={defaultValues.description} />
                 </FormControl>
 
                 <FormMessage />
@@ -107,7 +113,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Owner</FormLabel>
                 <FormControl>
-                  <Input disabled placeholder={program.owner} {...field} />
+                  <Input disabled {...field} value={defaultValues.owner} />
                 </FormControl>
 
                 <FormMessage />
@@ -117,7 +123,7 @@ export function SettingsForm({ program }: any) {
 
           <FormField
             control={form.control}
-            name="name" //KONTROL EDİLECEK
+            name="status"
             render={({ field }: any) => (
               <FormItem className="">
                 <FormLabel className="block mb-2">Status</FormLabel>
@@ -141,7 +147,7 @@ export function SettingsForm({ program }: any) {
               <FormItem className="mt-2">
                 <FormLabel>Id</FormLabel>
                 <FormControl>
-                  <Input disabled placeholder={program.id} {...field} />
+                  <Input disabled {...field} value={defaultValues.id} />
                 </FormControl>
 
                 <FormMessage />
@@ -156,14 +162,13 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Created At</FormLabel>
                 <FormControl>
-                  <Input disabled placeholder={program.createdAt} {...field} />
+                  <Input disabled {...field} value={defaultValues.createdAt} />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <Button type="submit">Update profile</Button>
         </form>
       </Form>
