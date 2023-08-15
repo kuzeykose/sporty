@@ -2,16 +2,16 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { cn } from '@/lib/utils';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
 
 const profileFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, {
       message: 'Username must be at least 2 characters.',
@@ -19,39 +19,29 @@ const profileFormSchema = z.object({
     .max(30, {
       message: 'Username must not be longer than 30 characters.',
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
+  description: z
+    .string()
+    .min(2, {
+      message: 'Description must be at least 2 characters.',
     })
-    .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' }),
-      })
-    )
-    .optional(),
+    .max(100, {
+      message: 'Description must not be longer than 30 characters.',
+    }),
+  owner: z.string({}).email(),
+  createdAt: z.string({}),
+  id: z.string({}),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  bio: 'I own a computer.',
-  urls: [{ value: 'https://shadcn.com' }, { value: 'http://twitter.com/shadcn' }],
-};
+const defaultValues: Partial<ProfileFormValues> = {};
 
-export function SettingsForm() {
+export function SettingsForm({ program }: any) {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: 'onChange',
-  });
-
-  const { fields, append } = useFieldArray({
-    name: 'urls',
-    control: form.control,
   });
 
   function onSubmit(data: ProfileFormValues) {
@@ -65,68 +55,118 @@ export function SettingsForm() {
     });
   }
 
+  console.log(program);
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }: any) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a pseudonym. You can only change this once
-                every 30 days.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }: any) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Tell us a little bit about yourself" className="resize-none" {...field} />
-              </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to link to them.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }: any) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && 'sr-only')}>URLs</FormLabel>
-                  <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button type="button" variant="outline" size="sm" className="mt-2" onClick={() => append({ value: '' })}>
-            Add URL
-          </Button>
-        </div>
-        <Button type="submit">Update profile</Button>
-      </form>
-    </Form>
+    <div className=" space-y-4">
+      <div>
+        <h3 className=" text-3xl font-extrabold">Program Settings</h3>
+      </div>
+      <Separator />
+      <div>
+        <h3 className="text-lg font-medium">Program Information</h3>
+        <p className="text-sm text-muted-foreground">Program details.</p>
+      </div>
+      <Separator />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder={program.name} {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder={program.description} {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="owner"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Owner</FormLabel>
+                <FormControl>
+                  <Input disabled placeholder={program.owner} {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name" //KONTROL EDİLECEK
+            render={({ field }: any) => (
+              <FormItem className="">
+                <FormLabel className="block mb-2">Status</FormLabel>
+                <FormControl>
+                  <Switch />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div>
+            <h3 className="text-lg font-medium">Program Information</h3>
+            <p className="text-sm text-muted-foreground">Program details.</p>
+          </div>
+          <Separator />
+          <FormField
+            control={form.control}
+            name="id"
+            render={({ field }: any) => (
+              <FormItem className="mt-2">
+                <FormLabel>Id</FormLabel>
+                <FormControl>
+                  <Input disabled placeholder={program.id} {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="createdAt"
+            render={({ field }: any) => (
+              <FormItem>
+                <FormLabel>Created At</FormLabel>
+                <FormControl>
+                  <Input disabled placeholder={program.createdAt} {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">Update profile</Button>
+        </form>
+      </Form>
+    </div>
   );
 }
