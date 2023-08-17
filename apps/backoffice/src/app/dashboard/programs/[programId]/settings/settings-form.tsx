@@ -37,31 +37,20 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function SettingsForm({ program }: any) {
-  const defaultValues: Partial<ProfileFormValues> = {
-    name: program.name,
-    description: program.description,
-    owner: program.owner,
-    status: program.status,
-    id: program.id,
-    createdAt: program.createdAt,
-  };
-
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    defaultValues: {
+      name: program.name,
+      description: program.description,
+      owner: program.owner,
+      status: program.status,
+      id: program.id,
+      createdAt: program.createdAt,
+    },
     mode: 'onChange',
   });
 
-  function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  function onSubmit(data: ProfileFormValues) {}
 
   return (
     <div className=" space-y-4">
@@ -83,7 +72,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input {...field} value={defaultValues.name} />
+                  <Input {...field} value={program.name} />
                 </FormControl>
 
                 <FormMessage />
@@ -98,7 +87,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input {...field} value={defaultValues.description} />
+                  <Input {...field} value={program.description} />
                 </FormControl>
 
                 <FormMessage />
@@ -113,7 +102,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Owner</FormLabel>
                 <FormControl>
-                  <Input disabled {...field} value={defaultValues.owner} />
+                  <Input disabled {...field} value={program.owner} />
                 </FormControl>
 
                 <FormMessage />
@@ -130,6 +119,7 @@ export function SettingsForm({ program }: any) {
                 <FormControl>
                   <Switch />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -147,7 +137,7 @@ export function SettingsForm({ program }: any) {
               <FormItem className="mt-2">
                 <FormLabel>Id</FormLabel>
                 <FormControl>
-                  <Input disabled {...field} value={defaultValues.id} />
+                  <Input disabled {...field} value={program.id} />
                 </FormControl>
 
                 <FormMessage />
@@ -162,7 +152,7 @@ export function SettingsForm({ program }: any) {
               <FormItem>
                 <FormLabel>Created At</FormLabel>
                 <FormControl>
-                  <Input disabled {...field} value={defaultValues.createdAt} />
+                  <Input disabled {...field} value={program.createdAt} />
                 </FormControl>
 
                 <FormMessage />

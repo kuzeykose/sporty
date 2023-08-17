@@ -11,8 +11,6 @@ type PlanSettingsParams = {
 export default async function PlanSettings({ params }: PlanSettingsParams) {
   const plan = await getPlan(params.programId, params.planId);
 
-  console.log(plan);
-
   return (
     <div>
       <ul>

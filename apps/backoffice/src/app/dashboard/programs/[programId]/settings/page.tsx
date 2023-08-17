@@ -10,7 +10,6 @@ type ProgramSettingsParams = {
 
 export default async function ProgramSettings({ params }: ProgramSettingsParams) {
   const program = await getProgram(params.programId);
-  console.log(program);
 
   return (
     <div className="space-y-6">
