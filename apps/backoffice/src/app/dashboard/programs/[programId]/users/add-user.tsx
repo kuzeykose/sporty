@@ -4,10 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import React from 'react';
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -16,6 +20,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
+const roles = [
+  { label: 'OWNER', value: 'own' },
+  { label: 'MEMBER', value: 'mem' },
+] as const;
 
 const profileFormSchema = z.object({
   name: z
@@ -62,7 +71,7 @@ export default function AddUserModal() {
     <div>
       <Dialog>
         <Button>
-          <DialogTrigger>Open</DialogTrigger>
+          <DialogTrigger>Add User</DialogTrigger>
         </Button>
         <DialogContent>
           <DialogHeader>
@@ -116,13 +125,50 @@ export default function AddUserModal() {
                     <FormField
                       control={form.control}
                       name="role"
-                      render={({ field }: any) => (
-                        <FormItem>
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
                           <FormLabel>Role</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant="outline"
+                                  role="combobox"
+                                  className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
+                                >
+                                  {field.value
+                                    ? roles.find((role) => role.value === field.value)?.label
+                                    : 'Select role'}
+                                  <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[200px] p-0">
+                              <Command>
+                                <CommandInput placeholder="Search role..." />
+                                <CommandEmpty>No role found.</CommandEmpty>
+                                <CommandGroup>
+                                  {roles.map((role) => (
+                                    <CommandItem
+                                      value={role.label}
+                                      key={role.value}
+                                      onSelect={() => {
+                                        form.setValue('role', role.value);
+                                      }}
+                                    >
+                                      <CheckIcon
+                                        className={cn(
+                                          'mr-2 h-4 w-4',
+                                          role.value === field.value ? 'opacity-100' : 'opacity-0'
+                                        )}
+                                      />
+                                      {role.label}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
                           <FormMessage />
                         </FormItem>
                       )}
