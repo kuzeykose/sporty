@@ -15,6 +15,7 @@ export default function PlanLayout({ children }: any) {
         <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/events`}>Events</Link>
         <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/calendar`}>Calendar</Link>
         <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/users`}>Users</Link>
+        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/settings`}>Settings</Link>
       </div>
       <div className="h-full border mb-2">{children}</div>
     </div>
