@@ -70,8 +70,8 @@ export default function AddUserModal() {
   return (
     <div>
       <Dialog>
-        <DialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
-          Add User
+        <DialogTrigger asChild>
+          <Button variant="default">Add User</Button>
         </DialogTrigger>
 
         <DialogContent>
@@ -81,34 +81,6 @@ export default function AddUserModal() {
               <div className=" space-y-4">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }: any) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="lastname"
-                      render={({ field }: any) => (
-                        <FormItem>
-                          <FormLabel>Last Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                     <FormField
                       control={form.control}
                       name="email"
@@ -123,59 +95,12 @@ export default function AddUserModal() {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Role</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant="outline"
-                                  role="combobox"
-                                  className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
-                                >
-                                  {field.value
-                                    ? roles.find((role) => role.value === field.value)?.label
-                                    : 'Select role'}
-                                  <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-[200px] p-0">
-                              <Command>
-                                <CommandInput placeholder="Search role..." />
-                                <CommandEmpty>No role found.</CommandEmpty>
-                                <CommandGroup>
-                                  {roles.map((role) => (
-                                    <CommandItem
-                                      value={role.label}
-                                      key={role.value}
-                                      onSelect={() => {
-                                        form.setValue('role', role.value);
-                                      }}
-                                    >
-                                      <CheckIcon
-                                        className={cn(
-                                          'mr-2 h-4 w-4',
-                                          role.value === field.value ? 'opacity-100' : 'opacity-0'
-                                        )}
-                                      />
-                                      {role.label}
-                                    </CommandItem>
-                                  ))}
-                                </CommandGroup>
-                              </Command>
-                            </PopoverContent>
-                          </Popover>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button type="submit">Add</Button>
+                    <div className="flex w-full justify-between gap-4">
+                      <Button className="w-full h-8" type="submit">
+                        Save
+                      </Button>
+                      <Button className="w-full h-8">Cancel</Button>
+                    </div>
                   </form>
                 </Form>
               </div>
