@@ -70,9 +70,10 @@ export default function AddUserModal() {
   return (
     <div>
       <Dialog>
-        <Button>
-          <DialogTrigger>Add User</DialogTrigger>
-        </Button>
+        <DialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
+          Add User
+        </DialogTrigger>
+
         <DialogContent>
           <DialogHeader>
             <DialogTitle>New User</DialogTitle>
