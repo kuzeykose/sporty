@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
 import Provider from '@/components/provider';
+import LayoutProvider from '@/components/layout-provider';
 
 const poppins = Poppins({ weight: '400', subsets: ['devanagari'] });
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppins.className}>
         <Provider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <LayoutProvider>{children}</LayoutProvider>
           </ThemeProvider>
         </Provider>
       </body>

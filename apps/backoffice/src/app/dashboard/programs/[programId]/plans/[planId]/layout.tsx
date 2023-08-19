@@ -1,22 +1,13 @@
-'use client';
+import PlanNavigation from '@/components/plan-navigation';
+import { Plan } from '@/constants/Plans.type';
+import { getPlan } from '@/services/plans';
 
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import React from 'react';
-
-export default function PlanLayout({ children }: any) {
-  const params = useParams();
+export default async function PlanLayout({ children, params }: any) {
+  const plan: Plan = params.planId && (await getPlan(params.programId, params.planId));
 
   return (
     <div className="h-full space-y-2">
-      <div className="flex border text-sm gap-3">
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}`}>Dashboard</Link>
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/workouts`}>Workouts</Link>
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/events`}>Events</Link>
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/calendar`}>Calendar</Link>
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/users`}>Users</Link>
-        <Link href={`/dashboard/programs/${params.programId}/plans/${params.planId}/settings`}>Settings</Link>
-      </div>
+      <PlanNavigation plan={plan} />
       <div className="h-full border mb-2">{children}</div>
     </div>
   );
