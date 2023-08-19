@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import { create, list, get } from '../contollers/plan.controller';
+import { create, get, list } from '../contollers/plan.controller';
 import verify from '../middlewares/jwt';
 
 const Plan = (app: Express) => {

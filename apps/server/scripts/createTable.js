@@ -1,6 +1,4 @@
-
 const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
-
 
 const createTable = () => {
   const params = {
@@ -8,39 +6,39 @@ const createTable = () => {
     AttributeDefinitions: [
       {
         AttributeName: 'PK',
-        AttributeType: 'S'
+        AttributeType: 'S',
       },
       {
         AttributeName: 'SK',
-        AttributeType: 'S'
-      }
+        AttributeType: 'S',
+      },
     ],
     KeySchema: [
       {
         AttributeName: 'PK',
-        KeyType: 'HASH'
+        KeyType: 'HASH',
       },
       {
         AttributeName: 'SK',
-        KeyType: 'RANGE'
-      }
+        KeyType: 'RANGE',
+      },
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 5,
-      WriteCapacityUnits: 5
+      WriteCapacityUnits: 5,
     },
     StreamSpecification: {
-      StreamEnabled: false
-    }
-  }
+      StreamEnabled: false,
+    },
+  };
 
   ddb.createTable(params, (err, data) => {
     if (err) {
-      console.log("Error", err);
+      console.log('Error', err);
     } else {
-      console.log("Table Created", data);
+      console.log('Table Created', data);
     }
-  })
-}
+  });
+};
 
-createTable()
+createTable();

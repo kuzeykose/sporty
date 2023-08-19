@@ -109,13 +109,12 @@ export async function list(req: Request, res: Response) {
 
 export async function get(req: Request, res: Response) {
   try {
-    const { programId } = req.query;
-
+    const id = req.query.programId;
     const getProgramParams = {
       TableName: 'Sporty',
       Key: {
-        PK: `PROGRAM#${programId}`,
-        SK: `#METADATA#${programId}`,
+        PK: `PROGRAM#${id}`,
+        SK: `#METADATA#${id}`,
       },
     };
 

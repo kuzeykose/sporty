@@ -11,6 +11,8 @@ export default function PlanNavigation({ plan }: { plan: Plan }) {
   const layoutContext = useLayoutContext();
 
   useEffect(() => {
+    console.log(plan);
+
     plan && layoutContext.setPlan({ name: plan.planName, id: plan.planId });
   }, []);
 
