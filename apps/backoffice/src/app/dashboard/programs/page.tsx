@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ProgramCard } from '@/components/program-card';
 import { Button } from '@/components/ui/button';
 import { getPrograms } from '@/services/programs';
@@ -18,14 +17,13 @@ export default async function Programs() {
       <Button>New Program</Button>
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4">
         {programs?.map((program: Program) => (
-          <Link href={`/dashboard/programs/${program.id}`}>
-            <ProgramCard
-              description={program.description}
-              title={program.name}
-              tags={['Crossfit', 'Fitness']}
-              date="2011-10-05T14:48:00.000Z"
-            />
-          </Link>
+          <ProgramCard
+            id={program.id}
+            description={program.description}
+            name={program.name}
+            tags={['Crossfit', 'Fitness']}
+            date="2011-10-05T14:48:00.000Z"
+          />
         ))}
       </div>
     </div>

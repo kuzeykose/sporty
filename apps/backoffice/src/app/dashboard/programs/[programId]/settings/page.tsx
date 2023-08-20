@@ -1,7 +1,6 @@
-import { ProgramSettings } from '@/constants/Programs.type';
 import { getProgram } from '@/services/programs';
-
-import React from 'react';
+import { SettingsForm } from './settings-form';
+import { Separator } from '@/components/ui/separator';
 
 type ProgramSettingsParams = {
   params: {
@@ -13,14 +12,8 @@ export default async function ProgramSettings({ params }: ProgramSettingsParams)
   const program = await getProgram(params.programId);
 
   return (
-    <div>
-      <ul>
-        <h1>SETTINGS PAGE</h1>
-        <li>{program?.name}</li>
-        <li>{program?.description}</li>
-        <li>{program?.owner}</li>
-        <li>{program?.createdAt}</li>
-      </ul>
+    <div className="space-y-6">
+      <SettingsForm program={program} />
     </div>
   );
 }

@@ -28,7 +28,7 @@ export async function getPlan(programId: string, planId: string) {
 
   if (session?.user?.accessToken) {
     return axios
-      .get(`${backendConfig.url}/api/plan/list`, {
+      .get(`${backendConfig.url}/api/plan`, {
         headers: { 'x-access-token': session?.user?.accessToken },
         params: { programId, planId },
       })
