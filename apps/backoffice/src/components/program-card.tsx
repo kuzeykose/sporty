@@ -1,19 +1,33 @@
+'use client';
+
 import { ChevronDownIcon, CircleIcon, PlusIcon, StarIcon } from '@radix-ui/react-icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { useRouter } from 'next/navigation';
+import { useLayoutContext } from './layout-provider';
 
 type ProgramCardProps = {
-  title: string;
+  name: string;
   description: string;
   tags: string[];
   date: string;
+  id: string;
 };
 
-export function ProgramCard({ title, description, tags, date }: ProgramCardProps) {
+export function ProgramCard({ name, description, tags, date, id }: ProgramCardProps) {
+  const router = useRouter();
+  const layoutContext = useLayoutContext();
+
   return (
-    <Card>
+    <Card
+      className="cursor-pointer"
+      onClick={() => {
+        router.push(`/dashboard/programs/${id}`);
+        layoutContext.setProgram({ name, id });
+      }}
+    >
       <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
         <div className="space-y-1">
-          <CardTitle>{title}</CardTitle>
+          <CardTitle>{name}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </div>
       </CardHeader>
