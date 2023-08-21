@@ -38,3 +38,21 @@ export async function getProgram(programId: string) {
     redirect('/signin');
   }
 }
+
+export async function createProgram(programName: string, programDescription: string) {
+  const session: any = await getServerSession(options);
+
+  if (session?.user?.accessToken) {
+    return axios
+      .get(`${backendConfig.url}/api/backoffice/program/create`, {
+        headers: { 'x-access-token': session?.user?.accessToken },
+        params: { programName, programDescription },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => console.log(err));
+  } else {
+    redirect('/signin');
+  }
+}

@@ -2,6 +2,7 @@ import { ProgramCard } from '@/components/program-card';
 import { Button } from '@/components/ui/button';
 import { getPrograms } from '@/services/programs';
 import { Program } from '@/constants/Programs.type';
+import AddProgramModal from './add-program';
 
 async function getProgramsList() {
   return getPrograms().then((res) => {
@@ -14,7 +15,7 @@ export default async function Programs() {
 
   return (
     <div className="p-8 overflow-auto space-y-4">
-      <Button>New Program</Button>
+      <AddProgramModal />
       <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4">
         {programs?.map((program: Program) => (
           <ProgramCard
